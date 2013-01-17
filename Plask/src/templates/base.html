@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    {% if page.meta.tags|length %}
+        | Tagged:
+        {% for page_tag in page.meta.tags %}
+            <a href="{{ url_for("tag", tag=page_tag) }}">{{ page_tag }}</a>
+        {% endfor %}
+    {% endif %}
+    <title>My site</title>
+</head>
+<body>
+    <h1><a href="{{ url_for("index") }}">My site</a></h1>
+{% block content %}
+    <p>Default content to be displayed</p>
+{% endblock content %}
+</body>
+</html>
