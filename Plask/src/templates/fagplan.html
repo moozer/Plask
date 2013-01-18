@@ -1,0 +1,11 @@
+<h1>{{ course }} </h1>
+Course description<br />
+{{ semester }} 
+
+{% for page in pages | sort( attribute = 'path') %}
+<h2>{{ page.sectionname }}</h2>
+    {{ page.html|safe }}
+
+{% else %}
+No data found
+{% endfor %}
