@@ -1,7 +1,7 @@
 <ul>
 {% for semester in semesters | sort %}
     <li>
-      <a href='/fagplan/{{ semester }}'>{{ semester }}</a>
+      <a href="{{ url_for("fagplan", semester=semester) }}">{{ semester }}</a>
     </li>
 {% else %}
     <li>No semesters defined</li>
