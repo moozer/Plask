@@ -8,6 +8,7 @@ from flask import Flask, render_template, abort
 from flask_flatpages import FlatPages
 import sys, os
 from flask_frozen import Freezer
+import csv
 
 DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
@@ -30,13 +31,15 @@ def tag(tag):
 @app.route('/fagplan/<string:semester>/<string:course>')
 def fagplan(course, semester):
     dirname = u"%s/%s"%(semester,course) 
-    print dirname
     if not os.path.isdir("pages/"+dirname):
         abort( 404 )
-           
+        
+    # for the content text
     basepages = [p for p in pages if dirname == os.path.dirname(p.path)]
-    return render_template('fagplan.html', course=course, semester=semester, pages=basepages)
-
+    # for the schedule
+    reader = csv.DictReader(open("pages/"+dirname+"/schedule.csv", 'r'), delimiter='\t')
+    schedule = [ entry for entry in reader]
+    return render_template('fagplan.html', schedule=schedule, course=course, semester=semester, pages=basepages)
 
 @app.route('/<path:path>/')
 def page(path):

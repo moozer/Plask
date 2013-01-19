@@ -1,0 +1,20 @@
+<table>
+	<tr>
+		<td>Week</td>
+		<td>Lessons</td>
+		<td>Topic</td>
+		<td>Comments</td>
+	</tr>
+
+{% for entry in schedule %}
+	<tr>
+		<td>{{ entry.Week }}</td>
+		<td>{{ entry.Lessons }}</td>
+		<td>{{ entry.Topic }}</td>
+		<td>{{ entry.Comments }}</td>
+	</tr>
+
+
+{% endfor %}
+
+</table>

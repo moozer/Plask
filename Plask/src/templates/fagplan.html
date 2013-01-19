@@ -1,6 +1,5 @@
 <h1>{{ course }} </h1>
-Course description<br />
-{{ semester }} 
+Course description for semester {{ semester }} 
 
 {% for page in pages | sort( attribute = 'path') %}
 <h2>{{ page.sectionname }}</h2>
@@ -9,3 +8,14 @@ Course description<br />
 {% else %}
 No data found
 {% endfor %}
+
+<h2>Schedule</h2>
+schedule count: {{ schedule | count }}
+
+{% if schedule %}
+    {% with schedule=schedule  %}
+        {% include "_schedule.html" %}
+    {% endwith %}
+{% else %}
+	No schedule uploaded.
+{% endif %} 
