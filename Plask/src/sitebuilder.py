@@ -13,6 +13,7 @@ import csv
 DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
 FLATPAGES_EXTENSION = '.md'
+FREEZER_BASE_URL = "/Plask/"
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -41,7 +42,8 @@ def tag(tag):
 
 @app.route('/fagplan/')
 @app.route('/fagplan/<string:semester>/')
-@app.route('/fagplan/<string:semester>/<string:course>')
+@app.route('/fagplan/<string:semester>/<string:course>/')
+@app.route('/fagplan/<string:semester>/<string:course>.html')
 def fagplan(course = None, semester = None):
     if not course or not semester:
         return render_template('fagplanindex.html', 
