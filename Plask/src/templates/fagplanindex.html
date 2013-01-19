@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h2>Available semesters</h2>
+    {% with semesters=semesters  %}
+        {% include "_listsemesters.html" %}
+    {% endwith %}
+	
+
+	{% if semester %}
+	<h2>Available course description for semester {{ semester }} </h2>
+    {% with semester=semester, courses=courses  %}
+        {% include "_listcourses.html" %}
+    {% endwith %}
+	
+	{% endif %}
+
+{% endblock content %}
