@@ -9,8 +9,8 @@ This is basically a python script using [flask](http://flask.pocoo.org/), templa
 
 This is the first attempt, but it has its uses :-)
 
-* Course descriptions are found [here](fagplaner/)
-* Cross course overview are found [here](overview/)
+* Course descriptions are found [here](/Plask/fagplaner/)
+* Cross course overview are found [here](/Plask/overview/)
 
 In the overview select the exam questions. It should be a good example why this structure is useful.
 

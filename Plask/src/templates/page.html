@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>{{ page.title }}</h2>
+	<!-- page block content starts here : {% if page %} page is {{page.path}} {% else %} (no page) {% endif %}  -->
     {{ page.html|safe }}
+    
 {% endblock content %}
+
+{% block footer %}
+	{% if page %}
+	Author: {% if page.author %} {{ page.author }} {%else%} None specified {% endif %} <br />
+	Datestamp: {% if page.date %}  {{ page.date }} {%else%} None specified {% endif %} <br />
+	{% endif %}
+{% endblock footer %}

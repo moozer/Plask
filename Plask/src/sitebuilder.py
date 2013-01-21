@@ -33,9 +33,9 @@ def getSemesters():
     semesters = [ c for c in os.listdir("pages/") if os.path.isdir("pages/%s"%c)]
     return semesters
 
-@app.route('/')
-def index():
-    return render_template('index.html', pages=pages)
+#@app.route('/')
+#def index():
+#    return render_template('index.html', pages=pages)
 
 @app.route('/tag/<string:tag>/')
 def tag(tag):
@@ -76,9 +76,12 @@ def overview(overview = None, semester = None):
     basepages = [p for p in pages if overview in p.meta.get('sectionname', []) and semester in p.path ]
     return render_template('overview.html', semester=semester, pages=basepages, overview=overview)
 
+@app.route('/')
+#@app.route('/index')
 @app.route('/<path:path>/')
-def page(path):
+def page(path = "index"):      
     page = pages.get_or_404(path)
+    print page, path
     return render_template('page.html', page=page)
 
 if __name__ == '__main__':
@@ -94,5 +97,6 @@ if __name__ == '__main__':
 #        fagplan("ITT2 Networking", "2013S")
         #fagplan()
         #overview( semester="2013S", overview="Evaluation" )
+        #page( "hello-world")
         app.run(port=8000)
         

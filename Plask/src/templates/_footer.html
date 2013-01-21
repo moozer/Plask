@@ -1,0 +1,17 @@
+<!-- Footer starts here : {% if page %} page is {{page.path}} {% else %} (no page) {% endif %}  -->
+
+<br />
+<hr>
+
+{% if page %}
+	Author: {% if page.author %} {{ page.author }} {%else%} None specified {% endif %} <br />
+	Datestamp: {% if page.date %}  {{ page.date }} {%else%} None specified {% endif %} <br />
+{% endif %}
+
+	{% with page=page("defaultfooter") %}
+	{{ page.html|safe }}
+	{% endwith %}
+
+{% else %}
+	<p>This area is the room for improvement</p>
+{% endif %}
