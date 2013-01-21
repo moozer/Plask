@@ -3,8 +3,7 @@ date: 2013-01-17
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Introduction
-
-TO BE REVISED
+status: TO BE REVISED
 
 This course is intended to further the students understanding of networks. During the course Wireshark will be used to give the students a tool and an understanding of how data flows and is routed between computers in a network.
 

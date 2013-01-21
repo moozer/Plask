@@ -4,8 +4,7 @@ author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Literature
 
-In the course, the following book will be used.
+In the course, the following book will be used:
 
-* James F. Kurose and Keith W. Ross, Computer Networking: International Version: A Top-Down Approach, 5th ed. (Pearson Education, 2009).
-
+* Meyers, Michael. CompTIA Network+ Certification All-in-One Exam Guide, 5th Edition. 5th ed. McGraw-Hill Osborne Media, 2012.
 

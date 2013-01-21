@@ -4,20 +4,19 @@ author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Teaching goals
 
-The student has acquired knowledge on 
+The graduate has acquired knowledge on 
 
-*	Autonomous systems, EGP and IGP
+* Client and server technologies 
+* Database systems 
+* Project planning and complex network design incl. routing
+* Users, requirements and similar important project concepts. 
+* System monitoring and administration 
 
-The student is able to 
+The graduate is able to 
 
-*	Apply knowledge on network technology in connection with implementation and monitoring of complex network solutions 
-*	Apply a layered networking model to any standard Ethernet networking problem
-* Set up a multi-subnet network using TCP/IP as well as deciding on proper hardware to use
-* Locate, evaluate and use information on the internet in relation to networking
-* Distinguish and use between different layers 1-4 protocols
-* Use various internetworking devices (i.e. the hardware used on an intranet and on the internet) for different network topologies
+* Plan, design and implement simple network systems, including protocols and hardware (servers, firewalls, routers, switches, etc)
+* Implement, monitor and debug application layer protocols.
 
-The student is competent to 
+The graduate is able to 
 
-* Use Wireshark to monitor traffic, to troubleshoot or to debug networking software.
-
+* Detect and handle common network issues.
