@@ -16,6 +16,7 @@ DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
 FLATPAGES_EXTENSION = '.md'
 FREEZER_BASE_URL = "/Plask/"
+FREEZER_DESTINATION = "/tmp/Plask/"
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -82,10 +83,16 @@ def overview(overview = None, semester = None):
 def page(path = "index"):      
     page = pages.get_or_404(path)
     return render_template('page.html', page=page)
-
+    
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == "build":
         freezer.freeze()
+
+        Cmd = "ncftpput -f '../ittech.cfg' -R -m '/PlaskSrc' '.'"
+        os.system(Cmd)
+        Cmd = "ncftpput -f '../ittech.cfg' -R -m '.' '%s'"%(FREEZER_DESTINATION)
+        os.system(Cmd)
+        
     else:
         app.run(port=8000)
         
