@@ -1,0 +1,11 @@
+<ul>
+
+{% for overview in overviewlist %}
+    <li>
+        <a href="{{ url_for( "overview", semester=semester, overview=overview ) }}">{{ overview }}</a>
+    </li>
+{% else %}
+    <li>No overviews defined</li>
+{% endfor %}
+
+</ul>
