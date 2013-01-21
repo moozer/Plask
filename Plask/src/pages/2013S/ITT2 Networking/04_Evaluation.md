@@ -14,6 +14,7 @@ Optional hand-ins:
 -	10/4-13	Exam question 4
 -	14/4-13	Exam question 5
 -	8/5-13	Exam question 6
+-	22/5-13	Exam question 7
 
 Mandatory hand-ins:
 
