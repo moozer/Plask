@@ -3,6 +3,7 @@ date: 2013-01-17
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Learning goals
+status: TO BE REVISED
 
 Having completed this course the student must be able to
 

@@ -3,6 +3,7 @@ date: 2013-01-17
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Exam questions
+status: TO BE REVISED
 
 1. 	Networking devices. 
 
