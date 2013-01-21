@@ -3,7 +3,11 @@ Course description for semester {{ semester }}
 
 {% for page in pages | sort( attribute = 'path') %}
 <h2>{{ page.sectionname }}</h2>
-    {{ page.html|safe }}
+{% if page.status %}
+<em>{{ page.status }} </em>
+<br/>
+{% endif %}
+{{ page.html|safe }}
 
 {% else %}
 No data found
