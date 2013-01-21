@@ -4,7 +4,7 @@ Created on 17 Jan 2013
 @author: moz
 '''
 
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, redirect
 from flask_flatpages import FlatPages
 import sys, os
 from flask_frozen import Freezer
@@ -33,10 +33,11 @@ def getSemesters():
     semesters = [ c for c in os.listdir("pages/") if os.path.isdir("pages/%s"%c)]
     return semesters
 
-#@app.route('/')
-#def index():
-#    return render_template('index.html', pages=pages)
-
+# adding route for freezer base url to handle lnks in .md files properly
+@app.route(FREEZER_BASE_URL+'<path:path>/')
+def freeze_base_url(path):
+    return redirect( path, 301 )
+    
 @app.route('/tag/<string:tag>/')
 def tag(tag):
     tagged = [p for p in pages if tag in p.meta.get('tags', [])]
@@ -77,26 +78,14 @@ def overview(overview = None, semester = None):
     return render_template('overview.html', semester=semester, pages=basepages, overview=overview)
 
 @app.route('/')
-#@app.route('/index')
 @app.route('/<path:path>/')
 def page(path = "index"):      
     page = pages.get_or_404(path)
-    print page, path
     return render_template('page.html', page=page)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == "build":
         freezer.freeze()
     else:
-#        semester = "2013S"
-#        course = "ITT2 Networking"    
-#        dirname = u"%s/%s"%(semester,course)
-#        print pages
-#        basepages = [p for p in pages if dirname == os.path.dirname(p.path)]
-#        print basepages
-#        fagplan("ITT2 Networking", "2013S")
-        #fagplan()
-        #overview( semester="2013S", overview="Evaluation" )
-        #page( "hello-world")
         app.run(port=8000)
         
