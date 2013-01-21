@@ -1,7 +1,8 @@
+Page links
 {% for page in pages %}
-	{% if page.path.split('/').__len__() < 2 %}
-	<a href="{{ url_for("page", path=page.path) }}">{{ page.path }}</a>
+	{% if page.path.split('/').__len__() < 2 %} 
+	<a href="{{ url_for("page", path=page.path) }}">{{ page.path }}</a>	
 	{% endif %}
 {% else %}
-    No page
+    None
 {% endfor %}

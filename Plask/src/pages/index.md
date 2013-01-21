@@ -6,7 +6,7 @@ email: mon@eal.dk
 Welcome
 -------
 
-For teachers, we have a [different page](/Plask/ForTeachers) describing what is going on here.
+For teachers, we have a [different page](/Plask/For%20teachers) describing what is going on here.
 
 Students will most likely want to go to [the courses part](/Plask/fagplan).
 
