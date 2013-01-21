@@ -5,8 +5,14 @@
     <title>MON's Course manager</title>
 </head>
 <body>
-    <h1><a href="{{ url_for("page") }}">MON's Course manager</a></h1>
     
+<div id="navigation">
+    <h2><a href="{{ url_for("page") }}">MON's Course manager</a></h2>
+	{% block navigation %}
+		{% include "_list.html" %}
+	{% endblock navigation %}
+</div>
+
 <div id="content">
 {% block content %}
     <p>Default content to be displayed</p>
@@ -17,7 +23,7 @@
 
 <div id="footer">
 {% block footer %}
-    <p>Ther is room for improvements in this footer...</p>
+    <p>There is room for improvements in this footer...</p>
 {% endblock footer %}
 </div>
 
