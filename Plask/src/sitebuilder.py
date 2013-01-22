@@ -39,10 +39,10 @@ def getSemesters():
 def freeze_base_url(path):
     return redirect( path, 301 )
     
-@app.route('/tag/<string:tag>/')
-def tag(tag):
-    tagged = [p for p in pages if tag in p.meta.get('tags', [])]
-    return render_template('tag.html', pages=tagged, tag=tag)
+#@app.route('/tag/<string:tag>/')
+#def tag(tag):
+#    tagged = [p for p in pages if tag in p.meta.get('tags', [])]
+#    return render_template('tag.html', pages=tagged, tag=tag)
 
 @app.route('/fagplan/')
 @app.route('/fagplan/<string:semester>/')
@@ -70,9 +70,13 @@ def fagplan(course = None, semester = None):
 @app.route('/overview/<string:semester>/<string:overview>/')
 @app.route('/overview/<string:semester>/<string:overview>.html')
 def overview(overview = None, semester = None):
+    if semester:
+        if not semester in getSemesters():
+            semester = None
+    
     if not overview or not semester:
         return render_template('overviewindex.html', 
-                        semesters=getSemesters(), semester=semester, 
+                      semesters=getSemesters(), semester=semester, 
                         coursesections=coursesections)
 
     basepages = [p for p in pages if overview in p.meta.get('sectionname', []) and semester in p.path ]
