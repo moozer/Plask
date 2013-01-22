@@ -1,24 +1,21 @@
-course: Networking
-date: 2013-01-17
-author: Morten Bo Nielsen
-email: mon@eal.dk
+date: 2013-01-22
+author: Peter Liljehof Thomsen
+email: peth@eal.dk
 sectionname: Learning goals
-status: TO BE REVISED
 
 Having completed this course the student must be able to
 
-* Explain how Wireshark functions as well as describing the result that Wireshark presents.
-* Use Wireshark to collect packages and filter them to show specific information related to protocols or hosts.
-* Describe in broad terms what IEEE 802.3 (ethernet) is and how it functions on layers 1 and 2. 
-* Describe from a practical viewpoint how IEEE 802.11 work, equipment used and encryption schemes.
-* Explain how switched networking functions, and how spanning tree protocol (STP) works and its purpose.
-* Describe the use of firewalls and describe what they can and cannot be used for.
-* Explain how NAT works and what it is used for.
-* Describe how VLANs work and what they are used for.
-* Explain how routing works and how routings tables are used.
-* Describe autonomous systems (AS) and border gateway protocol (BGP) .
-* Describe how link-state algorithms and Open shortest path first (OSPF) work.
-* Describe how distance-vector algorithms and Router information protocol (RIP) work.
-* Explain how autoconfiguration of routes enable redundancy and minimized administration.
-* Setup a multi-subnet system with dynamic routing.
+* Explain common Network Protocols on all layers, like STP, IP, TCP, HTTP, telnet, etc.
+* Describe the functionality of DNS and the corresponding server structure.
+* Describe Client-Server and Peer-to-Peer topologies
+* Describe the features and functions of VPNs
+* Describe advanced Switch features like VLAN, trunking, monitoring, layer 3 routing, etc.
+* Discuss the fundamentals of IPv6 and compare with IPv4
+* Describe and implement various Remote Access connection methods
+* Explain and implement Wireless networks, including standards, encryption and common wireless issues.
+* Explain the purpose of common network devices and implemnt in networks
+* Describe the concepts of Virtualization and implement simple virtualization solutions. 
+* Explain the advantages of virtualization and describe the common use cases.
+* Describe Network Management tasks: Configuration Management, Performance Management, Node Management.
+* Perform structured troubleshooting in networks.
 

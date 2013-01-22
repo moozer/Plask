@@ -1,11 +1,9 @@
-course: Networking
-date: 2013-01-17
+date: 2013-01-22
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Introduction
 status: TO BE REVISED
 
-This course is intended to further the students understanding of networks. During the course Wireshark will be used to give the students a tool and an understanding of how data flows and is routed between computers in a network.
+The course is intended to give the student the basic understanding of security with a focus on network security.
 
-Course duration is 46 lessons is worth 3 ECTS points. It is part of the subject area Networking and the compulsory element Networks.
-
+The course duration is 52 lessons and is a part of the subject area of Network technology and the compulsory element of Security.
