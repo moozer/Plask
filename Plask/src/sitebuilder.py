@@ -97,6 +97,8 @@ if __name__ == '__main__':
         Cmd = "ncftpput -f '../ittech.cfg' -R -m '.' '%s'"%(FREEZER_DESTINATION)
         os.system(Cmd)
         
+        print "Data is now available on http://ittech.eal.dk%s"%FREEZER_BASE_URL
+        
     else:
         app.run(port=8000)
         
