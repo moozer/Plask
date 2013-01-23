@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
 <h1>{{ course }} </h1>
 Course description for semester {{ semester }} 
 
@@ -22,3 +25,5 @@ No data found
 {% else %}
 	No schedule uploaded.
 {% endif %} 
+
+{% endblock content %}
