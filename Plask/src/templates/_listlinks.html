@@ -1,0 +1,8 @@
+Page links
+<a href="{{ url_for("fagplan") }}">Courses</a>
+<a href="{{ url_for("overview") }}">Overview</a>
+{% for page in links %}
+	<a href="{{ url_for("page", path=page.path) }}">{{ page.path }}</a>	
+{% else %}
+    None
+{% endfor %}

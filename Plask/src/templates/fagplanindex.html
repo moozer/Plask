@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h1>Courses</h1>
+
 	<h2>Available semesters</h2>
     {% with semesters=semesters, subsection="fagplan" %}
         {% include "_listsemesters.html" %}

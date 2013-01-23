@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
 <h1>{{ overview }} </h1>
 Collected information across courses for semester {{ semester }} 
 
@@ -16,3 +19,4 @@ Last revised: {{ page.date }} <br />
 No data found
 {% endfor %}
 
+{% endblock content %}

@@ -36,6 +36,10 @@ def getSemesters():
     semesters = [ c for c in os.listdir("pages/") if os.path.isdir("pages/%s"%c)]
     return semesters
 
+def getLinks():
+    linkspages = [page for page in pages if page.path.split('/').__len__() < 2]
+    return linkspages
+
 # adding route for freezer base url to handle lnks in .md files properly
 @app.route(FREEZER_BASE_URL+'<path:path>/')
 def freeze_base_url(path):
@@ -54,7 +58,7 @@ def fagplan(course = None, semester = None):
     if not course or not semester:
         return render_template('fagplanindex.html', 
                         semesters=getSemesters(), semester=semester, 
-                        courses=getCourses( semester ))
+                        courses=getCourses( semester ), links=getLinks())
     
     dirname = u"%s/%s"%(semester,course) 
     if not os.path.isdir("pages/"+dirname):
@@ -65,7 +69,9 @@ def fagplan(course = None, semester = None):
     # for the schedule
     reader = csv.DictReader(open("pages/"+dirname+"/schedule.csv", 'r'), delimiter='\t')
     schedule = [ entry for entry in reader]
-    return render_template('fagplan.html', schedule=schedule, course=course, semester=semester, pages=basepages)
+    return render_template('fagplan.html', schedule=schedule, 
+                           course=course, semester=semester, 
+                           pages=basepages, links=getLinks())
 
 @app.route('/overview/')
 @app.route('/overview/<string:semester>/')
@@ -79,16 +85,19 @@ def overview(overview = None, semester = None):
     if not overview or not semester:
         return render_template('overviewindex.html', 
                       semesters=getSemesters(), semester=semester, 
-                        coursesections=coursesections)
+                        coursesections=coursesections, links=getLinks())
 
     basepages = [p for p in pages if overview in p.meta.get('sectionname', []) and semester in p.path ]
-    return render_template('overview.html', semester=semester, pages=basepages, overview=overview)
+    return render_template('overview.html', semester=semester, 
+                           pages=basepages, overview=overview,
+                           links=getLinks())
 
 @app.route('/')
 @app.route('/<path:path>/')
-def page(path = "index"):      
+def page(path = "index"):
     page = pages.get_or_404(path)
-    return render_template('page.html', page=page, pages=pages)
+    return render_template('page.html', page=page, 
+                           pages=pages, links=getLinks())
     
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == "build":
