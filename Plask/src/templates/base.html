@@ -7,7 +7,8 @@
 <body>
     
 <div id="navigation">
-    <h2><a href="{{ url_for("page") }}">MON's Course manager</a></h2>
+   	<h2><a href="{{ url_for("page") }}">MON's Course manager</a></h2>
+	<a title="Make navigation links invisible" href="javascript:document.getElementById('navigation').style.display = 'none'">hide</a> 
 	{% block navigation %}
 		{% include "_list.html" %}
 	{% endblock navigation %}
