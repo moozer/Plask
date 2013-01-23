@@ -1,5 +1,4 @@
-course: System design
-date: 2013-01-17
+date: 2013-01-23
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Exam questions
@@ -21,3 +20,6 @@ status: TO BE REVISED
 	* Explain all elements used in the activity diagram. 
 	* Explain what activity diagrams are used for. 
 
+3.	Sequence and communication diagrams
+
+	* TDB

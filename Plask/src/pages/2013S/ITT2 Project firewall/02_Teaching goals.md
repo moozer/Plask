@@ -3,6 +3,7 @@ date: 2013-01-17
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Teaching goals
+status: TO BE REVISED
 
 The student has acquired knowledge on
 

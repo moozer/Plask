@@ -1,22 +1,14 @@
-course: Networking
-date: 2013-01-17
+date: 2013-01-23
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Teaching goals
 
-The student has acquired knowledge on
-
-* Common protocols and standards used with ethernet networks
-* Common equipment used with ethernet networks
-* Client and server and peer-to-peer models
-* Operating system and server fundamentals
+It is a part of the subject areas *Electronic and communications systems* and *Company* and the compulsory elements of *Written and oral communication* and *Technology*.
 
 The student is able to
 
-* Do simple network monitoring and packet analysis
-* Describe network traffic using appropriate models and language
-* Extract network related information on different OS's.
+* Use documentation tools in connection with design of technical solutions
+* Handling documentation and presenting projects in connection with internal and customer relations
+* Handle solution proposals and design of technical systems
 
-The student is competent to
 
-* Nothing after 1. semester :-)

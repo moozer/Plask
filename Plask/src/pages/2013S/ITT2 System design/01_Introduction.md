@@ -1,11 +1,10 @@
-course: Networking
-date: 2013-01-17
+date: 2013-01-23
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Introduction
-status: TO BE REVISED
 
-This course is intended to further the students understanding of networks. During the course Wireshark will be used to give the students a tool and an understanding of how data flows and is routed between computers in a network.
+The course is the continuation of system design in first semester, where the basics of project design and some basic diagrams were introduced.
 
-Course duration is 46 lessons is worth 3 ECTS points. It is part of the subject area Networking and the compulsory element Networks.
+This semester we will reiterate on structure system design and present more design tools.
 
+The course is worth 1½ ECTS. 

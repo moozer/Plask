@@ -4,6 +4,17 @@ email: mon@eal.dk
 sectionname: Exam questions
 status: TO BE REVISED
 
-1. 	TBD
-2. 	TBD 
-3.	TBD
+1. 	Introduction to security issues.
+
+	TBD
+
+2. 	FW, proxies, IDS
+
+	TBD 
+
+3.	RADIUS server
+
+	* Explain what RADIUS is, what it is used for in access control and its relation to AAA.
+	* Give an example and explain how a RADIUS system works 
+	* Describe the elements included in a RADIUS set up
+
