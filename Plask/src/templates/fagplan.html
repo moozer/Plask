@@ -4,26 +4,39 @@
 <h1>{{ course }} </h1>
 Course description for semester {{ semester }} 
 
-{% for page in pages | sort( attribute = 'path') %}
-<h2>{{ page.sectionname }}</h2>
-{% if page.status %}
-<em>{{ page.status }} </em>
-<br/>
-{% endif %}
-{{ page.html|safe }}
+{% for section in coursesections %}
 
-{% else %}
-No data found
+	{% if section in sectionpages %}
+		<h2>{{ section }}</h2>
+		{% with page = sectionpages[section] %} 
+			{% if page.status %}
+			<em>{{ page.status }} </em>
+			<br/>
+			{% endif %}
+			{{ page.html|safe }}
+		{% endwith %}
+	{% else %}
+		{% if section == "Schedule" %}
+			<h2>{{ section }}</h2>
+			The schedule show when the course is running and the topics. Please note that changes may occur during the semester.
+		{% elif section == "Exam questions" %}
+			{# output nothing #}
+		{% else %}
+			<h2>{{ section }}</h2>
+			No description yet.
+		{% endif %}
+	{% endif %}
+	
+	{# schedule is a special case #}
+	{% if section == "Schedule" %}
+		{% if schedule %}
+		    {% with schedule=schedule  %}
+		        {% include "_schedule.html" %}
+		    {% endwith %}
+		{% else %}
+			No schedule uploaded.
+		{% endif %} 
+	{% endif %}
 {% endfor %}
-
-<h2>Schedule</h2>
-
-{% if schedule %}
-    {% with schedule=schedule  %}
-        {% include "_schedule.html" %}
-    {% endwith %}
-{% else %}
-	No schedule uploaded.
-{% endif %} 
 
 {% endblock content %}

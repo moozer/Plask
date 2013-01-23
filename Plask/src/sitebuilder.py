@@ -12,7 +12,8 @@ import sys, os
 from flask_frozen import Freezer
 import csv
 
-coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 'Evaluation', 'Literature', 'Exam questions']
+coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
+                  'Evaluation', 'Literature', 'Exam questions', 'Schedule']
 
 DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
@@ -66,12 +67,21 @@ def fagplan(course = None, semester = None):
         
     # for the content text
     basepages = [p for p in pages if dirname == os.path.dirname(p.path)]
+    sectionpages = {}
+    for s in coursesections:
+        for p in basepages:
+            if s in p.path:
+                sectionpages[s] = p
+                break
+
     # for the schedule
     reader = csv.DictReader(open("pages/"+dirname+"/schedule.csv", 'r'), delimiter='\t')
     schedule = [ entry for entry in reader]
+    
     return render_template('fagplan.html', schedule=schedule, 
                            course=course, semester=semester, 
-                           pages=basepages, links=getLinks())
+                           pages=basepages, coursesections=coursesections, 
+                           links=getLinks(), sectionpages=sectionpages)
 
 @app.route('/overview/')
 @app.route('/overview/<string:semester>/')
@@ -85,7 +95,7 @@ def overview(overview = None, semester = None):
     if not overview or not semester:
         return render_template('overviewindex.html', 
                       semesters=getSemesters(), semester=semester, 
-                        coursesections=coursesections, links=getLinks())
+                      coursesections=coursesections, links=getLinks())
 
     basepages = [p for p in pages if overview in p.meta.get('sectionname', []) and semester in p.path ]
     return render_template('overview.html', semester=semester, 
