@@ -37,7 +37,7 @@ LessonHours = (([0,0], [23,59]),
                ([8,30], [9,15]), ([9,15], [10,00]),
                ([10,20], [11,05]), ([11,05], [11,50]),
                ([12,30], [13,15]), ([13,15], [14,00]))
-
+TeacherList = ['MON', 'PETH', 'SUN', 'PSS', 'PDA', 'HHAL']
 
 def iso_year_start(iso_year):
     ''' The gregorian calendar date of the first day of the given ISO year"
@@ -60,26 +60,29 @@ def ReadSchedule( filename = filename, year = 2013 ):
 
     lessonslist =[]
     for entry in reader:
-        print entry
-        
         for week in entry['Weeks'].split(','):
             for weekday in entry['Weekdays'].split(','):
-                for lessons in entry['Lessons'].split(','):
+                for lesson in entry['Lessons'].split(','):
                     date = iso_to_gregorian( year, int(week), int(weekday))
-                    lessons = { 'Week': int( week ), 'Weekday': int(weekday), 'Lesson': int(lessons),
+                    modlesson = { 'Week': int( week ), 'Weekday': int(weekday), 'Lesson': int(lesson),
                                 'Course': entry['Course'], 'Class': entry['Class'], 
                                 'Teacher': entry['Teacher'], 'date': date}
-                    lessonslist.append( lessons )
+                    lessonslist.append( modlesson )
         
+
     return lessonslist
 
 
-def WriteIcs(Schedule, Outfile = filename+'.ics'):
+def WriteIcs(Schedule, Outfile = filename+'.ics', Teacher = None):
     cal = Calendar()
     cal.add('prodid', '-//My calendar product//mxm.dk//')
     cal.add('version', '2.0')
 
     for lesson in Schedule:
+        if Teacher:
+            if not lesson['Teacher'] == Teacher:
+                continue
+        
         event = Event()
         event.add('summary', "%s: %s"%(lesson['Class'], lesson['Course']))
         hours = LessonHours[lesson['Lesson']][0][0]
@@ -94,7 +97,7 @@ def WriteIcs(Schedule, Outfile = filename+'.ics'):
     
         cal.add_component(event)
         
-    f = open(Outfile, 'wb')
+    f = open(Outfile, 'w+')
     f.write(cal.to_ical())
     f.close()
     print "Data output to %s"%Outfile
@@ -103,6 +106,7 @@ def WriteIcs(Schedule, Outfile = filename+'.ics'):
 if __name__ == '__main__':
     Schedule = ReadSchedule()
     print "Number of lessons in Schedule: %d"%len(Schedule)
-    WriteIcs( Schedule )
+    for T in TeacherList:
+        WriteIcs( Schedule, '%s_skema_2013S.ics'%T, T )
     pass
 
