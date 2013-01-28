@@ -130,15 +130,17 @@ def overview(overview = None, semester = None):
                            links=getLinks())
 
 
-@app.route('/ics')
+@app.route('/ics/')
+@app.route('/ics/<string:filename>')
 @app.route('/ics/<string:filename>.ics')
 def calendar(filename = "nonexist"):
     print >> sys.stderr, "filename: %s"%filename
     
     parts = filename.split(' ')
     print >>sys.stderr, "parts:", parts
-    if parts < 2:
-        abort(404)
+    if len(parts) < 2:
+        return render_template('icsindex.html', 
+                      filename=filename, links=getLinks())
     
     semester = parts[0]
     course = ' '.join( parts[1:] )
