@@ -1,4 +1,4 @@
-date: 2013-01-24
+date: 2013-01-28
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Evaluation
@@ -9,21 +9,5 @@ This course includes both mandatory hand-ins and attendance. Absence must be ann
 
 For this course to be approved, no more than two missed mandatory activities are allowed and the project report must be approved also.
 
-Mandatory hand-ins:
-
-1. 31/1-13 Initial presentation (all groups)
-2. 11/4-13 Final presentation (all groups)
-3. Bi-weekly progress reports
-
-	* Class b: 7/2-13, 28/2-13, 21/2-13
-	* Class c: 14/2-13, 7/3-13, 4/4-13
-
-4. 5/4-13 Final report (all groups)
-5. Technical presentation
-	* Groups TBD: 11/2-13, 25/2-13, 4/3-13, 18/3-13, 25/3-13, 1/4-13
-
-Mandatory attendance:
-
-* 	Technical presentations (see dates above)
 
 
