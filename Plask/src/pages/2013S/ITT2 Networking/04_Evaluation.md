@@ -8,7 +8,7 @@ The course is evaluated as a part of the 2. semester exam.
 
 Optional hand-ins:
 
--	20/2-13	Exam question 1
+-	13/2-13	Exam question 1
 -	6/3-13	Exam question 2
 -	27/3-13	Exam question 3
 -	10/4-13	Exam question 4
