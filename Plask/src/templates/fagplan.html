@@ -39,6 +39,8 @@ Course description for semester {{ semester }}
 	{% elif section == "Evaluation" %}
 		{% if handins %}
 	        {% include "_handins.html" %}
+	        <br />
+	        A calendar file is available at <a href='{{ url_for( "calendar", filename="%s %s"%(semester, course) ) }}'>{{ url_for( "calendar", filename="%s %s"%(semester, course) ) }}</a>
 		{# else -output nothing #}
 		{% endif %} 	
 	{% endif %}

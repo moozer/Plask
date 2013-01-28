@@ -12,6 +12,7 @@ import sys, os
 from flask_frozen import Freezer
 import csv
 import datetime
+from icalendar import Calendar, Event
 
 coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
                   'Evaluation', 'Literature', 'Exam questions', 'Schedule']
@@ -66,6 +67,12 @@ def getHandinList( filename ):
         
     return handinlist
 
+def getScheduleList(filename):
+    reader = csv.DictReader(open( filename, 'r'), delimiter='\t')
+    schedule = [entry for entry in reader]
+    return schedule
+
+
 # adding route for freezer base url to handle lnks in .md files properly
 @app.route(FREEZER_BASE_URL+'<path:path>/')
 def freeze_base_url(path):
@@ -95,11 +102,9 @@ def fagplan(course = None, semester = None):
                 break
 
     # for the schedule
-    reader = csv.DictReader(open("pages/"+dirname+"/schedule.csv", 'r'), delimiter='\t')
-    schedule = [ entry for entry in reader]
-
+    schedule = getScheduleList( "pages/" + dirname + "/schedule.csv" )
     handins = getHandinList( "pages/"+dirname+"/handins.csv" )
-    print >> sys.stderr, handins
+
     return render_template('fagplan.html', schedule=schedule, handins=handins,
                            course=course, semester=semester, 
                            pages=basepages, coursesections=coursesections, 
@@ -123,6 +128,45 @@ def overview(overview = None, semester = None):
     return render_template('overview.html', semester=semester, 
                            pages=basepages, overview=overview,
                            links=getLinks())
+
+
+@app.route('/ics')
+@app.route('/ics/<string:filename>.ics')
+def calendar(filename = "nonexist"):
+    print >> sys.stderr, "filename: %s"%filename
+    
+    parts = filename.split(' ')
+    print >>sys.stderr, "parts:", parts
+    if parts < 2:
+        abort(404)
+    
+    semester = parts[0]
+    course = ' '.join( parts[1:] )
+    dirname = u"%s/%s"%(semester,course) 
+
+    print >> sys.stderr, "sem; %s, course: %s, dirname: %s"%(semester, course, dirname)
+    if not os.path.isdir("pages/"+dirname):
+        abort( 404 )
+
+    handins = getHandinList( "pages/"+dirname+"/handins.csv" )
+    if len( handins ) == 0:
+        abort( 404 ) # no data
+    
+    # build ics
+    cal = Calendar()
+    cal.add('prodid', '-//My calendar product//mxm.dk//')
+    cal.add('version', '2.0')
+
+    for handin in handins:
+        event = Event()
+        event.add('summary', "%s"%handin['Handin'])
+        
+        event.add('dtstart', handin['Date'].date())            
+        event.add('comment', handin['Comment'])            
+    
+        cal.add_component(event)
+        
+    return cal.to_ical()
 
 @app.route('/')
 @app.route('/<path:path>/')
