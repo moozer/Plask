@@ -85,12 +85,17 @@ def WriteIcs(Schedule, Outfile = filename+'.ics', Teacher = None):
         
         event = Event()
         event.add('summary', "%s: %s"%(lesson['Class'], lesson['Course']))
-        hours = LessonHours[lesson['Lesson']][0][0]
-        minutes = LessonHours[lesson['Lesson']][0][1]
-        lessonstart  = datetime.datetime(lesson['date'].year, lesson['date'].month, lesson['date'].day )
-        lessonstart += datetime.timedelta( hours=hours, minutes=minutes)
-        event.add('dtstart', lessonstart)
-        event.add('dtend', lessonstart+datetime.timedelta( minutes=45))
+        
+        if lesson['Lesson'] == 0:
+            event.add('dtstart', lesson['date'])            
+        else:
+            hours = LessonHours[lesson['Lesson']][0][0]
+            minutes = LessonHours[lesson['Lesson']][0][1]
+            lessonstart  = datetime.datetime(lesson['date'].year, lesson['date'].month, lesson['date'].day )
+            lessonstart += datetime.timedelta( hours=hours, minutes=minutes)
+            event.add('dtstart', lessonstart)
+            event.add('dtend', lessonstart+datetime.timedelta( minutes=45))
+        
         #event.add('dtstamp', lesson['date'])
         #event['uid'] = '20050115T101010/27346262376@mxm.dk'
         #event.add('priority', 5)
