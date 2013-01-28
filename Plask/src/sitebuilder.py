@@ -162,7 +162,7 @@ def calendar(filename = "nonexist"):
         event.add('summary', "%s"%handin['Handin'])
         
         event.add('dtstart', handin['Date'].date())            
-        event.add('comment', handin['Comment'])            
+        event.add('description', handin['Comment'])            
     
         cal.add_component(event)
         
