@@ -1,0 +1,8 @@
+<ul>
+{% for handin in handins | sort( attribute='Date' )%}
+	<li>
+		{{ handin.Datestring}}:	{{handin.Handin }} 
+		- {{ handin.Comment }}
+	</li>
+{% endfor %}
+</ul>	

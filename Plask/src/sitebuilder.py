@@ -11,6 +11,7 @@ from flask_flatpages import FlatPages
 import sys, os
 from flask_frozen import Freezer
 import csv
+import datetime
 
 coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
                   'Evaluation', 'Literature', 'Exam questions', 'Schedule']
@@ -27,6 +28,7 @@ pages = FlatPages(app)
 freezer = Freezer(app)
 
 def getCourses( semester = None ):
+    ''' @returns the list of course in a given semester (based on directories) '''
     if not semester:
         return None
     
@@ -34,22 +36,40 @@ def getCourses( semester = None ):
     return Courses
 
 def getSemesters():
+    ''' @returns the list of semesters (based on directories) '''    
     semesters = [ c for c in os.listdir("pages/") if os.path.isdir("pages/%s"%c)]
     return semesters
 
 def getLinks():
+    ''' @returns the list of top level pages aka. links (based on directories) '''    
     linkspages = [page for page in pages if page.path.split('/').__len__() < 2]
     return linkspages
+
+def getHandinList( filename ):
+    ''' from a hand-in csv file, return the list of hand-ins. 
+        Columns: Date (YYMMDD), Hand-in, Comment
+    '''
+    print >> sys.stderr, filename
+    try:
+        reader = csv.DictReader(open(filename, 'r'), delimiter='\t')
+    except IOError:
+        return []
+
+    handinlist =[]
+    for entry in reader:
+        for datestring in entry['Date'].split(','):
+            date = datetime.datetime.strptime( datestring, "%y%m%d")
+            print >> sys.stderr,  date
+            handin = {  'Date': date, 'Datestring': datetime.datetime.strftime( date,"%d/%m-%y" ),
+                        'Handin': entry['Hand-in'], 'Comment': entry['Comment']}
+            handinlist.append( handin )
+        
+    return handinlist
 
 # adding route for freezer base url to handle lnks in .md files properly
 @app.route(FREEZER_BASE_URL+'<path:path>/')
 def freeze_base_url(path):
     return redirect( path, 301 )
-    
-#@app.route('/tag/<string:tag>/')
-#def tag(tag):
-#    tagged = [p for p in pages if tag in p.meta.get('tags', [])]
-#    return render_template('tag.html', pages=tagged, tag=tag)
 
 @app.route('/fagplan/')
 @app.route('/fagplan/<string:semester>/')
@@ -77,8 +97,10 @@ def fagplan(course = None, semester = None):
     # for the schedule
     reader = csv.DictReader(open("pages/"+dirname+"/schedule.csv", 'r'), delimiter='\t')
     schedule = [ entry for entry in reader]
-    
-    return render_template('fagplan.html', schedule=schedule, 
+
+    handins = getHandinList( "pages/"+dirname+"/handins.csv" )
+    print >> sys.stderr, handins
+    return render_template('fagplan.html', schedule=schedule, handins=handins,
                            course=course, semester=semester, 
                            pages=basepages, coursesections=coursesections, 
                            links=getLinks(), sectionpages=sectionpages)

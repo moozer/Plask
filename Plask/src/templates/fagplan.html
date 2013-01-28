@@ -36,6 +36,11 @@ Course description for semester {{ semester }}
 		{% else %}
 			No schedule uploaded.
 		{% endif %} 
+	{% elif section == "Evaluation" %}
+		{% if handins %}
+	        {% include "_handins.html" %}
+		{# else -output nothing #}
+		{% endif %} 	
 	{% endif %}
 {% endfor %}
 
