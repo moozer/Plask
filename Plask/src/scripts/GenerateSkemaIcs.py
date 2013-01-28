@@ -63,11 +63,12 @@ def ReadSchedule( filename = filename, year = 2013 ):
         for week in entry['Weeks'].split(','):
             for weekday in entry['Weekdays'].split(','):
                 for lesson in entry['Lessons'].split(','):
-                    date = iso_to_gregorian( year, int(week), int(weekday))
-                    modlesson = { 'Week': int( week ), 'Weekday': int(weekday), 'Lesson': int(lesson),
-                                'Course': entry['Course'], 'Class': entry['Class'], 
-                                'Teacher': entry['Teacher'], 'date': date}
-                    lessonslist.append( modlesson )
+                    for Teacher in entry['Teacher'].split(','):
+                        date = iso_to_gregorian( year, int(week), int(weekday))
+                        modlesson = { 'Week': int( week ), 'Weekday': int(weekday), 'Lesson': int(lesson),
+                                    'Course': entry['Course'], 'Class': entry['Class'], 
+                                    'Teacher': Teacher, 'date': date}
+                        lessonslist.append( modlesson )
         
 
     return lessonslist
@@ -112,6 +113,6 @@ if __name__ == '__main__':
     Schedule = ReadSchedule()
     print "Number of lessons in Schedule: %d"%len(Schedule)
     for T in TeacherList:
-        WriteIcs( Schedule, '%s_skema_2013S.ics'%T, T )
+        WriteIcs( Schedule, 'icsout/%s_skema_2013S.ics'%T, T )
     pass
 
