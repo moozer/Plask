@@ -50,7 +50,6 @@ def getHandinList( filename ):
     ''' from a hand-in csv file, return the list of hand-ins. 
         Columns: Date (YYMMDD), Hand-in, Comment
     '''
-    print >> sys.stderr, filename
     try:
         reader = csv.DictReader(open(filename, 'r'), delimiter='\t')
     except IOError:
@@ -60,7 +59,6 @@ def getHandinList( filename ):
     for entry in reader:
         for datestring in entry['Date'].split(','):
             date = datetime.datetime.strptime( datestring, "%y%m%d")
-            print >> sys.stderr,  date
             handin = {  'Date': date, 'Datestring': datetime.datetime.strftime( date,"%d/%m-%y" ),
                         'Handin': entry['Hand-in'], 'Comment': entry['Comment']}
             handinlist.append( handin )
@@ -134,10 +132,7 @@ def overview(overview = None, semester = None):
 @app.route('/ics/<string:filename>')
 @app.route('/ics/<string:filename>.ics')
 def calendar(filename = "nonexist"):
-    print >> sys.stderr, "filename: %s"%filename
-    
     parts = filename.split(' ')
-    print >>sys.stderr, "parts:", parts
     if len(parts) < 2:
         return render_template('icsindex.html', 
                       filename=filename, links=getLinks())
@@ -146,7 +141,6 @@ def calendar(filename = "nonexist"):
     course = ' '.join( parts[1:] )
     dirname = u"%s/%s"%(semester,course) 
 
-    print >> sys.stderr, "sem; %s, course: %s, dirname: %s"%(semester, course, dirname)
     if not os.path.isdir("pages/"+dirname):
         abort( 404 )
 
