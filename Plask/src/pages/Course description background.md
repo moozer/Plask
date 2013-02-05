@@ -14,5 +14,6 @@ Background information
 [Bekendgørelse](https://www.retsinformation.dk/Forms/R0710.aspx?id=127260)
 [IT teknolog on EAL.dk](http://www.eal.dk/eal/site.aspx?p=439)
 [Seneste studieordning](http://doc.sde.dk/EAL_Dokumenter/Fuldtidsuddannelser/IT%20teknolog/studieordning%20IT-tek%20EAL.pdf)
+[Kvalifikationsramme](http://www.iu.dk/dokumentation/kvalifikationsrammer/Kvalifikationsramme_DK_videregaaende_uddannelse_20080609.pdf)
 
 
