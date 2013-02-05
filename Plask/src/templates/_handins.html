@@ -2,7 +2,9 @@
 {% for handin in handins | sort( attribute='Date' )%}
 	<li>
 		{{ handin.Datestring}}:	{{handin.Handin }} 
+		{% if handin.Comment != '' %}
 		- {{ handin.Comment }}
+		{% endif %}
 	</li>
 {% endfor %}
 </ul>	
