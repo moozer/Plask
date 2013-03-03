@@ -14,7 +14,7 @@ status: TO BE REVISED
 	* Describe what sniffing is and what it is used for
 	* Describe the different network layouts that enables sniffing
 	* Give an example of practical implementation and effect of sniffing
-	* Monitoring?
+	* Describe how package sniffing relates to monitoring
 
 3. 	Transport layer (TCP, UDP, handshake)
 	
