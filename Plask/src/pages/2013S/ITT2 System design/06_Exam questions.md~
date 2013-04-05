@@ -1,7 +1,8 @@
-date: 2013-04-05
+date: 2013-01-23
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Exam questions
+status: TO BE REVISED
 
 1.	Use case diagrams
 
@@ -21,11 +22,4 @@ sectionname: Exam questions
 
 3.	Sequence and communication diagrams
 
-	Case: On a local area network, users are forces to use a proxy for all HTTP traffic. Users all use workstations named Work01, Work02 and so on. The proxy server is called Proxy01 and whenever it receives a request it will forward the request to the appropriate web server on the internet. The internal DNS server used by the workstations is called Dns01, and the DNS server used by the proxy is called DnsIsp01. Both IP adresses of the DNS servers are known. 
-
-	* Draw the communication diagram 
-	* Explain all elements used in the communication diagram
-	* Draw the sequence diagram 
-	* Explain all elements used sequence diagram
-	* Explain what communication and sequence diagrams are used for
-
+	* TDB
