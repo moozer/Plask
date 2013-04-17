@@ -1,22 +1,20 @@
-date: 2013-01-17
+date: 2013-04-16
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Teaching goals
 status: TO BE REVISED
 
+Project firewall is a part of the subject area of *Network technology* and the compulsory elements of *Written and oral communication*, *Software development* and *Networks*. 
+
 The student has acquired knowledge on
 
-* Common protocols and standards used with ethernet networks
-* Common equipment used with ethernet networks
-* Client and server and peer-to-peer models
-* Operating system and server fundamentals
+* Version control of software
 
 The student is able to
 
-* Do simple network monitoring and packet analysis
-* Describe network traffic using appropriate models and language
-* Extract network related information on different OS's.
-
-The student is competent to
-
-* Nothing after 1. semester :-)
+* Present technical information in writing
+* Gather necessary information related to a defined problem
+* Configure, troubleshoot and monitor simple networks
+* Do structured project management.
+* Do relevant project documentation.
+* Find and use relevant software libraries 
