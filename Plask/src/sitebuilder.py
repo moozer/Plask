@@ -46,10 +46,11 @@ def getLinks():
     linkspages = [page for page in pages if page.path.split('/').__len__() < 2]
     return linkspages
 
-def getHandinList( filename ):
+def getHandinList( semester, course, prefix="" ):
     ''' from a hand-in csv file, return the list of hand-ins. 
         Columns: Date (YYMMDD), Hand-in, Comment
     '''
+    filename = "pages/%s/%s/handins.csv"%(semester,course)    
     try:
         reader = csv.DictReader(open(filename, 'r'), delimiter='\t')
     except IOError:
@@ -60,10 +61,22 @@ def getHandinList( filename ):
         for datestring in entry['Date'].split(','):
             date = datetime.datetime.strptime( datestring, "%y%m%d")
             handin = {  'Date': date, 'Datestring': datetime.datetime.strftime( date,"%d/%m-%y" ),
-                        'Handin': entry['Hand-in'], 'Comment': entry['Comment']}
+                        'Handin': "%s%s"%(prefix,entry['Hand-in']), 'Comment': entry['Comment']}
             handinlist.append( handin )
         
     return handinlist
+
+def getHandinsListSemester( semester ):
+    ''' returns the aggregated list of all handins from the semester '''
+    if not semester in getSemesters():
+        return []
+    
+    HiList = []
+    for course in getCourses( semester ):
+        HiList.extend( getHandinList( semester, course ) )
+    
+    print >> sys.stderr, "agg list: %s"%HiList
+    return HiList
 
 def getScheduleList(filename):
     reader = csv.DictReader(open( filename, 'r'), delimiter='\t')
@@ -89,7 +102,7 @@ def fagplan(course = None, semester = None):
     dirname = u"%s/%s"%(semester,course) 
     if not os.path.isdir("pages/"+dirname):
         abort( 404 )
-        
+         
     # for the content text
     basepages = [p for p in pages if dirname == os.path.dirname(p.path)]
     sectionpages = {}
@@ -101,7 +114,7 @@ def fagplan(course = None, semester = None):
 
     # for the schedule
     schedule = getScheduleList( "pages/" + dirname + "/schedule.csv" )
-    handins = getHandinList( "pages/"+dirname+"/handins.csv" )
+    handins = getHandinList( semester,course )
 
     return render_template('fagplan.html', schedule=schedule, handins=handins,
                            course=course, semester=semester, 
@@ -127,42 +140,53 @@ def overview(overview = None, semester = None):
                            pages=basepages, overview=overview,
                            links=getLinks())
 
+def GenerateIcs(handins):
+    # build ics
+    print "ghjkkk: %s"%handins
+    cal = Calendar()
+    cal.add('prodid', '-//My calendar product//mxm.dk//')
+    cal.add('version', '2.0')
+    for handin in handins:
+        event = Event()
+        event.add('summary', handin['Handin'])
+        event.add('dtstart', handin['Date'].date())
+        event.add('description', handin['Comment'])
+        cal.add_component(event)
+    
+    retval = cal.to_ical()
+    return retval
 
 @app.route('/ics/')
 @app.route('/ics/<string:filename>')
 @app.route('/ics/<string:filename>.ics')
 def calendar(filename = "nonexist"):
     parts = filename.split(' ')
-    if len(parts) < 2:
+    if len(parts) < 1:
         return render_template('icsindex.html', 
                       filename=filename, links=getLinks())
-    
-    semester = parts[0]
-    course = ' '.join( parts[1:] )
-    dirname = u"%s/%s"%(semester,course) 
 
-    if not os.path.isdir("pages/"+dirname):
+    # part 1 is the semester
+    if not parts[0] in getSemesters():
         abort( 404 )
+    semester = parts[0]
+    
+    # semester only?
+    if len(parts) == 1:
+        handins = getHandinsListSemester(semester)
+    else:    
+        semester = parts[0]
+        course = ' '.join( parts[1:] )
+        dirname = u"%s/%s"%(semester,course) 
+    
+        if not os.path.isdir("pages/"+dirname):
+            abort( 404 )
+    
+        handins = getHandinList( semester,course )
 
-    handins = getHandinList( "pages/"+dirname+"/handins.csv" )
     if len( handins ) == 0:
         abort( 404 ) # no data
     
-    # build ics
-    cal = Calendar()
-    cal.add('prodid', '-//My calendar product//mxm.dk//')
-    cal.add('version', '2.0')
-
-    for handin in handins:
-        event = Event()
-        event.add('summary', "%s"%handin['Handin'])
-        
-        event.add('dtstart', handin['Date'].date())            
-        event.add('description', handin['Comment'])            
-    
-        cal.add_component(event)
-        
-    return cal.to_ical()
+    return GenerateIcs(handins)
 
 @app.route('/')
 @app.route('/<path:path>/')
