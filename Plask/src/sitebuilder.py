@@ -62,6 +62,7 @@ def getHandinList( semester, course, prefix="" ):
             date = datetime.datetime.strptime( datestring, "%y%m%d")
             handin = {  'Date': date, 'Datestring': datetime.datetime.strftime( date,"%d/%m-%y" ),
                         'Handin': "%s%s"%(prefix,entry['Hand-in']), 'Comment': entry['Comment']}
+            print >> sys.stderr, "-->%s"%handin
             handinlist.append( handin )
         
     return handinlist
@@ -73,9 +74,8 @@ def getHandinsListSemester( semester ):
     
     HiList = []
     for course in getCourses( semester ):
-        HiList.extend( getHandinList( semester, course ) )
+        HiList.extend( getHandinList( semester, course, prefix="%s: "%course ) )
     
-    print >> sys.stderr, "agg list: %s"%HiList
     return HiList
 
 def getScheduleList(filename):
@@ -142,7 +142,6 @@ def overview(overview = None, semester = None):
 
 def GenerateIcs(handins):
     # build ics
-    print "ghjkkk: %s"%handins
     cal = Calendar()
     cal.add('prodid', '-//My calendar product//mxm.dk//')
     cal.add('version', '2.0')
