@@ -2,7 +2,6 @@ date: 2013-04-16
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Teaching goals
-status: TO BE REVISED
 
 Project firewall is a part of the subject area of *Network technology* and the compulsory elements of *Written and oral communication*, *Software development* and *Networks*. 
 
