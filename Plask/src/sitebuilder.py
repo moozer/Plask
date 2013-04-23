@@ -62,7 +62,6 @@ def getHandinList( semester, course, prefix="" ):
             date = datetime.datetime.strptime( datestring, "%y%m%d")
             handin = {  'Date': date, 'Datestring': datetime.datetime.strftime( date,"%d/%m-%y" ),
                         'Handin': "%s%s"%(prefix,entry['Hand-in']), 'Comment': entry['Comment']}
-            print >> sys.stderr, "-->%s"%handin
             handinlist.append( handin )
         
     return handinlist
@@ -159,10 +158,12 @@ def GenerateIcs(handins):
 @app.route('/ics/<string:filename>')
 @app.route('/ics/<string:filename>.ics')
 def calendar(filename = "nonexist"):
-    parts = filename.split(' ')
-    if len(parts) < 1:
+    # no cs requested
+    if filename == "nonexist":
         return render_template('icsindex.html', 
                       filename=filename, links=getLinks())
+    
+    parts = filename.split(' ')
 
     # part 1 is the semester
     if not parts[0] in getSemesters():

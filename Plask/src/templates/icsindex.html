@@ -6,8 +6,14 @@
 
 If you end up here, you have a wrong url. <br>
 
-usage: /ics/[semester] [course].ics
+To get the calendar file for a course use: /ics/[semester] [course].ics
 
 e.g. <a href='{{ url_for( "calendar", filename="%s %s"%('2013S', 'ITT2 Project firewall') ) }}'>{{ url_for( "calendar", filename="%s %s"%('2013S', 'ITT2 Project firewall') ) }}</a>
+
+<br />
+To get the calendar file for an entire semester use: /ics/[semester].ics
+
+e.g. <a href='{{ url_for( "calendar", filename="%s"%('2013S') ) }}'>{{ url_for( "calendar", filename="%s"%('2013S') ) }}</a>
+
 
 {% endblock content %}
