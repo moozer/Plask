@@ -1,6 +1,7 @@
 date: 2013-04-16
 author: Morten Bo Nielsen
 email: mon@eal.dk
+sectionname: Evaluation
 
 The project is evaluated as a part of the 2. semester exam.
 
