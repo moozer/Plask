@@ -6,5 +6,3 @@ sectionname: Evaluation
 
 The course is evaluated as a part of the 2. semester exam.
 
-Hand-ins
-
