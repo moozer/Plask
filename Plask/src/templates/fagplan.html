@@ -1,13 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ course }} </h1>
+
+{# params: 
+course is the name of the course, eg. "ITT2 Networking"
+coursesections is a list of the list of sections in the course plan 
+sectionpages is the list of pages (ie. files on disk)
+#}
+
+<h1 id="{{ course }}">{{ course }}</h1>
 Course description for semester {{ semester }} 
 
+{# looping through relevant sections #}
 {% for section in coursesections %}
 
+	{# check if they have a corresponding page #}
 	{% if section in sectionpages %}
-		<h2>{{ section }}</h2>
+		<h2 id="{{ section }}">{{ section }}</h2>
 		{% with page = sectionpages[section] %} 
 			{% if page.status %}
 			<em>{{ page.status }} </em>
@@ -17,17 +26,17 @@ Course description for semester {{ semester }}
 		{% endwith %}
 	{% else %}
 		{% if section == "Schedule" %}
-			<h2>{{ section }}</h2>
+			<h2 id="{{ section }}">{{ section }}</h2>
 			The schedule show when the course is running and the topics. Please note that changes may occur during the semester.
 		{% elif section == "Exam questions" %}
 			{# output nothing #}
 		{% else %}
-			<h2>{{ section }}</h2>
+			<h2 id="{{ section }}">{{ section }}</h2>
 			No description yet.
 		{% endif %}
 	{% endif %}
 	
-	{# schedule is a special case #}
+	{# schedule and evaluation are special cases #}
 	{% if section == "Schedule" %}
 		{% if schedule %}
 		    {% with schedule=schedule  %}
