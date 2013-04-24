@@ -14,6 +14,7 @@ import csv
 import datetime
 from icalendar import Calendar, Event
 
+# the list of sections in the course plan 
 coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
                   'Evaluation', 'Literature', 'Exam questions', 'Schedule']
 
