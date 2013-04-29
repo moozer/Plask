@@ -23,28 +23,28 @@ status: TO BE REVISED
 	* Explain how a connection oriented service works.
 
 4. 	Wireless
-	* TBD
+	* Describe 802.11 wireless ethernet and how it is used. 
+	* Explain the concepts like ESSID, association, encryption and security implications
+	* Describe the main differences in cable and wireless ethernet
 
 5. 	Routing 
 
 	* Explain what routing is used for and which OSI layer it is associated with
-	* Describe the difference between static and dynamic routes
-	* Explain how OSPF works
-	* VPN? IPv6 and NAT?
+	* Explain the difference between static and dynamic routes
+	* Describe how distance vector algorithms and link state algorithms work
 
 6. 	Firewalls
 	
 	* Explain what a firewall is and what it is used for
 	* Show and explain an example of what a firewall could be used for
-	* Describe different aspect of firewall rules in relation to red and green interface, ip addresses and port numbers
-	* VPN? IPv6 and NAT?
+	* Describe different aspect of firewall rules in relation to inside and outside interfaces, ip addresses and port numbers
 
 7.	Basic LAN topology and services
 
 	* Describe an ordinary home network
 	* Describe the services normally enabled internally 
 	* Explain how a PC on the home network connects to the internet, i.e. explain how the packages from the source PC arrives at the destination server and a reply may be received.
-	* DNS? IP? SOHO
+
 
 
 
