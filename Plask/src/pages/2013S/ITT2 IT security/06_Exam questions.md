@@ -1,16 +1,19 @@
-date: 2013-01-22
+date: 2013-04-29
 author: Morten Bo Nielsen
 email: mon@eal.dk
 sectionname: Exam questions
-status: TO BE REVISED
 
-1. 	Introduction to security issues.
+1. 	Risk assessment
 
-	TBD
+	* Explain the purpose of risk assessment
+	* Explain the concepts of assets, threats, vulnerabilities, attacks, impact, likelihood and risk
+	* Describe the process of doing a risk assessment
 
-2. 	FW, proxies, IDS
+2. 	Intrusion prevention systems
 
-	TBD 
+	* Give some examples of common IPS's. Draw a simple network that includes an IPS.
+	* Explain the difference between IDS and IPS
+	* Give an example of a system using both an IPS and IDS.
 
 3.	RADIUS server
 
