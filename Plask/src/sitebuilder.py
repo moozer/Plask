@@ -208,5 +208,5 @@ if __name__ == '__main__':
         print "Data is now available on http://ittech.eal.dk%s"%FREEZER_BASE_URL
         
     else:
-        app.run(port=8000)
-        
+        app.run(host='0.0.0.0', port=8000)
+
