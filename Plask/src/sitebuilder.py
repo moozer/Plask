@@ -34,11 +34,6 @@ app.config.from_object(__name__)
 pages = FlatPages(app)
 freezer = Freezer(app)
 
-def getSemesters():
-    ''' @returns the list of semesters (based on directories) '''    
-    semesters = [ c for c in os.listdir(LocalPageDir) if os.path.isdir("%s/%s"%(LocalPageDir, c))]
-    return semesters
-
 def getLinks():
     ''' @returns the list of top level pages aka. links (based on directories) '''    
     linkspages = [page for page in pages if page.path.split('/').__len__() < 2]
@@ -66,11 +61,11 @@ def getHandinList( semester, course, prefix="" ):
 
 def getHandinsListSemester( semester ):
     ''' returns the aggregated list of all handins from the semester '''
-    if not semester in getSemesters():
+    if not semester in data.getSemesters():
         return []
     
     HiList = []
-    for course in getCourses( semester ):
+    for course in data.getCourses( semester ):
         HiList.extend( getHandinList( semester, course, prefix="%s: "%course ) )
     
     return HiList
@@ -93,7 +88,7 @@ def freeze_base_url(path):
 def fagplan(course = None, semester = None):
     if not course or not semester:
         return render_template('fagplanindex.html', 
-                        semesters=getSemesters(), semester=semester, 
+                        semesters=data.getSemesters(), semester=semester, 
                         courses=data.getCourses( semester ), links=getLinks())
     
     dirname = u"%s/%s"%(semester,course) 
@@ -124,12 +119,12 @@ def fagplan(course = None, semester = None):
 @app.route('/overview/<string:semester>/<string:overview>.html')
 def overview(overview = None, semester = None):
     if semester:
-        if not semester in getSemesters():
+        if not semester in data.getSemesters():
             semester = None
     
     if not overview or not semester:
         return render_template('overviewindex.html', 
-                      semesters=getSemesters(), semester=semester, 
+                      semesters=data.getSemesters(), semester=semester, 
                       coursesections=coursesections, links=getLinks())
 
     basepages = [p for p in pages if overview in p.meta.get('sectionname', []) and semester in p.path ]
@@ -164,7 +159,7 @@ def calendar(filename = "nonexist"):
     parts = filename.split(' ')
 
     # part 1 is the semester
-    if not parts[0] in getSemesters():
+    if not parts[0] in data.getSemesters():
         abort( 404 )
     semester = parts[0]
     
