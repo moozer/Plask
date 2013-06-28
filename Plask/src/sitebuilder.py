@@ -86,10 +86,12 @@ def freeze_base_url(path):
 @app.route('/fagplan/<string:semester>/<string:course>/')
 @app.route('/fagplan/<string:semester>/<string:course>.html')
 def fagplan(course = None, semester = None):
+    links = [page for page in pages if page.path in data.getLinks()] 
+
     if not course or not semester:
         return render_template('fagplanindex.html', 
                         semesters=data.getSemesters(), semester=semester, 
-                        courses=data.getCourses( semester ), links=getLinks())
+                        courses=data.getCourses( semester ), links=links )
     
     dirname = u"%s/%s"%(semester,course) 
     if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
@@ -111,7 +113,7 @@ def fagplan(course = None, semester = None):
     return render_template('fagplan.html', schedule=schedule, handins=handins,
                            course=course, semester=semester, 
                            pages=basepages, coursesections=coursesections, 
-                           links=getLinks(), sectionpages=sectionpages)
+                           links=links, sectionpages=sectionpages)
 
 @app.route('/overview/')
 @app.route('/overview/<string:semester>/')
@@ -122,15 +124,17 @@ def overview(overview = None, semester = None):
         if not semester in data.getSemesters():
             semester = None
     
+    links = [page for page in pages if page.path in data.getLinks()] 
+
     if not overview or not semester:
         return render_template('overviewindex.html', 
                       semesters=data.getSemesters(), semester=semester, 
-                      coursesections=coursesections, links=getLinks())
+                      coursesections=coursesections, links=links)
 
     basepages = [p for p in pages if overview in p.meta.get('sectionname', []) and semester in p.path ]
     return render_template('overview.html', semester=semester, 
                            pages=basepages, overview=overview,
-                           links=getLinks())
+                           links=links)
 
 def GenerateIcs(handins):
     # build ics
@@ -152,9 +156,10 @@ def GenerateIcs(handins):
 @app.route('/ics/<string:filename>.ics')
 def calendar(filename = "nonexist"):
     # no cs requested
+    links = [page for page in pages if page.path in data.getLinks()] 
     if filename == "nonexist":
         return render_template('icsindex.html', 
-                      filename=filename, links=getLinks())
+                      filename=filename, links=links)
     
     parts = filename.split(' ')
 
@@ -185,8 +190,9 @@ def calendar(filename = "nonexist"):
 @app.route('/<path:path>/')
 def page(path = "index"):
     page = pages.get_or_404(path)
+    links = [page for page in pages if page.path in data.getLinks()] 
     return render_template('page.html', page=page, 
-                           pages=pages, links=getLinks())
+                           pages=pages, links=links)
     
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == "build":
