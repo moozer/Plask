@@ -17,10 +17,13 @@ from icalendar import Calendar, Event
 # the list of sections in the course plan 
 coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
                   'Evaluation', 'Literature', 'Exam questions', 'Schedule']
+LocalPageDir="../../../PlaskData/pages" # without trailing /
+
 
 DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
 FLATPAGES_EXTENSION = '.md'
+FLATPAGES_ROOT = LocalPageDir
 FREEZER_BASE_URL = "/Plask/"
 FREEZER_DESTINATION = "/tmp/Plask/"
 
@@ -34,12 +37,12 @@ def getCourses( semester = None ):
     if not semester:
         return None
     
-    Courses = [ c for c in os.listdir("pages/%s"%semester) if os.path.isdir("pages/%s/%s"%(semester,c))]
+    Courses = [ c for c in os.listdir("%s/%s"%(LocalPageDir, semester)) if os.path.isdir("%s/%s/%s"%(LocalPageDir, semester,c))]
     return Courses
 
 def getSemesters():
     ''' @returns the list of semesters (based on directories) '''    
-    semesters = [ c for c in os.listdir("pages/") if os.path.isdir("pages/%s"%c)]
+    semesters = [ c for c in os.listdir(LocalPageDir) if os.path.isdir("%s/%s"%(LocalPageDir, c))]
     return semesters
 
 def getLinks():
@@ -51,7 +54,7 @@ def getHandinList( semester, course, prefix="" ):
     ''' from a hand-in csv file, return the list of hand-ins. 
         Columns: Date (YYMMDD), Hand-in, Comment
     '''
-    filename = "pages/%s/%s/handins.csv"%(semester,course)    
+    filename = "%s/%s/%s/handins.csv"%(LocalPageDir, semester,course)    
     try:
         reader = csv.DictReader(open(filename, 'r'), delimiter='\t')
     except IOError:
@@ -100,7 +103,7 @@ def fagplan(course = None, semester = None):
                         courses=getCourses( semester ), links=getLinks())
     
     dirname = u"%s/%s"%(semester,course) 
-    if not os.path.isdir("pages/"+dirname):
+    if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
         abort( 404 )
          
     # for the content text
@@ -113,7 +116,7 @@ def fagplan(course = None, semester = None):
                 break
 
     # for the schedule
-    schedule = getScheduleList( "pages/" + dirname + "/schedule.csv" )
+    schedule = getScheduleList( "%s/%s/%s"%(LocalPageDir, dirname, "schedule.csv") )
     handins = getHandinList( semester,course )
 
     return render_template('fagplan.html', schedule=schedule, handins=handins,
@@ -179,7 +182,7 @@ def calendar(filename = "nonexist"):
         course = ' '.join( parts[1:] )
         dirname = u"%s/%s"%(semester,course) 
     
-        if not os.path.isdir("pages/"+dirname):
+        if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
             abort( 404 )
     
         handins = getHandinList( semester,course )
