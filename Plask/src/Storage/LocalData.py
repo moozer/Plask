@@ -25,6 +25,10 @@ class LocalData(object):
         
         Courses = [ c for c in os.listdir("%s/%s"%(self.DataDir, semester)) if os.path.isdir("%s/%s/%s"%(self.DataDir, semester,c))]
         return Courses
+
+    def getSemesters( self ):
+        ''' @returns the list of semesters (based on directories) '''    
+        semesters = [ c for c in os.listdir(self.DataDir) if os.path.isdir("%s/%s"%(self.DataDir, c))]
+        return semesters
     
-        
     
