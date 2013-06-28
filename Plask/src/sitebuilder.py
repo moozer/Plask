@@ -13,12 +13,14 @@ from flask_frozen import Freezer
 import csv
 import datetime
 from icalendar import Calendar, Event
+from Storage.LocalData import LocalData
 
 # the list of sections in the course plan 
 coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
                   'Evaluation', 'Literature', 'Exam questions', 'Schedule']
 LocalPageDir="../../../PlaskData/pages" # without trailing /
 
+data = LocalData(LocalPageDir )
 
 DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
@@ -31,14 +33,6 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 pages = FlatPages(app)
 freezer = Freezer(app)
-
-def getCourses( semester = None ):
-    ''' @returns the list of course in a given semester (based on directories) '''
-    if not semester:
-        return None
-    
-    Courses = [ c for c in os.listdir("%s/%s"%(LocalPageDir, semester)) if os.path.isdir("%s/%s/%s"%(LocalPageDir, semester,c))]
-    return Courses
 
 def getSemesters():
     ''' @returns the list of semesters (based on directories) '''    
@@ -100,7 +94,7 @@ def fagplan(course = None, semester = None):
     if not course or not semester:
         return render_template('fagplanindex.html', 
                         semesters=getSemesters(), semester=semester, 
-                        courses=getCourses( semester ), links=getLinks())
+                        courses=data.getCourses( semester ), links=getLinks())
     
     dirname = u"%s/%s"%(semester,course) 
     if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
