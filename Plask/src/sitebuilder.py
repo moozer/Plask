@@ -34,11 +34,6 @@ app.config.from_object(__name__)
 pages = FlatPages(app)
 freezer = Freezer(app)
 
-# def getLinks():
-#     ''' @returns the list of top level pages aka. links (based on directories) '''    
-#     linkspages = [page for page in pages if page.path.split('/').__len__() < 2]
-#     return linkspages
-
 def getHandinList( semester, course, prefix="" ):
     ''' from a hand-in csv file, return the list of hand-ins. 
         Columns: Date (YYMMDD), Hand-in, Comment
@@ -86,7 +81,7 @@ def freeze_base_url(path):
 @app.route('/fagplan/<string:semester>/<string:course>/')
 @app.route('/fagplan/<string:semester>/<string:course>.html')
 def fagplan(course = None, semester = None):
-    links = [page for page in pages if page.path in data.getLinks()] 
+    links = [pages.get(l) for l in data.getLinks()] 
 
     if not course or not semester:
         return render_template('fagplanindex.html', 
@@ -124,7 +119,7 @@ def overview(overview = None, semester = None):
         if not semester in data.getSemesters():
             semester = None
     
-    links = [page for page in pages if page.path in data.getLinks()] 
+    links = [pages.get(l) for l in data.getLinks()] 
 
     if not overview or not semester:
         return render_template('overviewindex.html', 
@@ -156,7 +151,7 @@ def GenerateIcs(handins):
 @app.route('/ics/<string:filename>.ics')
 def calendar(filename = "nonexist"):
     # no cs requested
-    links = [page for page in pages if page.path in data.getLinks()] 
+    links = [pages.get(l) for l in data.getLinks()] 
     if filename == "nonexist":
         return render_template('icsindex.html', 
                       filename=filename, links=links)
@@ -190,7 +185,7 @@ def calendar(filename = "nonexist"):
 @app.route('/<path:path>/')
 def page(path = "index"):
     page = pages.get_or_404(path)
-    links = [page for page in pages if page.path in data.getLinks()] 
+    links = [pages.get(l) for l in data.getLinks()] 
     return render_template('page.html', page=page, 
                            pages=pages, links=links)
     
