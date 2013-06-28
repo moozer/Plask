@@ -38,4 +38,4 @@ Issues
 ------
 
 As with all software, this code is flawless. If you find any odd *features*, create an issue associated 
-to the project on github on github
+to the project [on github](https://github.com/moozer/Plask/issues)
