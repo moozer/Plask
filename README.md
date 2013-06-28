@@ -19,16 +19,20 @@ How to use
 
 4. cd Plask/Plask/src
 
-5a. python sitebuilder.py
-  This will most likely complain about missing libraries. They must be installed for this to work.
-  
-  When it work, it is accessible on http://localhost:8000
+5. You have two options for its use
 
-5b. python sitebuilder.py build
-  This will create the static html pages and upload them to a server. the program ncftp must be installed.
+  a. *python sitebuilder.py*
   
-  Also, a credentials file at LocalDir/Plask/Plask/ittech.cfg must be made. 
-  See [ncftpput -f XX](http://ncftp.com/ncftp/doc/ncftpput.html) for format. 
+    This will most likely complain about missing libraries. They must be installed for this to work.
+  
+    When it work, it is accessible on http://localhost:8000
+
+  b. *python sitebuilder.py build*
+  
+    This will create the static html pages and upload them to a server. the program ncftp must be installed.
+  
+    Also, a credentials file at LocalDir/Plask/Plask/ittech.cfg must be made. 
+    See [ncftpput -f XX](http://ncftp.com/ncftp/doc/ncftpput.html) for format. 
   
 Issues
 ------
