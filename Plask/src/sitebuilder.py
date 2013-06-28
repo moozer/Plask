@@ -34,10 +34,10 @@ app.config.from_object(__name__)
 pages = FlatPages(app)
 freezer = Freezer(app)
 
-def getLinks():
-    ''' @returns the list of top level pages aka. links (based on directories) '''    
-    linkspages = [page for page in pages if page.path.split('/').__len__() < 2]
-    return linkspages
+# def getLinks():
+#     ''' @returns the list of top level pages aka. links (based on directories) '''    
+#     linkspages = [page for page in pages if page.path.split('/').__len__() < 2]
+#     return linkspages
 
 def getHandinList( semester, course, prefix="" ):
     ''' from a hand-in csv file, return the list of hand-ins. 

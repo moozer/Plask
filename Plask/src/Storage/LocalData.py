@@ -4,6 +4,11 @@ Created on Jun 28, 2013
 @author: moz
 '''
 import os
+from flask_flatpages import FlatPages
+import flask_flatpages
+import glob
+
+
 
 class LocalData(object):
     '''
@@ -11,11 +16,13 @@ class LocalData(object):
     '''
 
 
-    def __init__(self, DataDir):
+    def __init__(self, DataDir, FpInst=None):
         '''
         Constructor
         '''
         self.DataDir = DataDir
+               
+        self.FpInst = FpInst
 
     
     def getCourses( self,  semester = None ):
@@ -30,5 +37,10 @@ class LocalData(object):
         ''' @returns the list of semesters (based on directories) '''    
         semesters = [ c for c in os.listdir(self.DataDir) if os.path.isdir("%s/%s"%(self.DataDir, c))]
         return semesters
-    
+
+    def getLinks( self ):
+        ''' @returns the list of top level pages aka. links (based on directories) '''  
+        files = glob.glob("%s/%s"%(self.DataDir, '*.md') )
+        listnames = ['.'.join(os.path.basename(l).split('.')[:-1]) for l in files]
+        return sorted(listnames)
     
