@@ -5,6 +5,7 @@ Created on Jun 28, 2013
 '''
 import unittest
 from Storage.LocalData import LocalData
+import os.path
 
 DataDir = "../testData"
 TestSemesters = ["Sem_A"]
@@ -20,6 +21,15 @@ class Test(unittest.TestCase):
         self.assertEqual( data.getSemesters(), TestSemesters )
         self.assertEqual( data.getLinks(), TestLinks )
 
+    def testGetFile(self):
+        data = LocalData( DataDir  )
+        content = data.getFile( TestLinks[0]+'.md').read()
+        content2 = open( os.path.join( DataDir, TestLinks[0]+'.md' )).read()
+
+        self.assertEqual( content, content2 )
+        
+        
+        
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testLocalFiles']

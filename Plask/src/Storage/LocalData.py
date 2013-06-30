@@ -41,3 +41,7 @@ class LocalData(object):
         listnames = ['.'.join(os.path.basename(l).split('.')[:-1]) for l in files]
         return sorted(listnames)
     
+    def getFile( self, filename ):
+        ''' opens a filepointer to a file relative to self.DataDir '''
+        fullpath = os.path.join( self.DataDir, filename )
+        return open( fullpath, "r")
