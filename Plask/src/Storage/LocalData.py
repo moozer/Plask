@@ -4,8 +4,8 @@ Created on Jun 28, 2013
 @author: moz
 '''
 import os
-from flask_flatpages import FlatPages
-import flask_flatpages
+#from flask_flatpages import FlatPages
+#import flask_flatpages
 import glob
 
 
@@ -16,14 +16,11 @@ class LocalData(object):
     '''
 
 
-    def __init__(self, DataDir, FpInst=None):
+    def __init__(self, DataDir ):
         '''
         Constructor
         '''
         self.DataDir = DataDir
-               
-        self.FpInst = FpInst
-
     
     def getCourses( self,  semester = None ):
         ''' @returns the list of course in a given semester (based on directories) '''
