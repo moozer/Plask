@@ -11,8 +11,7 @@ from flask_flatpages import FlatPages
 import sys, os
 from flask_frozen import Freezer
 import csv
-#import datetime
-from icalendar import Calendar, Event
+# from icalendar import Calendar, Event
 from Storage.LocalData import LocalData
 from Storage.Calendars import HandinsCalendar
 
@@ -102,21 +101,6 @@ def overview(overview = None, semester = None):
                            pages=basepages, overview=overview,
                            links=links)
 
-def GenerateIcs(handins):
-    # build ics
-    cal = Calendar()
-    cal.add('prodid', '-//My calendar product//mxm.dk//')
-    cal.add('version', '2.0')
-    for handin in handins:
-        event = Event()
-        event.add('summary', handin['Handin'])
-        event.add('dtstart', handin['Date'].date())
-        event.add('description', handin['Comment'])
-        cal.add_component(event)
-    
-    retval = cal.to_ical()
-    return retval
-
 @app.route('/ics/')
 @app.route('/ics/<string:filename>')
 @app.route('/ics/<string:filename>.ics')
@@ -136,7 +120,7 @@ def calendar(filename = "nonexist"):
     
     # semester only?
     if len(parts) == 1:
-        handins = hical.getHandinsListSemester(semester)
+        return hical.getSemesterIcs(semester)    
     else:    
         semester = parts[0]
         course = ' '.join( parts[1:] )
@@ -145,12 +129,7 @@ def calendar(filename = "nonexist"):
         if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
             abort( 404 )
     
-        handins = hical.getHandinList( semester,course )
-
-    if len( handins ) == 0:
-        abort( 404 ) # no data
-    
-    return GenerateIcs(handins)
+        return hical.getCourseIcs(semester, course)
 
 @app.route('/')
 @app.route('/<path:path>/')
