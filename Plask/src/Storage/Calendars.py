@@ -52,14 +52,13 @@ class HandinsCalendar(object):
          
         return HiList
         
-    def getCourseIcs(self, semester, course ):
-        hi = self.getHandinList( semester, course )
-            
+
+    def _GenerateHandinIcs(self, Handins):
         # build ics
         cal = icalendar.Calendar()
         cal.add('prodid', '-//My calendar product//mxm.dk//')
         cal.add('version', '2.0')
-        for handin in hi:
+        for handin in Handins:
             event = icalendar.Event()
             event.add('summary', handin['Handin'])
             event.add('dtstart', handin['Date'].date())
@@ -68,3 +67,18 @@ class HandinsCalendar(object):
         
         retval = cal.to_ical()
         return retval
+
+    def getCourseIcs(self, semester, course ):
+        ''' returns an ics file based on the handins of a course'''
+        hi = self.getHandinList( semester, course )
+        return self._GenerateHandinIcs(hi)
+         
+    
+    def getSemesterIcs(self, semester):
+        ''' returns an ics file based on the handins of a semester'''
+        hi = self.getHandinsListSemester( semester )
+        return self._GenerateHandinIcs(hi)
+
+        
+    
+    
