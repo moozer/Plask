@@ -11,16 +11,18 @@ from flask_flatpages import FlatPages
 import sys, os
 from flask_frozen import Freezer
 import csv
-import datetime
+#import datetime
 from icalendar import Calendar, Event
 from Storage.LocalData import LocalData
+from Storage.Calendars import HandinsCalendar
 
 # the list of sections in the course plan 
 coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
                   'Evaluation', 'Literature', 'Exam questions', 'Schedule']
 LocalPageDir="../../../PlaskData/pages" # without trailing /
 
-data = LocalData(LocalPageDir )
+data = LocalData( LocalPageDir )
+hical = HandinsCalendar( data )
 
 DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
@@ -33,37 +35,6 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 pages = FlatPages(app)
 freezer = Freezer(app)
-
-def getHandinList( semester, course, prefix="" ):
-    ''' from a hand-in csv file, return the list of hand-ins. 
-        Columns: Date (YYMMDD), Hand-in, Comment
-    '''
-    filename = "%s/%s/%s/handins.csv"%(LocalPageDir, semester,course)    
-    try:
-        reader = csv.DictReader(open(filename, 'r'), delimiter='\t')
-    except IOError:
-        return []
-
-    handinlist =[]
-    for entry in reader:
-        for datestring in entry['Date'].split(','):
-            date = datetime.datetime.strptime( datestring, "%y%m%d")
-            handin = {  'Date': date, 'Datestring': datetime.datetime.strftime( date,"%d/%m-%y" ),
-                        'Handin': "%s%s"%(prefix,entry['Hand-in']), 'Comment': entry['Comment']}
-            handinlist.append( handin )
-        
-    return handinlist
-
-def getHandinsListSemester( semester ):
-    ''' returns the aggregated list of all handins from the semester '''
-    if not semester in data.getSemesters():
-        return []
-    
-    HiList = []
-    for course in data.getCourses( semester ):
-        HiList.extend( getHandinList( semester, course, prefix="%s: "%course ) )
-    
-    return HiList
 
 def getScheduleList(filename):
     reader = csv.DictReader(open( filename, 'r'), delimiter='\t')
@@ -103,7 +74,7 @@ def fagplan(course = None, semester = None):
 
     # for the schedule
     schedule = getScheduleList( "%s/%s/%s"%(LocalPageDir, dirname, "schedule.csv") )
-    handins = getHandinList( semester,course )
+    handins = hical.getHandinList( semester,course )
 
     return render_template('fagplan.html', schedule=schedule, handins=handins,
                            course=course, semester=semester, 
@@ -165,7 +136,7 @@ def calendar(filename = "nonexist"):
     
     # semester only?
     if len(parts) == 1:
-        handins = getHandinsListSemester(semester)
+        handins = hical.getHandinsListSemester(semester)
     else:    
         semester = parts[0]
         course = ' '.join( parts[1:] )
@@ -174,7 +145,7 @@ def calendar(filename = "nonexist"):
         if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
             abort( 404 )
     
-        handins = getHandinList( semester,course )
+        handins = hical.getHandinList( semester,course )
 
     if len( handins ) == 0:
         abort( 404 ) # no data
