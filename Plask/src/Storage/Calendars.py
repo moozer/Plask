@@ -5,6 +5,7 @@ Created on Jun 28, 2013
 '''
 import datetime
 import csv
+import icalendar
 
 class HandinsCalendar(object):
     '''
@@ -51,5 +52,19 @@ class HandinsCalendar(object):
          
         return HiList
         
-        
+    def getCourseIcs(self, semester, course ):
+        hi = self.getHandinList( semester, course )
             
+        # build ics
+        cal = icalendar.Calendar()
+        cal.add('prodid', '-//My calendar product//mxm.dk//')
+        cal.add('version', '2.0')
+        for handin in hi:
+            event = icalendar.Event()
+            event.add('summary', handin['Handin'])
+            event.add('dtstart', handin['Date'].date())
+            event.add('description', handin['Comment'])
+            cal.add_component(event)
+        
+        retval = cal.to_ical()
+        return retval
