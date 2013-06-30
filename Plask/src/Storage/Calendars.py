@@ -12,20 +12,20 @@ class HandinsCalendar(object):
     '''
 
 
-    def __init__(self, DataDir):
+    def __init__(self, DataObject ):
         '''
         Constructor
         '''
-        self.DataDir = DataDir
+        self.data = DataObject
 
     
     def getHandinList( self, semester, course, prefix="" ):
         ''' from a hand-in csv file, return the list of hand-ins. 
             Columns: Date (YYMMDD), Hand-in, Comment
         '''
-        filename = "%s/%s/%s/handins.csv"%(self.DataDir, semester,course)    
+        filename = "%s/%s/handins.csv"%( semester,course )
         try:
-            reader = csv.DictReader(open(filename, 'r'), delimiter='\t')
+            reader = csv.DictReader( self.data.getFile( filename ), delimiter='\t')
         except IOError:
             return []
     
@@ -38,6 +38,18 @@ class HandinsCalendar(object):
                 handinlist.append( handin )
             
         return handinlist
+
+    
+    def getHandinsListSemester(self, semester ):
+        ''' returns the aggregated list of all handins from the semester '''        
+        if not semester in self.data.getSemesters():
+            return []
+         
+        HiList = []
+        for course in self.data.getCourses( semester ):
+            HiList.extend( self.getHandinList( semester, course, prefix="%s: "%course ) )
+         
+        return HiList
         
         
             
