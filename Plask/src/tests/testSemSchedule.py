@@ -8,19 +8,13 @@ from Storage.Schedule import SemesterSchedule
 import StringIO
 
 SemA = "Sem_A"
-SemACsvData = '''Course\tTeacher\tECTS\tWeeks
-Intro\tSUN\t0.5\t35
-Communication\tPETH\t2\t35-41,43
+SemACsvData = '''Course\tTeacher\tECTS\tWeeks\tLessons
+Intro\tSUN\t0.5\t35\t6
+Communication\tPETH\t2\t35-41,43\t4
 '''
-ScheduleSemAList = [{'Course': 'Intro', 'Teacher': 'SUN', 'ECTS': 0.5, 'Week': 35}, 
-                    {'Course': 'Communication', 'Teacher': 'PETH', 'ECTS': 2, 'Week': 35}, 
-                    {'Course': 'Communication', 'Teacher': 'PETH', 'ECTS': 2, 'Week': 36}, 
-                    {'Course': 'Communication', 'Teacher': 'PETH', 'ECTS': 2, 'Week': 37}, 
-                    {'Course': 'Communication', 'Teacher': 'PETH', 'ECTS': 2, 'Week': 38}, 
-                    {'Course': 'Communication', 'Teacher': 'PETH', 'ECTS': 2, 'Week': 39}, 
-                    {'Course': 'Communication', 'Teacher': 'PETH', 'ECTS': 2, 'Week': 40}, 
-                    {'Course': 'Communication', 'Teacher': 'PETH', 'ECTS': 2, 'Week': 41}, 
-                    {'Course': 'Communication', 'Teacher': 'PETH', 'ECTS': 2, 'Week': 43}
+ScheduleSemAList = [{'Course': 'Intro', 'Teacher': 'SUN', 'ECTS': 0.5, 'Lessons': { 35: 6 }}, 
+                    {'Course': 'Communication', 'Teacher': 'PETH', 'ECTS': 2, 
+                     'Lessons': {35: 4, 36: 4,37: 4, 38: 4,39: 4, 40: 4, 41: 4, 43: 4}}, 
                     ]
 
 class LocalDataMock:

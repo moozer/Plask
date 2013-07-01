@@ -42,10 +42,13 @@ class SemesterSchedule(object):
         
         entries = []
         for line in reader:
+            WeekList = {}
             for week in self._rangeexpand( line['Weeks']):
-                entry = {   'Course': line['Course'], 'Teacher': line['Teacher'], 
-                            'ECTS': float(line['ECTS']), 'Week': week }
-                entries.append( entry )
+                WeekList[week] = int(line['Lessons'])
+
+            entry = {   'Course': line['Course'], 'Teacher': line['Teacher'], 
+                        'ECTS': float(line['ECTS']), 'Lessons': WeekList }
+            entries.append( entry )
         
         return entries
         
