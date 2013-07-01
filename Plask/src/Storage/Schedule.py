@@ -44,7 +44,7 @@ class SemesterSchedule(object):
         for line in reader:
             for week in self._rangeexpand( line['Weeks']):
                 entry = {   'Course': line['Course'], 'Teacher': line['Teacher'], 
-                            'ECTS': int(line['ECTS']), 'Week': week }
+                            'ECTS': float(line['ECTS']), 'Week': week }
                 entries.append( entry )
         
         return entries
