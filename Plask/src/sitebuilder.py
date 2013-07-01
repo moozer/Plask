@@ -14,6 +14,7 @@ import csv
 # from icalendar import Calendar, Event
 from Storage.LocalData import LocalData
 from Storage.Calendars import HandinsCalendar
+from Storage.Schedule import SemesterSchedule
 
 # the list of sections in the course plan 
 coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
@@ -139,6 +140,18 @@ def page(path = "index"):
     return render_template('page.html', page=page, 
                            pages=pages, links=links)
     
+
+@app.route('/semesterplan/<string:semester>')
+def semesterplan( semester ):
+    links = [pages.get(l) for l in data.getLinks()] 
+    s = SemesterSchedule( data ).getList( semester )
+    sem_intro = pages.get_or_404('%s/01_Introduction'%semester)
+    
+    return render_template('semesterplan.html', page=page, 
+                           pages=pages, schedule=s, links=links, weeks=[35,43],
+                           introtext = sem_intro)
+  
+# --------
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == "build":
         freezer.freeze()

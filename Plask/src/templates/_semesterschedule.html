@@ -1,0 +1,31 @@
+<table>
+
+{#	loops over schedule entries.
+	- see: http://jinja.pocoo.org/docs/templates/#for
+#}
+
+<table>
+	<tr>
+		<td>Course</td>
+		<td>Teacher</td>
+		<td>ECTS</td>
+		{% for weekno in range( weeks[0], weeks[1]+1) %}
+			<td>{{ weekno }}</td>
+		{% endfor %}
+	</tr>
+
+{% for entry in schedule %}
+	<tr>
+		<td>{{ entry.Course }}</td>
+		<td>{{ entry.Teacher }}</td>
+		<td>{{ entry.ECTS }}</td>
+		{% for weekno in range( weeks[0], weeks[1]+1) %}
+			<td>{{ entry.Lessons[weekno] }}</td>
+		{% endfor %}
+		
+	</tr>
+
+
+{% endfor %}
+
+</table>	
