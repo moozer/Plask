@@ -35,6 +35,7 @@ class SemesterSchedule(object):
     
     def getList(self, semester ):
         ''' parses the semester schedule csv file and returns the entries.
+            preserves the order of the csv
             @return: iterable dictationary of entries
         '''
         filename = "%s/%s"%( semester, self.schedulefile )
@@ -48,6 +49,15 @@ class SemesterSchedule(object):
 
             entry = {   'Course': line['Course'], 'Teacher': line['Teacher'], 
                         'ECTS': float(line['ECTS']), 'Lessons': WeekList }
+
+            if len(entries) > 0:
+                lastEntry = entries[-1]
+                if      lastEntry['Teacher'] == entry['Teacher'] \
+                    and lastEntry['Course'] == entry['Course'] \
+                    and lastEntry['ECTS'] == entry['ECTS']:
+                    lastEntry['Lessons'].update(WeekList)
+                    continue
+            
             entries.append( entry )
         
         return entries
