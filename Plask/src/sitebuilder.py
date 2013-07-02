@@ -145,11 +145,16 @@ def page(path = "index"):
 def semesterplan( semester ):
     links = [pages.get(l) for l in data.getLinks()] 
     s = SemesterSchedule( data ).getList( semester )
-    sem_intro = pages.get_or_404('%s/01_Introduction'%semester)
+    sem_intro = pages.get('%s/Introduction'%semester)
+    sem_eval = pages.get('%s/Evaluation'%semester)
+    sem_contacts = pages.get('%s/Contacts'%semester)
+
+    courselist = data.getCourses( semester )
     
     return render_template('semesterplan.html', page=page, 
                            pages=pages, schedule=s, links=links, weeks=[35,43],
-                           introtext = sem_intro)
+                           sem_intro = sem_intro, sem_eval = sem_eval, sem_contacts = sem_contacts,
+                           courses = courselist, semester = semester)
   
 # --------
 if __name__ == '__main__':

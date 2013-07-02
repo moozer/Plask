@@ -6,7 +6,7 @@
 
 {# intro text #}
 	<h2 id="Introduction">Introduction</h2>
-		{% with page = introtext %} 
+		{% with page = sem_intro %} 
 			{% if page.status %}
 			<em>{{ page.status }} </em>
 			<br/>
@@ -14,11 +14,32 @@
 			{{ page.html|safe }}
 		{% endwith %}
 
+{# List of courses #}
+<h2>Courses and projects</h2>
+The following courses and projects are part of the semester program.
+{% with courses = courses %} 
+    {% include "semester/_semestercourses.html" %}
+{% endwith %}
+
+{# evaluation criteria #}
+<h2>Evaluation of the semester</h2>
+{{ sem_eval.html|safe }}
+
+{# Contacts #}
+<h2>Contacts</h2>
+{{ sem_contacts.html|safe }}
+
 {# weekly table #}
     <h2>Schedule</h2>
     {% with schedule=schedule  %}
-        {% include "_semesterschedule.html" %}
+        {% include "semester/_semesterschedule.html" %}
     {% endwith %}
     
+
+{# literature #}
+<h2>Literature</h2>
+The aggregated list of of literature and other teaching aids is available online <a href={{ url_for('overview', overview='Literature', semester=semester) }}>here</a>.<br />
+
+For questions related to to the list, please ask the class coordinator or the relevant teacher.
 
 {% endblock content %}

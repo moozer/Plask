@@ -1,0 +1,10 @@
+{# lists the courses in the "course" variable and adds links #}
+
+<ul>
+{% for course in courses %}
+	<li>{{ course }} (<a href={{ url_for('fagplan', course=course, semester=semester) }}>Plan</a>)
+	</li>
+
+{% endfor %}
+
+</ul>
