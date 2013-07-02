@@ -22,13 +22,22 @@ class LocalData(object):
         '''
         self.DataDir = DataDir
     
-    def getCourses( self,  semester = None ):
+    def getCourses( self,  semester = None, classname = None ):
         ''' @returns the list of course in a given semester (based on directories) '''
+        if not semester or not classname:
+            return None
+        
+        Courses = [ c for c in os.listdir("%s/%s/%s"%(self.DataDir, semester, classname)) if os.path.isdir("%s/%s/%s/%s"%(self.DataDir, semester, classname,c))]
+        return Courses
+
+    def getClasses(self, semester = None ):
+        ''' @returns the list of classes in a given semester (based on directories) '''
         if not semester:
             return None
         
-        Courses = [ c for c in os.listdir("%s/%s"%(self.DataDir, semester)) if os.path.isdir("%s/%s/%s"%(self.DataDir, semester,c))]
-        return Courses
+        Classes = [ c for c in os.listdir("%s/%s"%(self.DataDir, semester)) if os.path.isdir("%s/%s/%s"%(self.DataDir, semester, c))]
+        return Classes
+
 
     def getSemesters( self ):
         ''' @returns the list of semesters (based on directories) '''    
@@ -45,3 +54,6 @@ class LocalData(object):
         ''' opens a filepointer to a file relative to self.DataDir '''
         fullpath = os.path.join( self.DataDir, filename )
         return open( fullpath, "r")
+    
+    
+    

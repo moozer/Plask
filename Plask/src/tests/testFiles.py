@@ -11,14 +11,16 @@ DataDir = "../testData"
 TestSemesters = ["Sem_A"]
 TestCourses1 = ['Course_A', 'Course_B']
 TestLinks = ['Link_A', 'Link_B']
+TestClasses = ["Class_A"]
 
 class Test(unittest.TestCase):
 
 
     def testLocalFiles(self):
         data = LocalData( DataDir  )
-        self.assertEqual( data.getCourses( TestSemesters[0] ), TestCourses1 )
-        self.assertEqual( data.getSemesters(), TestSemesters )
+        self.assertEqual( data.getCourses( TestSemesters[0], TestClasses[0] ), TestCourses1 )
+        self.assertEqual( data.getClasses( TestSemesters[0]), TestClasses, )
+        self.assertEqual( data.getSemesters(), TestSemesters, )
         self.assertEqual( data.getLinks(), TestLinks )
 
     def testGetFile(self):
