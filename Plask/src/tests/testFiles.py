@@ -10,7 +10,7 @@ import os.path
 DataDir = "../testData"
 TestSemesters = ["Sem_A"]
 TestCourses1 = ['Course_A', 'Course_B']
-TestLinks = ['Link_A', 'Link_B']
+TestLinks = ['About', 'Link_A', 'Link_B']
 TestClasses = ["Class_A"]
 
 class Test(unittest.TestCase):
