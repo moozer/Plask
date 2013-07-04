@@ -52,7 +52,7 @@ def fagplanindex():
     links = [pages.get(l) for l in data.getLinks()] 
 
     return render_template('fagplanindex.html', 
-                        semesters=data.getSemesters(),
+                        semesters=data.getClasses(),
                         classes=data.getClasses(), links=links )
    
 @app.route('/fagplan/<string:semester>/<string:classname>/')
