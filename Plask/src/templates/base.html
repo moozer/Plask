@@ -1,13 +1,19 @@
+{#  base.html
+	base template for all html pages
+	
+	params: title - used as title for page and top of page
+#}
+
 <!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>MON's Course manager</title>
+    <title>{{ title }}</title>
 </head>
 <body>
     
 <div id="navigation">
-   	<h2><a href="{{ url_for("page") }}">MON's Course manager</a></h2>
+   	<h2><a href="{{ url_for("page") }}">{{ title }}</a></h2>
 	<a title="Make navigation links invisible" href="javascript:document.getElementById('navigation').style.display = 'none'">hide</a> 
 	{% block navigation %}
 		{% include "_listlinks.html" %}
