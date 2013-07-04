@@ -11,7 +11,7 @@ from flask_flatpages import FlatPages
 import sys, os
 from flask_frozen import Freezer
 import csv
-# from icalendar import Calendar, Event
+
 from Storage.LocalData import LocalData
 from Storage.Calendars import HandinsCalendar
 from Storage.Schedule import SemesterSchedule
@@ -19,14 +19,14 @@ from Storage.Schedule import SemesterSchedule
 # the list of sections in the course plan 
 coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
                   'Evaluation', 'Literature', 'Exam questions', 'Schedule']
-#LocalPageDir="../../../PlaskData/pages" # without trailing /
+
 LocalPageDir="./testData" # without trailing /
 
 # config options
 DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
 FLATPAGES_EXTENSION = '.md'
-#FLATPAGES_ROOT = LocalPageDir
+
 FREEZER_BASE_URL = "/Plask/"
 FREEZER_DESTINATION = "/tmp/Plask/"
 
@@ -76,6 +76,8 @@ def fagplan( semester, classname, course):
 #     if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
 #         abort( 404 )
          
+    title = "Course plan - %s - %s"%(semester, classname)
+    
     # for the content text
     basepages = [p for p in pages if dirname == os.path.dirname(p.path)]
     sectionpages = {}
@@ -86,13 +88,13 @@ def fagplan( semester, classname, course):
                 break
 
     # for the schedule
-    schedule = getScheduleList( "%s/%s/%s"%(LocalPageDir, dirname, "schedule.csv") )
+    schedule = getScheduleList( "%s/%s/%s"%(FLATPAGES_ROOT, dirname, "schedule.csv") )
     handins = hical.getHandinList( semester,course )
 
     return render_template('fagplan.html', schedule=schedule, handins=handins,
                            course=course, semester=semester, 
                            pages=basepages, coursesections=coursesections, 
-                           links=links, sectionpages=sectionpages)
+                           links=links, sectionpages=sectionpages, title = title )
 
 @app.route('/overview/')
 @app.route('/overview/<string:semester>/')
