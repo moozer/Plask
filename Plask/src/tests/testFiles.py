@@ -8,8 +8,9 @@ from Storage.LocalData import LocalData
 import os.path
 
 DataDir = "../testData"
+TestAllClasses = {'Sem_A': ['Class_A']}
 TestSemesters = ["Sem_A"]
-TestCourses1 = ['Course_A', 'Course_B']
+TestCourses1 = ['Course_A', 'Sample course', 'Course_B']
 TestLinks = ['About', 'Link_A', 'Link_B', 'index']
 TestClasses = ["Class_A"]
 
@@ -20,7 +21,8 @@ class Test(unittest.TestCase):
         data = LocalData( DataDir  )
         self.assertEqual( data.getCourses( TestSemesters[0], TestClasses[0] ), TestCourses1 )
         self.assertEqual( data.getClasses( TestSemesters[0]), TestClasses, )
-        self.assertEqual( data.getSemesters(), TestSemesters, )
+        self.assertEqual( data.getSemesters(), TestSemesters )
+        self.assertEqual( data.getAllClasses(), TestAllClasses )
         self.assertEqual( data.getLinks(), TestLinks )
 
     def testGetFile(self):

@@ -54,6 +54,19 @@ class LocalData(object):
         ''' opens a filepointer to a file relative to self.DataDir '''
         fullpath = os.path.join( self.DataDir, filename )
         return open( fullpath, "r")
+
+    
+    def getAllClasses(self):
+        ''' returns a dictionary with all classes as values and the semesters as key
+        '''
+        allclasses = {}
+        sems = self.getSemesters()
+        for sem in sems:
+            allclasses[sem] = self.getClasses(sem)
+    
+        return allclasses
+    
+    
     
     
     
