@@ -13,13 +13,14 @@ Intro\tSUN\t0.5\t35\t6
 Intro\tSUN\t0.5\t36\t8
 Communication\tPETH\t2\t35-41,43\t4
 '''
+ClassA = "Class_A"
 ScheduleSemAList = [{'Course': 'Intro', 'Teacher': 'SUN', 'ECTS': 0.5, 'Lessons': { 35: 6, 36: 8 }}, 
                     {'Course': 'Communication', 'Teacher': 'PETH', 'ECTS': 2, 
                      'Lessons': {35: 4, 36: 4,37: 4, 38: 4,39: 4, 40: 4, 41: 4, 43: 4}}, 
                     ]
 
 class LocalDataMock:
-    def getFile(self, filename):
+    def getFile(self, filename ):
         return StringIO.StringIO( SemACsvData )
 
 class Test(unittest.TestCase):
@@ -27,7 +28,7 @@ class Test(unittest.TestCase):
 
     def testSchedule(self):
         s = SemesterSchedule( LocalDataMock() )
-        self.assertEqual( s.getList( SemA ), ScheduleSemAList )
+        self.assertEqual( s.getList( SemA, ClassA ), ScheduleSemAList )
         pass
 
 

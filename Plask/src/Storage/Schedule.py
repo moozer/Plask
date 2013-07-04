@@ -33,12 +33,12 @@ class SemesterSchedule(object):
                 lst.append(int(r))
         return lst
     
-    def getList(self, semester ):
+    def getList(self, semester, classname ):
         ''' parses the semester schedule csv file and returns the entries.
             preserves the order of the csv
             @return: iterable dictationary of entries
         '''
-        filename = "%s/%s"%( semester, self.schedulefile )
+        filename = "%s/%s/%s"%( semester, classname, self.schedulefile )
         reader = csv.DictReader( self.data.getFile( filename ), delimiter='\t')
         
         entries = []
