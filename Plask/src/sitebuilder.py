@@ -9,7 +9,6 @@ Created on 17 Jan 2013
 from flask import Flask, render_template, abort, redirect
 from flask_flatpages import FlatPages
 import sys, os
-from flask_frozen import Freezer
 import csv
 
 from Storage.LocalData import LocalData
@@ -24,11 +23,9 @@ LocalPageDir="./testData" # without trailing /
 
 # config options
 DEBUG = True
+#DEBUG = False
 FLATPAGES_AUTO_RELOAD = DEBUG
 FLATPAGES_EXTENSION = '.md'
-
-FREEZER_BASE_URL = "/Plask/"
-FREEZER_DESTINATION = "/tmp/Plask/"
 
 if len(sys.argv) > 1:
     FLATPAGES_ROOT = sys.argv[1]
@@ -42,7 +39,7 @@ hical = HandinsCalendar( data )
 app = Flask(__name__)
 app.config.from_object(__name__)
 pages = FlatPages(app)
-freezer = Freezer(app)
+# freezer = Freezer(app)
 
 
 
@@ -50,12 +47,6 @@ def getScheduleList(filename):
     reader = csv.DictReader(open( filename, 'r'), delimiter='\t')
     schedule = [entry for entry in reader]
     return schedule
-
-
-# adding route for freezer base url to handle lnks in .md files properly
-@app.route(FREEZER_BASE_URL+'<path:path>/')
-def freeze_base_url(path):
-    return redirect( path, 301 )
 
 @app.route('/fagplan/')
 @app.route('/fagplan/<string:semester>/')
@@ -190,18 +181,6 @@ def semesterplan( semester, classname ):
                            courses = courselist, semester = semester, classname=classname, title = title)
   
 # --------
-if __name__ == '__main__':
-    # are building static pages?
-    if len(sys.argv) > 1 and sys.argv[1] == "build":
-        freezer.freeze()
-
-#         Cmd = "ncftpput -f '../ittech.cfg' -R -m '/PlaskSrc' '.'"
-#         os.system(Cmd)
-#         Cmd = "ncftpput -f '../ittech.cfg' -R -m '.' '%s'"%(FREEZER_DESTINATION)
-#         os.system(Cmd)
-#        
-#         print "Data is now available on http://ittech.eal.dk%s"%FREEZER_BASE_URL
-        exit()
-    
+if __name__ == '__main__':   
     app.run(host='0.0.0.0', port=8000)
 
