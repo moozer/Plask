@@ -6,7 +6,7 @@ Created on 17 Jan 2013
 @author: moz
 '''
 
-from flask import Flask, render_template, abort, redirect
+from flask import Flask, render_template, abort
 from flask_flatpages import FlatPages
 import sys, os
 import csv
