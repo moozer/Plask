@@ -11,4 +11,5 @@ Meta data is required:
 
 * Author: the name of the author
 * Email: the email address
-
+* startweek: the first week number of the semester
+* endweek: the last week number of the semester
