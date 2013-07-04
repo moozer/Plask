@@ -104,7 +104,7 @@ def overviewindex():
                   coursesections=coursesections, links=links)
 
 
-@app.route('/overview/<string:semester>/<string:classname>')
+@app.route('/overview/<string:semester>/<string:classname>/')
 def overviewlist(semester, classname):
     links = [pages.get(l) for l in data.getLinks()] 
     return render_template('overviewindex.html', 
@@ -130,41 +130,40 @@ def overview(overview, semester, classname):
     ovpages =  ["%s/%s/%s"%(dirname, c, overviewname) for c in courses]
     
     basepages = [pages.get( p ) for p in ovpages]
-    print ovpages
-    print basepages
+
     return render_template('overview.html', semester=semester, classname=classname,
                            pages=basepages, overview=overview,
                            links=links)
 
-@app.route('/ics/')
-@app.route('/ics/<string:filename>')
-@app.route('/ics/<string:filename>.ics')
-def calendar(filename = "nonexist"):
-    # no cs requested
-    links = [pages.get(l) for l in data.getLinks()] 
-    if filename == "nonexist":
-        return render_template('icsindex.html',
-                      filename=filename, links=links)
-    
-    parts = filename.split(' ')
-
-    # part 1 is the semester
-    if not parts[0] in data.getSemesters():
-        abort( 404 )
-    semester = parts[0]
-    
-    # semester only?
-    if len(parts) == 1:
-        return hical.getSemesterIcs(semester)    
-    else:    
-        semester = parts[0]
-        course = ' '.join( parts[1:] )
-        dirname = u"%s/%s"%(semester,course) 
-    
-        if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
-            abort( 404 )
-    
-        return hical.getCourseIcs(semester, course)
+# @app.route('/ics/')
+# @app.route('/ics/<string:filename>')
+# @app.route('/ics/<string:filename>.ics')
+# def calendar(filename = "nonexist"):
+#     # no cs requested
+#     links = [pages.get(l) for l in data.getLinks()] 
+#     if filename == "nonexist":
+#         return render_template('icsindex.html',
+#                       filename=filename, links=links)
+#     
+#     parts = filename.split(' ')
+# 
+#     # part 1 is the semester
+#     if not parts[0] in data.getSemesters():
+#         abort( 404 )
+#     semester = parts[0]
+#     
+#     # semester only?
+#     if len(parts) == 1:
+#         return hical.getSemesterIcs(semester)    
+#     else:    
+#         semester = parts[0]
+#         course = ' '.join( parts[1:] )
+#         dirname = u"%s/%s"%(semester,course) 
+#     
+#         if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
+#             abort( 404 )
+#     
+#         return hical.getCourseIcs(semester, course)
 
 @app.route('/')
 @app.route('/<path:path>/')
