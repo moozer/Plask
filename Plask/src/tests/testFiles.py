@@ -9,10 +9,15 @@ import os.path
 
 DataDir = "../testData"
 TestSemesters = ["Sem_A"]
-TestCourses1 = ['Course_A', 'Sample course', 'Course_B']
-TestLinks = ['About', 'Link_A', 'Link_B', 'index']
+
 TestClasses = {'Sem_A': ["Class_A"] }
 TestAllClasses = {'Sem_A': ['Class_A']}
+
+TestCourses1 = { 'Sem_A': { 'Class_A': ['Course_A', 'Sample course', 'Course_B']}}
+TestCoursesBySemA = TestCourses1
+TestAllCourses = TestCourses1
+
+TestLinks = ['About', 'Link_A', 'Link_B', 'index']
 
 class Test(unittest.TestCase):
 
@@ -28,8 +33,8 @@ class Test(unittest.TestCase):
 
     def testGetCourses(self):
         data = LocalData( DataDir  )
-        self.assertEqual( data.getCourses( TestSemesters[0], TestClasses[0] ), TestCourses1 )
-        self.assertEqual( data.getCourses( SemA ), TestCoursesBySemA )
+        self.assertEqual( data.getCourses( TestSemesters[0], TestClasses[TestSemesters[0]][0] ), TestCourses1 )
+        self.assertEqual( data.getCourses( TestSemesters[0] ), TestCoursesBySemA )
         self.assertEqual( data.getCourses( ), TestAllCourses )
 
     def testGetLinks(self):

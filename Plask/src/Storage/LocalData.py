@@ -25,13 +25,22 @@ class LocalData(object):
     def getCourses( self,  semester = None, classname = None ):
         ''' @returns the list of course in a given semester (based on directories) '''
 
-        # @TODO: is returning None a good idea?
-        if not semester or not classname:
-            return None
-        
-        Courses = [ c for c in os.listdir("%s/%s/%s"%(self.DataDir, semester, classname)) if os.path.isdir("%s/%s/%s/%s"%(self.DataDir, semester, classname,c))]
-        return Courses
+        if semester and classname:
+            Courses = [ c for c in os.listdir("%s/%s/%s"%(self.DataDir, semester, classname)) if os.path.isdir("%s/%s/%s/%s"%(self.DataDir, semester, classname,c))]
+            return { semester: { classname: Courses}}
 
+        if semester:
+            retval = {}
+
+            for classname in self.getClasses( semester )[semester]:
+                retval.update( self.getCourses( semester, classname )[semester] )
+            return {semester: retval}
+        
+        retval = {}
+        for semester in self.getSemesters():
+            retval.update(  self.getCourses( semester ) )
+        return retval
+        
     def getClasses(self, semester=None ):
         ''' @returns the list of classes in a given semester (based on directories) 
             if semester is none - all semesters are returned
