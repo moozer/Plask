@@ -60,18 +60,21 @@ def freeze_base_url(path):
 @app.route('/fagplan/')
 @app.route('/fagplan/<string:semester>/')
 @app.route('/fagplan/<string:semester>/<string:course>/')
-@app.route('/fagplan/<string:semester>/<string:course>.html')
-def fagplan(course = None, semester = None):
+def fagplanlist():
+    ''' catch-all "fagplan" URL '''
     links = [pages.get(l) for l in data.getLinks()] 
 
-    if not course or not semester:
-        return render_template('fagplanindex.html', 
-                        semesters=data.getSemesters(), semester=semester, 
-                        courses=data.getCourses( semester ), links=links )
+    return render_template('fagplanindex.html', 
+                        semesters=data.getSemesters(),
+                        classes=data.getAllClasses(), links=links )
     
-    dirname = u"%s/%s"%(semester,course) 
-    if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
-        abort( 404 )
+@app.route('/fagplan/<string:semester>/<string:classname>/<string:course>')
+def fagplan( semester, classname, course):
+    links = [pages.get(l) for l in data.getLinks()] 
+    
+    dirname = u"%s/%s/%s"%(semester,classname, course) 
+#     if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
+#         abort( 404 )
          
     # for the content text
     basepages = [p for p in pages if dirname == os.path.dirname(p.path)]
@@ -158,7 +161,7 @@ def page(path = "index"):
 def semesterplanlist():
     ''' semesterplan list if not supplied both class and semester '''
     links = [pages.get(l) for l in data.getLinks()] 
-    semesters = data.getAllClasses()    
+    semesters = data.getClasses()    
     title = "Semester list"
 
     return render_template('semesterplanlist.html', page=page, 
