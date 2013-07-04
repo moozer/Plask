@@ -128,8 +128,7 @@ def overview(overview, semester, classname):
             break
         
     ovpages =  ["%s/%s/%s"%(dirname, c, overviewname) for c in courses]
-    
-    basepages = [pages.get( p ) for p in ovpages]
+    basepages = [pages.get( p ) for p in ovpages if pages.get(p) is not None]
 
     return render_template('overview.html', semester=semester, classname=classname,
                            pages=basepages, overview=overview,
