@@ -8,6 +8,8 @@
 {% for course in courses[semester][classname] %}
 	<li>{{ course }} (<a href={{ url_for('fagplan', course=course, semester=semester, classname=classname) }}>Plan</a>)
 	</li>
+{% else %}
+	(No courses found)<br />
 
 {% endfor %}
 
