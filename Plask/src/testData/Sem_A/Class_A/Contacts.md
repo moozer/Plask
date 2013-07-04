@@ -7,13 +7,13 @@ It should contain a list of contact person related to the semester.
 
 Teachers:
 
-* T1: t1@email.com
-* T2: t2@email.com
-* T3: t3@email.com
+* T1: [email](mailto:t1@email.com)
+* T2: [email](t2@email.com)
+* T3: [email](t3@email.com)
 
 Others:
 
-* Mayor decicionmaker: decisions@email.com
+* Mayor decicionmaker: [email](decisions@email.com)
 
 Some meta data is required:
 
