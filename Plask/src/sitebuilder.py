@@ -185,7 +185,7 @@ def semesterplan( semester, classname ):
     title = "Semesterplan - %s - %s"%( classname, semester)
     
     return render_template('semesterplan.html', page=page, 
-                           pages=pages, schedule=s, links=links, weeks=[35,43],
+                           pages=pages, schedule=s, links=links, #weeks=[sem_intro.startweek, sem_intro.endweek ],
                            sem_intro = sem_intro, sem_eval = sem_eval, sem_contacts = sem_contacts,
                            courses = courselist, semester = semester, classname=classname, title = title)
   
