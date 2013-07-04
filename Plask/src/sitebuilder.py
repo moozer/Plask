@@ -19,22 +19,32 @@ from Storage.Schedule import SemesterSchedule
 # the list of sections in the course plan 
 coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
                   'Evaluation', 'Literature', 'Exam questions', 'Schedule']
-LocalPageDir="../../../PlaskData/pages" # without trailing /
+#LocalPageDir="../../../PlaskData/pages" # without trailing /
+LocalPageDir="./testData" # without trailing /
 
-data = LocalData( LocalPageDir )
-hical = HandinsCalendar( data )
-
+# config options
 DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
 FLATPAGES_EXTENSION = '.md'
-FLATPAGES_ROOT = LocalPageDir
+#FLATPAGES_ROOT = LocalPageDir
 FREEZER_BASE_URL = "/Plask/"
 FREEZER_DESTINATION = "/tmp/Plask/"
 
+if len(sys.argv) > 1:
+    FLATPAGES_ROOT = sys.argv[1]
+else:
+    FLATPAGES_ROOT = LocalPageDir
+
+data = LocalData( FLATPAGES_ROOT )
+hical = HandinsCalendar( data )
+
+# basic flask object
 app = Flask(__name__)
 app.config.from_object(__name__)
 pages = FlatPages(app)
 freezer = Freezer(app)
+
+
 
 def getScheduleList(filename):
     reader = csv.DictReader(open( filename, 'r'), delimiter='\t')
@@ -141,23 +151,38 @@ def page(path = "index"):
                            pages=pages, links=links)
     
 
-@app.route('/semesterplan/<string:semester>')
-def semesterplan( semester ):
+@app.route('/semesterplan')
+@app.route('/semesterplan/')
+def semesterplanlist():
+    links = [pages.get(l) for l in data.getLinks()] 
+    semesters = data.getAllClasses()    
+    title = "Semester list"
+
+    return render_template('semesterplanlist.html', page=page, 
+                           pages=pages, links=links, title = title,
+                           semesters = semesters )
+    
+
+@app.route('/semesterplan/<string:semester>/<string:classname>')
+def semesterplan( semester, classname ):
     links = [pages.get(l) for l in data.getLinks()] 
     s = SemesterSchedule( data ).getList( semester )
+    
     sem_intro = pages.get('%s/Introduction'%semester)
     sem_eval = pages.get('%s/Evaluation'%semester)
     sem_contacts = pages.get('%s/Contacts'%semester)
-
+    
     courselist = data.getCourses( semester )
+    title = "Semesterplan - %s - %s"%( classname, semester)
     
     return render_template('semesterplan.html', page=page, 
                            pages=pages, schedule=s, links=links, weeks=[35,43],
                            sem_intro = sem_intro, sem_eval = sem_eval, sem_contacts = sem_contacts,
-                           courses = courselist, semester = semester)
+                           courses = courselist, semester = semester, classname=classname, title = title)
   
 # --------
 if __name__ == '__main__':
+    # are building static pages?
     if len(sys.argv) > 1 and sys.argv[1] == "build":
         freezer.freeze()
 
@@ -167,7 +192,7 @@ if __name__ == '__main__':
         os.system(Cmd)
         
         print "Data is now available on http://ittech.eal.dk%s"%FREEZER_BASE_URL
-        
-    else:
-        app.run(host='0.0.0.0', port=8000)
+        exit()
+    
+    app.run(host='0.0.0.0', port=8000)
 
