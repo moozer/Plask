@@ -1,5 +1,9 @@
-<table>
+{# 	shows a table with the schedule information
+	param weeks: weeks[0] the start week, weeks[1] the end week (included)
+	param schedule: list of Dict{ Course, ECTS, Teacher, Lessons{ Weeknos } }
+	#}
 
+<table>
 {#	loops over schedule entries.
 	- see: http://jinja.pocoo.org/docs/templates/#for
 #}

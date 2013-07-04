@@ -17,7 +17,7 @@
 {# List of courses #}
 <h2>Courses and projects</h2>
 The following courses and projects are part of the semester program.
-{% with courses = courses %} 
+{% with courses = courses, classname = classname, semester = semester %} 
     {% include "semester/_semestercourses.html" %}
 {% endwith %}
 
@@ -39,7 +39,7 @@ The following courses and projects are part of the semester program.
 {# literature #}
 <h2>Literature</h2>
 The aggregated list of of literature and other teaching aids is available online <a href={{ url_for('overview', overview='Literature', semester=semester) }}>here</a>.<br />
-
+<br />
 For questions related to to the list, please ask the class coordinator or the relevant teacher.
 
 {% endblock content %}

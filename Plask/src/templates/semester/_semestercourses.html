@@ -1,8 +1,12 @@
-{# lists the courses in the "course" variable and adds links #}
+{# lists the courses in the "course" variable and adds links 
+	param course: course dicstionary 
+	param classname: the class
+	param semester: the semester
+	#}
 
 <ul>
-{% for course in courses %}
-	<li>{{ course }} (<a href={{ url_for('fagplan', course=course, semester=semester) }}>Plan</a>)
+{% for course in courses[semester][classname] %}
+	<li>{{ course }} (<a href={{ url_for('fagplan', course=course, semester=semester, classname=classname) }}>Plan</a>)
 	</li>
 
 {% endfor %}
