@@ -4,7 +4,7 @@
 
 
 Page links
-<a href="{{ url_for("fagplanlist") }}">Courses</a>
+<a href="{{ url_for("fagplanindex") }}">Courses</a>
 <a href="{{ url_for("overviewindex") }}">Overview</a>
 {% for page in links %}
 	<a href="{{ url_for("page", path=page.path) }}">{{ page.path }}</a>	

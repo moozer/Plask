@@ -1,8 +1,14 @@
+{#  list courses by semester and class
+	param courses: the course list
+	param semester: the semester showed
+	param classname: the class showed
+	#}
+	
 <ul>
 
 {% for course in courses | sort %}
     <li>
-        <a href="{{ url_for( "fagplan", semester=semester, course=course ) }}">{{ course }}</a>
+        <a href="{{ url_for( "fagplan", semester=semester, course=course, classname=classname ) }}">{{ course }}</a>
     </li>
 {% else %}
     <li>No courses defined</li>

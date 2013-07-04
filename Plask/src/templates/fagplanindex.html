@@ -2,6 +2,7 @@
 	param semesters = the dict of semesters and classes (from data.getAllClasses())
 	param semester: (if specified) the semester to show courses for
 	param courses: (if semester is specified) the list of courses.
+	param classname: classname to show 	
 	#} 
 	
 {% extends "base.html" %}
@@ -9,14 +10,14 @@
 {% block content %}
 <h1>Courses</h1>
 
-	<h2>Available semesters</h2>
-    {% with semesters=classes, subsection="fagplan" %}
+	<h2>Available semesters and classes</h2>
+    {% with semesters=semesters, subsection="fagplanlist" %}
         {% include "_listsemesters.html" %}
     {% endwith %}
 	
 
-	{% if semester %}
-	<h2>Available course description for semester {{ semester }} </h2>
+	{% if semester and classname %}
+	<h2>Available course description for semester {{ semester }} and class {{ classname }}</h2>
 	    {% with semester=semester, courses=courses  %}
 	        {% include "_listcourses.html" %}
 	    {% endwith %}

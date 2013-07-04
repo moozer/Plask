@@ -47,15 +47,25 @@ def getScheduleList(filename):
 
 @app.route('/fagplan/')
 @app.route('/fagplan/<string:semester>/')
-@app.route('/fagplan/<string:semester>/<string:course>/')
-def fagplanlist():
+def fagplanindex():
     ''' catch-all "fagplan" URL '''
     links = [pages.get(l) for l in data.getLinks()] 
 
     return render_template('fagplanindex.html', 
                         semesters=data.getSemesters(),
-                        classes=data.getAllClasses(), links=links )
+                        classes=data.getClasses(), links=links )
+   
+@app.route('/fagplan/<string:semester>/<string:classname>/')
+def fagplanlist( semester, classname):
+    links = [pages.get(l) for l in data.getLinks()] 
+    courses = data.getCourses( semester, classname )[semester][classname]
+    title = "Course list - %s - %s"%(semester, classname)
     
+    return render_template('fagplanindex.html', 
+                           courses=courses, semesters=data.getClasses(),
+                           semester=semester, classname = classname,
+                           links=links, title = title )
+ 
 @app.route('/fagplan/<string:semester>/<string:classname>/<string:course>')
 def fagplan( semester, classname, course):
     links = [pages.get(l) for l in data.getLinks()] 
