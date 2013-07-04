@@ -153,7 +153,10 @@ def page(path = "index"):
 
 @app.route('/semesterplan')
 @app.route('/semesterplan/')
+@app.route('/semesterplan/<string:semester>')
+@app.route('/semesterplan/<string:semester>/')
 def semesterplanlist():
+    ''' semesterplan list if not supplied both class and semester '''
     links = [pages.get(l) for l in data.getLinks()] 
     semesters = data.getAllClasses()    
     title = "Semester list"
@@ -165,14 +168,15 @@ def semesterplanlist():
 
 @app.route('/semesterplan/<string:semester>/<string:classname>')
 def semesterplan( semester, classname ):
+    ''' semesterplan based on semester+class combo '''
     links = [pages.get(l) for l in data.getLinks()] 
-    s = SemesterSchedule( data ).getList( semester )
+    s = SemesterSchedule( data ).getList( semester, classname )
     
-    sem_intro = pages.get('%s/Introduction'%semester)
-    sem_eval = pages.get('%s/Evaluation'%semester)
-    sem_contacts = pages.get('%s/Contacts'%semester)
+    sem_intro = pages.get('%s/%s/Introduction'%(semester, classname) )
+    sem_eval = pages.get('%s/%s/Evaluation'%(semester, classname) )
+    sem_contacts = pages.get('%s/%s/Contacts'%(semester, classname) )
     
-    courselist = data.getCourses( semester )
+    courselist = data.getCourses( semester, classname )
     title = "Semesterplan - %s - %s"%( classname, semester)
     
     return render_template('semesterplan.html', page=page, 
@@ -186,12 +190,12 @@ if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == "build":
         freezer.freeze()
 
-        Cmd = "ncftpput -f '../ittech.cfg' -R -m '/PlaskSrc' '.'"
-        os.system(Cmd)
-        Cmd = "ncftpput -f '../ittech.cfg' -R -m '.' '%s'"%(FREEZER_DESTINATION)
-        os.system(Cmd)
-        
-        print "Data is now available on http://ittech.eal.dk%s"%FREEZER_BASE_URL
+#         Cmd = "ncftpput -f '../ittech.cfg' -R -m '/PlaskSrc' '.'"
+#         os.system(Cmd)
+#         Cmd = "ncftpput -f '../ittech.cfg' -R -m '.' '%s'"%(FREEZER_DESTINATION)
+#         os.system(Cmd)
+#        
+#         print "Data is now available on http://ittech.eal.dk%s"%FREEZER_BASE_URL
         exit()
     
     app.run(host='0.0.0.0', port=8000)
