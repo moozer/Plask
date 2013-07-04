@@ -24,6 +24,8 @@ class LocalData(object):
     
     def getCourses( self,  semester = None, classname = None ):
         ''' @returns the list of course in a given semester (based on directories) '''
+
+        # @TODO: is returning None a good idea?
         if not semester or not classname:
             return None
         
