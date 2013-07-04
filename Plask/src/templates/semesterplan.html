@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 
-{# Aggregator template for semester plan
-#}
+{# 	Aggregator template for semester plan
+	param sem_intro: page with introduction text
+	param sem_eval: page with evaluation text
+	param sem_contacts: page with contacts text
+	param semester: the semester
+	param classname: the classname
+	param courses: the course list
+	
+	#}
 {% block content %}
 
 {# intro text #}
@@ -38,7 +45,7 @@ The following courses and projects are part of the semester program.
 
 {# literature #}
 <h2>Literature</h2>
-The aggregated list of of literature and other teaching aids is available online <a href={{ url_for('overview', overview='Literature', semester=semester) }}>here</a>.<br />
+The aggregated list of of literature and other teaching aids is available online <a href={{ url_for('overview', overview='Literature', semester=semester, classname=classname) }}>here</a>.<br />
 <br />
 For questions related to to the list, please ask the class coordinator or the relevant teacher.
 
