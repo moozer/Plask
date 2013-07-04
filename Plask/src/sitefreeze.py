@@ -18,7 +18,6 @@ def freeze_base_url(path):
     return redirect( path, 301 )
 
 
-
 if __name__ == '__main__':
     freezer = Freezer(app)
     freezer.freeze()

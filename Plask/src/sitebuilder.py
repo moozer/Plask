@@ -66,7 +66,7 @@ def fagplanlist( semester, classname):
                            semester=semester, classname = classname,
                            links=links, title = title )
  
-@app.route('/fagplan/<string:semester>/<string:classname>/<string:course>')
+@app.route('/fagplan/<string:semester>/<string:classname>/<string:course>/')
 def fagplan( semester, classname, course):
     links = [pages.get(l) for l in data.getLinks()] 
     
@@ -115,7 +115,6 @@ def overviewlist(semester, classname):
 
 
 @app.route('/overview/<string:semester>/<string:classname>/<string:overview>/')
-@app.route('/overview/<string:semester>/<string:classname>/<string:overview>.html')
 def overview(overview, semester, classname):
     links = [pages.get(l) for l in data.getLinks()]
     
@@ -173,9 +172,7 @@ def page(path = "index"):
                            pages=pages, links=links)
     
 
-@app.route('/semesterplan')
 @app.route('/semesterplan/')
-@app.route('/semesterplan/<string:semester>')
 @app.route('/semesterplan/<string:semester>/')
 def semesterplanlist():
     ''' semesterplan list if not supplied both class and semester '''
@@ -188,7 +185,7 @@ def semesterplanlist():
                            semesters = semesters )
     
 
-@app.route('/semesterplan/<string:semester>/<string:classname>')
+@app.route('/semesterplan/<string:semester>/<string:classname>/')
 def semesterplan( semester, classname ):
     ''' semesterplan based on semester+class combo '''
     links = [pages.get(l) for l in data.getLinks()] 
