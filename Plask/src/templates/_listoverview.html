@@ -1,8 +1,13 @@
+{# 	lists possible overviews (ie. cross course aggregations)
+	param overviewlist: list of sections
+	param semester: semester of selection
+	param classname: class to show for
+	#}
 <ul>
 
 {% for overview in overviewlist %}
     <li>
-        <a href="{{ url_for( "overview", semester=semester, overview=overview ) }}">{{ overview }}</a>
+        <a href="{{ url_for( "overview", semester=semester, classname=classname, overview=overview ) }}">{{ overview }}</a>
     </li>
 {% else %}
     <li>No overviews defined</li>

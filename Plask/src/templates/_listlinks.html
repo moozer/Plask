@@ -1,6 +1,11 @@
+{# 	The links in the top bar
+	params links: a list of pages to link to
+	#}
+
+
 Page links
 <a href="{{ url_for("fagplanlist") }}">Courses</a>
-<a href="{{ url_for("overview") }}">Overview</a>
+<a href="{{ url_for("overviewindex") }}">Overview</a>
 {% for page in links %}
 	<a href="{{ url_for("page", path=page.path) }}">{{ page.path }}</a>	
 {% else %}

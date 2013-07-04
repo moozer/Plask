@@ -2,6 +2,7 @@ date: 2000-01-01
 author: The name of the Author
 email: someemail@example.com
 status: status is some status
+sectionname: Introduction
 
 This is the introduction. Include stuff like why this course is interesting and what the purpose is.
 

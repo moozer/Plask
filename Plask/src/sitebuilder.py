@@ -39,9 +39,6 @@ hical = HandinsCalendar( data )
 app = Flask(__name__)
 app.config.from_object(__name__)
 pages = FlatPages(app)
-# freezer = Freezer(app)
-
-
 
 def getScheduleList(filename):
     reader = csv.DictReader(open( filename, 'r'), delimiter='\t')
@@ -89,22 +86,43 @@ def fagplan( semester, classname, course):
 
 @app.route('/overview/')
 @app.route('/overview/<string:semester>/')
-@app.route('/overview/<string:semester>/<string:overview>/')
-@app.route('/overview/<string:semester>/<string:overview>.html')
-def overview(overview = None, semester = None):
-    if semester:
-        if not semester in data.getSemesters():
-            semester = None
-    
+def overviewindex():
     links = [pages.get(l) for l in data.getLinks()] 
 
-    if not overview or not semester:
-        return render_template('overviewindex.html', 
-                      semesters=data.getSemesters(), semester=semester, 
-                      coursesections=coursesections, links=links)
+    return render_template('overviewindex.html', 
+                  semesters=data.getClasses(), 
+                  coursesections=coursesections, links=links)
 
-    basepages = [p for p in pages if overview in p.meta.get('sectionname', []) and semester in p.path ]
-    return render_template('overview.html', semester=semester, 
+
+@app.route('/overview/<string:semester>/<string:classname>')
+def overviewlist(semester, classname):
+    links = [pages.get(l) for l in data.getLinks()] 
+    return render_template('overviewindex.html', 
+                    semesters=data.getClasses(), 
+                    semester=semester, classname=classname,
+                    coursesections=coursesections, links=links)
+
+
+
+@app.route('/overview/<string:semester>/<string:classname>/<string:overview>/')
+@app.route('/overview/<string:semester>/<string:classname>/<string:overview>.html')
+def overview(overview, semester, classname):
+    links = [pages.get(l) for l in data.getLinks()]
+    
+    dirname = u"%s/%s"%(semester,classname)
+    courses = data.getCourses( semester, classname )[semester][classname]
+    
+    for i,name in enumerate(coursesections):
+        if name == overview:
+            overviewname = "%02d_%s"%(i+1, name)
+            break
+        
+    ovpages =  ["%s/%s/%s"%(dirname, c, overviewname) for c in courses]
+    
+    basepages = [pages.get( p ) for p in ovpages]
+    print ovpages
+    print basepages
+    return render_template('overview.html', semester=semester, classname=classname,
                            pages=basepages, overview=overview,
                            links=links)
 
@@ -115,7 +133,7 @@ def calendar(filename = "nonexist"):
     # no cs requested
     links = [pages.get(l) for l in data.getLinks()] 
     if filename == "nonexist":
-        return render_template('icsindex.html', 
+        return render_template('icsindex.html',
                       filename=filename, links=links)
     
     parts = filename.split(' ')
