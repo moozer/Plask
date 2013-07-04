@@ -50,7 +50,8 @@ Course description for semester {{ semester }}
 	        {% include "_handins.html" %}
 	        <br />
 	        A calendar file is available at <a href='{{ url_for( "calendar", filename="%s %s"%(semester, course) ) }}'>{{ url_for( "calendar", filename="%s %s"%(semester, course) ) }}</a>
-		{# else -output nothing #}
+		{% else %}
+			(no formal hand-in list available)
 		{% endif %} 	
 	{% endif %}
 {% endfor %}
