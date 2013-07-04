@@ -32,13 +32,19 @@ class LocalData(object):
         Courses = [ c for c in os.listdir("%s/%s/%s"%(self.DataDir, semester, classname)) if os.path.isdir("%s/%s/%s/%s"%(self.DataDir, semester, classname,c))]
         return Courses
 
-    def getClasses(self, semester = None ):
-        ''' @returns the list of classes in a given semester (based on directories) '''
-        if not semester:
-            return None
+    def getClasses(self, semester=None ):
+        ''' @returns the list of classes in a given semester (based on directories) 
+            if semester is none - all semesters are returned
+        '''        
+        if semester:
+            Classes = [ c for c in os.listdir("%s/%s"%(self.DataDir, semester)) if os.path.isdir("%s/%s/%s"%(self.DataDir, semester, c))]
+            return { semester: Classes }
+
+        retval = {}
+        for sem in self.getSemesters():
+            retval.update( self.getClasses(sem))
         
-        Classes = [ c for c in os.listdir("%s/%s"%(self.DataDir, semester)) if os.path.isdir("%s/%s/%s"%(self.DataDir, semester, c))]
-        return Classes
+        return retval
 
 
     def getSemesters( self ):
@@ -57,18 +63,3 @@ class LocalData(object):
         fullpath = os.path.join( self.DataDir, filename )
         return open( fullpath, "r")
 
-    
-    def getAllClasses(self):
-        ''' returns a dictionary with all classes as values and the semesters as key
-        '''
-        allclasses = {}
-        sems = self.getSemesters()
-        for sem in sems:
-            allclasses[sem] = self.getClasses(sem)
-    
-        return allclasses
-    
-    
-    
-    
-    

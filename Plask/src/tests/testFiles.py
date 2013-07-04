@@ -8,22 +8,34 @@ from Storage.LocalData import LocalData
 import os.path
 
 DataDir = "../testData"
-TestAllClasses = {'Sem_A': ['Class_A']}
 TestSemesters = ["Sem_A"]
 TestCourses1 = ['Course_A', 'Sample course', 'Course_B']
 TestLinks = ['About', 'Link_A', 'Link_B', 'index']
-TestClasses = ["Class_A"]
+TestClasses = {'Sem_A': ["Class_A"] }
+TestAllClasses = {'Sem_A': ['Class_A']}
 
 class Test(unittest.TestCase):
 
 
-    def testLocalFiles(self):
+    def testGetSemesters(self):
+        data = LocalData( DataDir  )
+        self.assertEqual( data.getSemesters(), TestSemesters )
+        
+    def testGetClasses(self):
+        data = LocalData( DataDir  )        
+        self.assertEqual( data.getClasses( TestSemesters[0]), TestClasses, )
+        self.assertEqual( data.getClasses(), TestAllClasses, )
+
+    def testGetCourses(self):
         data = LocalData( DataDir  )
         self.assertEqual( data.getCourses( TestSemesters[0], TestClasses[0] ), TestCourses1 )
-        self.assertEqual( data.getClasses( TestSemesters[0]), TestClasses, )
-        self.assertEqual( data.getSemesters(), TestSemesters )
-        self.assertEqual( data.getAllClasses(), TestAllClasses )
+        self.assertEqual( data.getCourses( SemA ), TestCoursesBySemA )
+        self.assertEqual( data.getCourses( ), TestAllCourses )
+
+    def testGetLinks(self):
+        data = LocalData( DataDir  )
         self.assertEqual( data.getLinks(), TestLinks )
+
 
     def testGetFile(self):
         data = LocalData( DataDir  )
