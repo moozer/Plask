@@ -87,10 +87,10 @@ def fagplan( semester, classname, course):
 
     # for the schedule
     schedule = getScheduleList( "%s/%s/%s"%(FLATPAGES_ROOT, dirname, "schedule.csv") )
-    handins = hical.getHandinList( semester, course )
+    handins = hical.getHandinList( semester, classname, course )
 
     return render_template('fagplan.html', schedule=schedule, handins=handins,
-                           course=course, semester=semester, 
+                           course=course, semester=semester, classname = classname,
                            pages=basepages, coursesections=coursesections, 
                            links=links, sectionpages=sectionpages, title = title )
 
