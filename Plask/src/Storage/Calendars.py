@@ -45,6 +45,9 @@ class HandinsCalendar(object):
         ''' returns the aggregated list of all handins from the semester '''        
         if not semester in self.data.getSemesters():
             return []
+
+        if not classname in self.data.getClasses( semester ):
+            return []
          
         HiList = []
         for course in self.data.getCourses( semester, classname ):
