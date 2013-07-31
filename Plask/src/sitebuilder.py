@@ -6,7 +6,7 @@ Created on 17 Jan 2013
 @author: moz
 '''
 
-from flask import Flask, render_template, abort
+from flask import Flask, render_template
 from flask_flatpages import FlatPages
 import sys, os
 import csv
@@ -19,25 +19,27 @@ from Storage.Schedule import SemesterSchedule
 coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
                   'Evaluation', 'Literature', 'Exam questions', 'Schedule']
 
-LocalPageDir="./testData" # without trailing /
+#LocalPageDir="./testData" # without trailing /
 
-# config options
-DEBUG = True
-#DEBUG = False
-FLATPAGES_AUTO_RELOAD = DEBUG
-FLATPAGES_EXTENSION = '.md'
+class base_conf:
+    # config options
+    DEBUG = True
+    #DEBUG = False
+    FLATPAGES_AUTO_RELOAD = DEBUG
+    FLATPAGES_EXTENSION = '.md'
+    
+    if len(sys.argv) > 1:
+        FLATPAGES_ROOT = sys.argv[1]
+    else:
+        FLATPAGES_ROOT = "./testData" # without trailing /
 
-if len(sys.argv) > 1:
-    FLATPAGES_ROOT = sys.argv[1]
-else:
-    FLATPAGES_ROOT = LocalPageDir
 
-data = LocalData( FLATPAGES_ROOT )
+data = LocalData( base_conf.FLATPAGES_ROOT )
 hical = HandinsCalendar( data )
 
 # basic flask object
 app = Flask(__name__)
-app.config.from_object(__name__)
+app.config.from_object(base_conf)
 pages = FlatPages(app)
 
 def getScheduleList(filename):
@@ -84,7 +86,7 @@ def fagplan( semester, classname, course):
                 break
 
     # for the schedule
-    schedule = getScheduleList( "%s/%s/%s"%(FLATPAGES_ROOT, dirname, "schedule.csv") )
+    schedule = getScheduleList( "%s/%s/%s"%(base_conf.FLATPAGES_ROOT, dirname, "schedule.csv") )
     handins = hical.getHandinList( semester, classname, course )
 
     return render_template('fagplan.html', schedule=schedule, handins=handins,
