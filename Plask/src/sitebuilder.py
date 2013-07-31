@@ -71,8 +71,6 @@ def fagplan( semester, classname, course):
     links = [pages.get(l) for l in data.getLinks()] 
     
     dirname = u"%s/%s/%s"%(semester,classname, course) 
-#     if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
-#         abort( 404 )
          
     title = "Course plan - %s - %s"%(semester, classname)
     
