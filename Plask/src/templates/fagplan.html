@@ -49,7 +49,7 @@ Course description for semester {{ semester }}
 		{% if handins %}
 	        {% include "_handins.html" %}
 	        <br />
-	        A calendar file is available at <a href='{{ url_for( "calendar", filename="%s %s"%(semester, course) ) }}'>{{ url_for( "calendar", filename="%s %s"%(semester, course) ) }}</a>
+	        A calendar file is available at <a href='{{ url_for( "calendar_course", semester=semester, classname=classname, course=course ) }}'>{{ url_for( "calendar_course", semester=semester, classname=classname, course=course ) }}</a>
 		{% else %}
 			(no formal hand-in list available)
 		{% endif %} 	
