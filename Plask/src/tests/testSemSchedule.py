@@ -18,10 +18,16 @@ ScheduleSemAList = [{'Course': 'Intro', 'Teacher': 'SUN', 'ECTS': 0.5, 'Lessons'
                     {'Course': 'Communication', 'Teacher': 'PETH', 'ECTS': 2, 
                      'Lessons': {35: 4, 36: 4,37: 4, 38: 4,39: 4, 40: 4, 41: 4, 43: 4}}, 
                     ]
+ScheduleSemAListNoFile = []
 
 class LocalDataMock:
     def getFile(self, filename ):
         return StringIO.StringIO( SemACsvData )
+
+class LocalDataMockNoFile:
+    def getFile(self, filename ):
+        raise IOError( 'File not found')
+
 
 class Test(unittest.TestCase):
 
@@ -29,6 +35,11 @@ class Test(unittest.TestCase):
     def testSchedule(self):
         s = SemesterSchedule( LocalDataMock() )
         self.assertEqual( s.getList( SemA, ClassA ), ScheduleSemAList )
+        pass
+
+    def testScheduleNoFile(self):
+        s = SemesterSchedule( LocalDataMockNoFile() )
+        self.assertEqual( s.getList( SemA, ClassA ), ScheduleSemAListNoFile )
         pass
 
 

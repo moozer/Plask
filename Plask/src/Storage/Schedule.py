@@ -39,7 +39,11 @@ class SemesterSchedule(object):
             @return: iterable dictationary of entries
         '''
         filename = "%s/%s/%s"%( semester, classname, self.schedulefile )
-        reader = csv.DictReader( self.data.getFile( filename ), delimiter='\t')
+        
+        try:
+            reader = csv.DictReader( self.data.getFile( filename ), delimiter='\t')
+        except IOError:
+            return []
         
         entries = []
         for line in reader:
