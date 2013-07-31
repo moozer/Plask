@@ -38,7 +38,20 @@ The following courses and projects are part of the semester program.
 
 {# weekly table #}
     <h2>Schedule</h2>
-    {% with schedule=schedule, weeks=[sem_intro.startweek, sem_intro.endweek] %}
+    {# Graceful handling of missing tags #}
+    {% if sem_intro.startweek %}
+    	{% set startweek = sem_intro.startweek %}
+    {% else %}
+    	{% set startweek = 26 %}
+    {% endif %}
+    {% if sem_intro.endweek %}
+    	{% set endweek = sem_intro.startweek %}
+    {% else %}
+    	{% set endweek = 25 %}
+    {% endif %}    
+    
+    {# output the semester schedule table #}
+    {% with schedule=schedule, weeks=[startweek, endweek] %}
         {% include "semester/_semesterschedule.html" %}
     {% endwith %}
     
