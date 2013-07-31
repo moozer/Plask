@@ -134,35 +134,20 @@ def overview(overview, semester, classname):
                            links=links)
 
 @app.route('/ics/')
-@app.route('/ics/<string:filename>')
-@app.route('/ics/<string:filename>.ics')
 def calendar(filename = "nonexist"):
     # no cs requested
     links = [pages.get(l) for l in data.getLinks()] 
-    if filename == "nonexist":
-        return render_template('icsindex.html',
+    return render_template('icsindex.html',
                       filename=filename, links=links)
-     
-    parts = filename.split(' ')
- 
-    # part 1 is the semester
-    if not parts[0] in data.getSemesters():
-        abort( 404 )
-    semester = parts[0]
-     
-    # semester only?
-    if len(parts) == 1:
-        return hical.getSemesterIcs(semester)    
-    else:    
-        semester = parts[0]
-        course = ' '.join( parts[1:] )
-        dirname = u"%s/%s"%(semester,course) 
-     
-        if not os.path.isdir("%s/%s"%(LocalPageDir, dirname)):
-            abort( 404 )
-     
-        return hical.getCourseIcs(semester, course)
-
+    
+@app.route('/ics/<string:semester>/<string:classname>/schedule.ics')
+def calendar_semester( semester, classname ):
+    return hical.getSemesterIcs(semester, classname)
+    
+@app.route('/ics/<string:semester>/<string:classname>/<string:course>/schedule.ics')
+def calendar_course( semester, classname, course ):
+    return hical.getCourseIcs( semester, classname, course )
+    
 @app.route('/')
 @app.route('/<path:path>/')
 def page(path = "index"):

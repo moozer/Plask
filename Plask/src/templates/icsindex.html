@@ -6,14 +6,14 @@
 
 If you end up here, you have a wrong url. <br>
 
-To get the calendar file for a course use: /ics/[semester] [course].ics
+To get the calendar file for a course use: /ics/[semester]/[class]/[course]/schedule.ics
 
-e.g. <a href='{{ url_for( "calendar", filename="%s %s"%('2013S', 'ITT2 Project firewall') ) }}'>{{ url_for( "calendar", filename="%s %s"%('2013S', 'ITT2 Project firewall') ) }}</a>
+e.g. <a href='{{ url_for( "calendar_course", semester = "2013S", classname = "ITT2 Networking", course = "Project firewall") }}'>{{ url_for( "calendar_course", semester = "2013S", classname = "ITT2 Networking", course = "Project firewall")  }}</a>
 
 <br />
-To get the calendar file for an entire semester use: /ics/[semester].ics
+To get the calendar file for a course use: /ics/[semester]/[class]/schedule.ics
 
-e.g. <a href='{{ url_for( "calendar", filename="%s"%('2013S') ) }}'>{{ url_for( "calendar", filename="%s"%('2013S') ) }}</a>
+e.g. <a href='{{ url_for( "calendar_semester", semester = "2013S", classname = "ITT2 Networking") }}'>{{ url_for( "calendar_semester", semester = "2013S", classname = "ITT2 Networking" )  }}</a>
 
 
 {% endblock content %}
