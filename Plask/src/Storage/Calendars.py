@@ -20,11 +20,11 @@ class HandinsCalendar(object):
         self.data = DataObject
 
     
-    def getHandinList( self, semester, course, prefix="" ):
+    def getHandinList( self, semester, classname, course, prefix="" ):
         ''' from a hand-in csv file, return the list of hand-ins. 
             Columns: Date (YYMMDD), Hand-in, Comment
         '''
-        filename = "%s/%s/handins.csv"%( semester,course )
+        filename = "%s/%s/%s/handins.csv"%( semester, classname, course )
         try:
             reader = csv.DictReader( self.data.getFile( filename ), delimiter='\t')
         except IOError:
@@ -41,14 +41,14 @@ class HandinsCalendar(object):
         return handinlist
 
     
-    def getHandinsListSemester(self, semester ):
+    def getHandinsListSemester(self, semester, classname ):
         ''' returns the aggregated list of all handins from the semester '''        
         if not semester in self.data.getSemesters():
             return []
          
         HiList = []
-        for course in self.data.getCourses( semester ):
-            HiList.extend( self.getHandinList( semester, course, prefix="%s: "%course ) )
+        for course in self.data.getCourses( semester, classname ):
+            HiList.extend( self.getHandinList( semester, classname, course, prefix="%s: "%course ) )
          
         return HiList
         
@@ -68,15 +68,15 @@ class HandinsCalendar(object):
         retval = cal.to_ical()
         return retval
 
-    def getCourseIcs(self, semester, course ):
+    def getCourseIcs(self, semester, classname, course ):
         ''' returns an ics file based on the handins of a course'''
-        hi = self.getHandinList( semester, course )
+        hi = self.getHandinList( semester, classname, course )
         return self._GenerateHandinIcs(hi)
          
     
-    def getSemesterIcs(self, semester):
+    def getSemesterIcs(self, semester, classname):
         ''' returns an ics file based on the handins of a semester'''
-        hi = self.getHandinsListSemester( semester )
+        hi = self.getHandinsListSemester( semester, classname )
         return self._GenerateHandinIcs(hi)
 
         

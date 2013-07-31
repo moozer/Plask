@@ -13,6 +13,7 @@ DataDir = "../testData"
 Semesters = ['Sem_A']
 Courses_A = ['Course_A', 'Course_B']
 Sem_A = Semesters[0]
+Class_A = "Class_A"
 Course_A = Courses_A[0]
 Course_A_csv = '''Date\tHand-in\tComment
 130813\tExam question A1\t[Optional]
@@ -56,7 +57,7 @@ class LocalDataMockSemesterA:
     def getSemesters( self ):
         return Semesters
     
-    def getCourses(self, sem ):
+    def getCourses(self, sem, classname ):
         return Courses_A
 
 class LocalDataMockCourseAIcs:
@@ -67,7 +68,7 @@ class LocalDataMockSemAIcs:
     def getSemesters( self ):
         return Semesters
     
-    def getCourses(self, sem ):
+    def getCourses(self, sem, classname ):
         return Courses_A
     
     def getFile(self, filename):
@@ -78,25 +79,25 @@ class Test(unittest.TestCase):
 
     def testHandinsList(self):
         HC = HandinsCalendar( LocalDataMockSemesterA() )
-        hclist = HC.getHandinList( Sem_A, Course_A )
+        hclist = HC.getHandinList( Sem_A, Class_A, Course_A )
         
         self.assertEqual( hclist, TestHandins_AA )
 
     def testSemesterHandinsList(self):
         HC = HandinsCalendar( LocalDataMockSemesterA() )
-        hclist = HC.getHandinsListSemester( Sem_A )
+        hclist = HC.getHandinsListSemester( Sem_A, Class_A )
 
         self.assertEqual( hclist, TestHandins_semA )
 
     def testCourseIcs(self):
         HC = HandinsCalendar( LocalDataMockCourseAIcs() )
-        hcics = HC.getCourseIcs( Sem_A, Course_A )
+        hcics = HC.getCourseIcs( Sem_A, Class_A, Course_A )
 
         self.assertEqual( hcics, Course_A_ics )
         
     def testSemesterIcs(self):
         HC = HandinsCalendar( LocalDataMockSemAIcs() )
-        hcics = HC.getSemesterIcs( Sem_A  )
+        hcics = HC.getSemesterIcs( Sem_A, Class_A  )
 
         self.assertEqual( hcics, Semester_A_ics )
         

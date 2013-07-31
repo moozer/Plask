@@ -87,7 +87,7 @@ def fagplan( semester, classname, course):
 
     # for the schedule
     schedule = getScheduleList( "%s/%s/%s"%(FLATPAGES_ROOT, dirname, "schedule.csv") )
-    handins = hical.getHandinList( semester,course )
+    handins = hical.getHandinList( semester, course )
 
     return render_template('fagplan.html', schedule=schedule, handins=handins,
                            course=course, semester=semester, 
@@ -187,7 +187,7 @@ def semesterplanlist():
 
 @app.route('/semesterplan/<string:semester>/<string:classname>/')
 def semesterplan( semester, classname ):
-    ''' semesterplan based on semester+class combo '''
+    ''' semesterplan based on semester+class combo '''  
     links = [pages.get(l) for l in data.getLinks()] 
     s = SemesterSchedule( data ).getList( semester, classname )
     
