@@ -86,8 +86,11 @@ def fagplan( semester, classname, course):
                 break
 
     # for the schedule
-    schedule = getScheduleList( "%s/%s/%s"%(base_conf.FLATPAGES_ROOT, dirname, "schedule.csv") )
-    handins = hical.getHandinList( semester, classname, course )
+    try:    
+        schedule = getScheduleList( "%s/%s/%s"%(base_conf.FLATPAGES_ROOT, dirname, "schedule.csv") )
+        handins = hical.getHandinList( semester, classname, course )
+    except IOError:
+        return render_template( 'NotFound.html' )
 
     return render_template('fagplan.html', schedule=schedule, handins=handins,
                            course=course, semester=semester, classname = classname,
