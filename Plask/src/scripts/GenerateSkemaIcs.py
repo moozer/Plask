@@ -28,9 +28,10 @@ Example from http://icalendar.readthedocs.org/en/latest/examples.html
 import csv
 import datetime
 from icalendar import Calendar, Event
+import sys
 
 # TODO: Make filename a command line parameter
-filename = "Skema2013S.csv"
+filename = "xxSkema2013A.csv"
 
 # 0 is all day
 LessonHours = (([0,0], [23,59]), 
@@ -112,9 +113,17 @@ def WriteIcs(Schedule, Outfile = filename+'.ics', Teacher = None):
 
 
 if __name__ == '__main__':
-    Schedule = ReadSchedule()
+    if len(sys.argv) > 1:
+        csvfile = sys.argv[1]
+    else:
+        csvfile = filename
+
+    # remove last part of filename (normally ".csv")
+    basename = csvfile[:-4]
+
+    Schedule = ReadSchedule( filename = csvfile)
     print "Number of lessons in Schedule: %d"%len(Schedule)
     for T in TeacherList:
-        WriteIcs( Schedule, 'icsout/%s_skema_2013S.ics'%T, T )
+        WriteIcs( Schedule, 'icsout/%s_%s.ics'%(T, basename), T )
     pass
 
