@@ -16,18 +16,23 @@ Course description for semester {{ semester }}
 
 	{# check if they have a corresponding page #}
 	{% if section in sectionpages %}
-		<h2 id="{{ section }}">{{ section }}</h2>
 		{% with page = sectionpages[section] %} 
-			{% if page.status %}
-			<em>{{ page.status }} </em>
-			<br/>
+			{% if not page.status %}
+				<h2 id="{{ section }}">{{ section }}</h2>
+				{{ page.html|safe }}			
+			{% elif page.status == "exclude" %}
+				{# output nothing #}
+			{% else %}
+				<h2 id="{{ section }}">{{ section }}</h2>
+				<em>{{ page.status }} </em>
+				<br/>
+				{{ page.html|safe }}
 			{% endif %}
-			{{ page.html|safe }}
 		{% endwith %}
 	{% else %}
 		{% if section == "Schedule" %}
 			<h2 id="{{ section }}">{{ section }}</h2>
-			The schedule show when the course is running and the topics. Please note that changes may occur during the semester.
+			The schedule shows when the course is running and the topics. Please note that changes may occur during the semester.
 		{% elif section == "Exam questions" %}
 			{# output nothing #}
 		{% else %}
