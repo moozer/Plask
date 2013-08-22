@@ -13,3 +13,7 @@ Meta data is required:
 * Email: the email address
 * startweek: the first week number of the semester
 * endweek: the last week number of the semester
+
+Optional metadata (for all section):
+
+* status: writes the status text in *italics*. Used for stuff like "TBD", "Draft" or "review the part about ...". A magic value is "exclude", which will hide the section.
