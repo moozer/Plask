@@ -52,7 +52,7 @@ class SemesterSchedule(object):
                 WeekList[week] = int(line['Lessons'])
 
             entry = {   'Course': line['Course'], 'Teacher': line['Teacher'], 
-                        'ECTS': float(line['ECTS']), 'Lessons': WeekList }
+                        'ECTS': float(line['ECTS']), 'Lessons': WeekList, 'Link': line['Link']}
 
             if len(entries) > 0:
                 lastEntry = entries[-1]
@@ -60,6 +60,11 @@ class SemesterSchedule(object):
                     and lastEntry['Course'] == entry['Course'] \
                     and lastEntry['ECTS'] == entry['ECTS']:
                     lastEntry['Lessons'].update(WeekList)
+                    
+                    # handle differences in "Link" column
+                    # just use the biggest string
+                    if entry['Link'] > lastEntry['Link']:
+                        lastEntry['Link'] = entry['Link']
                     continue
             
             entries.append( entry )

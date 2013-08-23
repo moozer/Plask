@@ -58,7 +58,7 @@ def fagplanindex():
                         classes=data.getClasses(), links=links )
    
 @app.route('/fagplan/<string:semester>/<string:classname>/')
-def fagplanlist( semester, classname):
+def fagplanlist( semester, classname):  
     links = [pages.get(l) for l in data.getLinks()] 
     courses = data.getCourses( semester, classname )[semester][classname]
     title = "Course list - %s - %s"%(semester, classname)
