@@ -60,6 +60,9 @@ class LocalDataMockSemesterA:
     def getCourses(self, sem, classname ):
         return Courses_A
 
+    def getClasses(self, sem ):
+        return Class_A
+
 class LocalDataMockCourseAIcs:
     def getFile(self, filename):
         return StringIO.StringIO(Course_A_csv)
@@ -74,6 +77,9 @@ class LocalDataMockSemAIcs:
     def getFile(self, filename):
         return StringIO.StringIO( Course_A_csv )
     
+    def getClasses(self, sem ):
+        return Class_A
+
 class Test(unittest.TestCase):
 
 
