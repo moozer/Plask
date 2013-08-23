@@ -179,9 +179,11 @@ def semesterplan( semester, classname ):
     links = [pages.get(l) for l in data.getLinks()] 
     s = SemesterSchedule( data ).getList( semester, classname )
     
+    # @todo: this should be a list with all files in semester directory.
     sem_intro = pages.get('%s/%s/Introduction'%(semester, classname) )
     sem_eval = pages.get('%s/%s/Evaluation'%(semester, classname) )
     sem_contacts = pages.get('%s/%s/Contacts'%(semester, classname) )
+    sem_literature = pages.get('%s/%s/Literature'%(semester, classname) )
     
     courselist = data.getCourses( semester, classname )
     title = "Semesterplan - %s - %s"%( classname, semester)
@@ -189,6 +191,7 @@ def semesterplan( semester, classname ):
     return render_template('semesterplan.html', page=page, 
                            pages=pages, schedule=s, links=links,
                            sem_intro = sem_intro, sem_eval = sem_eval, sem_contacts = sem_contacts,
+                           sem_literature = sem_literature,
                            courses = courselist, semester = semester, classname=classname, title = title)
   
 # --------

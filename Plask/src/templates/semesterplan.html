@@ -57,9 +57,19 @@ The following courses and projects are part of the semester program.
     
 
 {# literature #}
-<h2>Literature</h2>
-The aggregated list of of literature and other teaching aids is available online <a href={{ url_for('overview', overview='Literature', semester=semester, classname=classname) }}>here</a>.<br />
-<br />
-For questions related to to the list, please ask the class coordinator or the relevant teacher.
-
+{% if sem_literature %}
+	{% with page = sem_literature %} 
+		<h2>Literature</h2>
+		{% if page.status %}
+			<em>{{ page.status }} </em>
+			<br/>
+		{% endif %}
+		{{ page.html|safe }}
+	{% endwith %}
+{% else %}
+	<h2>Literature</h2>
+	The aggregated list of of literature and other teaching aids is available online <a href={{ url_for('overview', overview='Literature', semester=semester, classname=classname) }}>here</a>.<br />
+	<br />
+	For questions related to to the list, please ask the class coordinator or the relevant teacher.
+{% endif %}	
 {% endblock content %}
