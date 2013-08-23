@@ -1,6 +1,6 @@
 course: Networking
 date: 2013-01-17
-author: Morten Bo Nielsen
+author: Some Teacher
 email: mon@eal.dk
 sectionname: Introduction
 status: TO BE REVISED

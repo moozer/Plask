@@ -1,5 +1,5 @@
 date: 2013-04-29
-author: Morten Bo Nielsen
+author: Some Teacher
 email: mon@eal.dk
 sectionname: Exam questions
 

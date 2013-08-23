@@ -1,5 +1,5 @@
 date: 2013-01-22
-author: Morten Bo Nielsen
+author: Some Teacher
 email: mon@eal.dk
 
 Link B
