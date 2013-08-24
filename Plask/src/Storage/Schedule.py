@@ -47,26 +47,28 @@ class SemesterSchedule(object):
         
         entries = []
         for line in reader:
-            WeekList = {}
-            for week in self._rangeexpand( line['Weeks']):
-                WeekList[week] = int(line['Lessons'])
-
-            entry = {   'Course': line['Course'], 'Teacher': line['Teacher'], 
-                        'ECTS': float(line['ECTS']), 'Lessons': WeekList, 'Link': line['Link']}
-
-            if len(entries) > 0:
-                lastEntry = entries[-1]
-                if      lastEntry['Teacher'] == entry['Teacher'] \
-                    and lastEntry['Course'] == entry['Course'] \
-                    and lastEntry['ECTS'] == entry['ECTS']:
-                    lastEntry['Lessons'].update(WeekList)
-                    
-                    # handle differences in "Link" column
-                    # just use the biggest string
-                    if entry['Link'] > lastEntry['Link']:
-                        lastEntry['Link'] = entry['Link']
-                    continue
-            
+            try:
+                WeekList = {}
+                for week in self._rangeexpand( line['Weeks']):
+                    WeekList[week] = int(line['Lessons'])
+    
+                entry = {   'Course': line['Course'], 'Teacher': line['Teacher'], 
+                            'ECTS': float(line['ECTS']), 'Lessons': WeekList, 'Link': line['Link']}
+    
+                if len(entries) > 0:
+                    lastEntry = entries[-1]
+                    if      lastEntry['Teacher'] == entry['Teacher'] \
+                        and lastEntry['Course'] == entry['Course'] \
+                        and lastEntry['ECTS'] == entry['ECTS']:
+                        lastEntry['Lessons'].update(WeekList)
+                        
+                        # handle differences in "Link" column
+                        # just use the biggest string
+                        if entry['Link'] > lastEntry['Link']:
+                            lastEntry['Link'] = entry['Link']
+                        continue
+            except KeyError, e:
+                raise KeyError( "%s malformed, missing column: %s"%(filename, e))
             entries.append( entry )
         
         return entries
