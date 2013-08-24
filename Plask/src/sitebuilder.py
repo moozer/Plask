@@ -6,7 +6,7 @@ Created on 17 Jan 2013
 @author: moz
 '''
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from flask_flatpages import FlatPages
 import sys, os
 import csv
@@ -71,6 +71,16 @@ def fagplanlist( semester, classname):
 @app.route('/fagplan/<string:semester>/<string:classname>/<string:course>/')
 def fagplan( semester, classname, course):
     links = [pages.get(l) for l in data.getLinks()] 
+    
+    # check if course plan is local
+    allcoursesch = SemesterSchedule( data ).getList( semester, classname )
+    coursesch = [c for c in allcoursesch if c['Course'] == course]
+    
+    if len( coursesch ) > 0:
+        # just pick the first with the correct course name
+        if coursesch[0]['Link'] != '.':
+            return redirect( coursesch[0]['Link'] )
+    # else just use the default build-in stuff
     
     dirname = u"%s/%s/%s"%(semester,classname, course) 
          

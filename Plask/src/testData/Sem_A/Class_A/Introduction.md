@@ -1,6 +1,6 @@
 Author: Some Author
 Email: my@email.com
-startweek: 45
+startweek: 34
 endweek: 4
 
 This is the *Introduction.md* file.
@@ -17,3 +17,15 @@ Meta data is required:
 Optional metadata (for all section):
 
 * status: writes the status text in *italics*. Used for stuff like "TBD", "Draft" or "review the part about ...". A magic value is "exclude", which will hide the section.
+
+A note on SemesterSchedule.csv
+
+* Internal structure is
+	
+	* Course: the course name
+	* Teacher: the teachers initials
+	* ECTS: a float value of the ECTS size of the course
+	* Weeks: the weeks where the course is running (with the same number of lessons). Support dash and comma, ie. 4-7,9 for weeks 4,5,6,7 and 9	
+	* Lessons: the number of lessons in the week(s) specified in the "weeks" column
+	* Link: The link to the course plan. "." is the default internal Plask reference and other values is used as URL.
+	
