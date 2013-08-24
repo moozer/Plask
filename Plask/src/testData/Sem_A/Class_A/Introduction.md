@@ -27,5 +27,11 @@ A note on SemesterSchedule.csv
 	* ECTS: a float value of the ECTS size of the course
 	* Weeks: the weeks where the course is running (with the same number of lessons). Support dash and comma, ie. 4-7,9 for weeks 4,5,6,7 and 9	
 	* Lessons: the number of lessons in the week(s) specified in the "weeks" column
-	* Link: The link to the course plan. "." is the default internal Plask reference and other values is used as URL.
+	* Link: The link to the course plan. 
+		
+		* "." is the default internal Plask reference
+		* "noplan" means it should appear in the course list, but no plan is supplies
+		* "exclude" course should not appear as a separate course (but will appear in the schedule)
+		* other values is used as URL.
+		
 	

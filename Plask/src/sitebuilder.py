@@ -195,7 +195,8 @@ def semesterplan( semester, classname ):
     sem_contacts = pages.get('%s/%s/Contacts'%(semester, classname) )
     sem_literature = pages.get('%s/%s/Literature'%(semester, classname) )
     
-    courselist = data.getCourses( semester, classname )
+    courselist = {c['Course']: c['Link']  for c in s}
+
     title = "Semesterplan - %s - %s"%( classname, semester)
     
     return render_template('semesterplan.html', page=page, 
