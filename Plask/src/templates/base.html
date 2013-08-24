@@ -2,6 +2,7 @@
 	base template for all html pages
 	
 	params: title - used as title for page and top of page
+	params:	Onload - if used, it is added to the Onload of the body part of the page
 #}
 
 <!doctype html>
@@ -10,7 +11,12 @@
     <meta charset="utf-8">
     <title>{{ title }}</title>
 </head>
+
+{% if OnLoad %}
+<body OnLoad="{{ OnLoad }}">
+{% else %}
 <body>
+{% endif %}
     
 <div id="navigation">
    	<h2><a href="{{ url_for("page") }}">{{ title }}</a></h2>

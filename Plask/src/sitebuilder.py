@@ -79,7 +79,8 @@ def fagplan( semester, classname, course):
     if len( coursesch ) > 0:
         # just pick the first with the correct course name
         if coursesch[0]['Link'] != '.':
-            return redirect( coursesch[0]['Link'] )
+            return render_template( "302Redirect.html", URL=coursesch[0]['Link'])
+            #return redirect( coursesch[0]['Link'] )
     # else just use the default build-in stuff
     
     dirname = u"%s/%s/%s"%(semester,classname, course) 
