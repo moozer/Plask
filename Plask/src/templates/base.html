@@ -36,8 +36,20 @@
 
 <div id="footer">
 {% block footer %}
-    <p>There is room for improvements in this footer...</p>
+{% if author %}
+	<p>Author: {{author}}</p>
+{% else %}
+	<!-- Not author information -->
+{% endif %}
+
+{% if changestring %}
+	<p>Last change: {{ changestring }}</p> 
+{% else %}
+	<p>No datestamp found</p>
+{% endif %}
+
 {% endblock footer %}
+
 </div>
 
 </body>

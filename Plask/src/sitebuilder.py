@@ -14,6 +14,7 @@ import csv
 from Storage.LocalData import LocalData
 from Storage.Calendars import HandinsCalendar
 from Storage.Schedule import SemesterSchedule
+import subprocess
 
 # the list of sections in the course plan 
 coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
@@ -103,10 +104,15 @@ def fagplan( semester, classname, course):
     except IOError:
         return render_template( 'NotFound.html' )
 
+    ChangeString = subprocess.Popen(["git", "log", "-1", "--pretty=format:'%ci (%s)'", "--abbrev-commit", '%s/%s/%s'%(semester, classname, course)], 
+                            cwd=base_conf.FLATPAGES_ROOT, 
+                            stdout=subprocess.PIPE).stdout.read()
+
     return render_template('fagplan.html', schedule=schedule, handins=handins,
                            course=course, semester=semester, classname = classname,
                            pages=basepages, coursesections=coursesections, 
-                           links=links, sectionpages=sectionpages, title = title )
+                           links=links, sectionpages=sectionpages, title = title,
+                           changestring = ChangeString )
 
 @app.route('/overview/')
 @app.route('/overview/<string:semester>/')
@@ -199,12 +205,16 @@ def semesterplan( semester, classname ):
     courselist = {c['Course']: c['Link']  for c in s}
 
     title = "Semesterplan - %s - %s"%( classname, semester)
+    ChangeString = subprocess.Popen(["git", "log", "-1", "--pretty=format:'%ci (%s)'", "--abbrev-commit", '%s/%s'%(semester, classname)], 
+                            cwd=base_conf.FLATPAGES_ROOT, 
+                            stdout=subprocess.PIPE).stdout.read()
     
     return render_template('semesterplan.html', page=page, 
                            pages=pages, schedule=s, links=links,
                            sem_intro = sem_intro, sem_eval = sem_eval, sem_contacts = sem_contacts,
                            sem_literature = sem_literature,
-                           courses = courselist, semester = semester, classname=classname, title = title)
+                           courses = courselist, semester = semester, classname=classname, title = title,
+                           changestring = ChangeString)
   
 # --------
 if __name__ == '__main__':   
