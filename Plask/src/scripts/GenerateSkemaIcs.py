@@ -80,7 +80,7 @@ def ReadSchedule( filename = filename, year = 2013 ):
             continue
         for week in _rangeexpand( entry['Weeks'] ):
             for weekday in _rangeexpand(  entry['Weekdays'] ):
-                for lesson in entry['Lessons'].split(','):
+                for lesson in _rangeexpand( entry['Lessons'] ):
                     for Teacher in entry['Teacher'].split(','):
                         date = iso_to_gregorian( year, int(week), int(weekday))
                         modlesson = { 'Week': int( week ), 'Weekday': int(weekday), 'Lesson': int(lesson),
