@@ -6,103 +6,88 @@ Created on 17 Jan 2013
 @author: moz
 '''
 
-from flask import Flask, render_template, abort, redirect
+from flask import Flask, render_template, redirect
 from flask_flatpages import FlatPages
 import sys, os
-from flask_frozen import Freezer
 import csv
-import datetime
-from icalendar import Calendar, Event
+
+from Storage.LocalData import LocalData
+from Storage.Calendars import HandinsCalendar
+from Storage.Schedule import SemesterSchedule
+import subprocess
 
 # the list of sections in the course plan 
 coursesections = ['Introduction', 'Teaching goals', 'Learning goals', 
                   'Evaluation', 'Literature', 'Exam questions', 'Schedule']
 
-DEBUG = True
-FLATPAGES_AUTO_RELOAD = DEBUG
-FLATPAGES_EXTENSION = '.md'
-FREEZER_BASE_URL = "/Plask/"
-FREEZER_DESTINATION = "/tmp/Plask/"
+#LocalPageDir="./testData" # without trailing /
 
+class base_conf:
+    # config options
+    DEBUG = True
+    #DEBUG = False
+    FLATPAGES_AUTO_RELOAD = DEBUG
+    FLATPAGES_EXTENSION = '.md'
+    
+    if len(sys.argv) > 1:
+        FLATPAGES_ROOT = sys.argv[1]
+    else:
+        FLATPAGES_ROOT = "./testData" # without trailing /
+
+
+data = LocalData( base_conf.FLATPAGES_ROOT )
+hical = HandinsCalendar( data )
+
+# basic flask object
 app = Flask(__name__)
-app.config.from_object(__name__)
+app.config.from_object(base_conf)
 pages = FlatPages(app)
-freezer = Freezer(app)
-
-def getCourses( semester = None ):
-    ''' @returns the list of course in a given semester (based on directories) '''
-    if not semester:
-        return None
-    
-    Courses = [ c for c in os.listdir("pages/%s"%semester) if os.path.isdir("pages/%s/%s"%(semester,c))]
-    return Courses
-
-def getSemesters():
-    ''' @returns the list of semesters (based on directories) '''    
-    semesters = [ c for c in os.listdir("pages/") if os.path.isdir("pages/%s"%c)]
-    return semesters
-
-def getLinks():
-    ''' @returns the list of top level pages aka. links (based on directories) '''    
-    linkspages = [page for page in pages if page.path.split('/').__len__() < 2]
-    return linkspages
-
-def getHandinList( semester, course, prefix="" ):
-    ''' from a hand-in csv file, return the list of hand-ins. 
-        Columns: Date (YYMMDD), Hand-in, Comment
-    '''
-    filename = "pages/%s/%s/handins.csv"%(semester,course)    
-    try:
-        reader = csv.DictReader(open(filename, 'r'), delimiter='\t')
-    except IOError:
-        return []
-
-    handinlist =[]
-    for entry in reader:
-        for datestring in entry['Date'].split(','):
-            date = datetime.datetime.strptime( datestring, "%y%m%d")
-            handin = {  'Date': date, 'Datestring': datetime.datetime.strftime( date,"%d/%m-%y" ),
-                        'Handin': "%s%s"%(prefix,entry['Hand-in']), 'Comment': entry['Comment']}
-            handinlist.append( handin )
-        
-    return handinlist
-
-def getHandinsListSemester( semester ):
-    ''' returns the aggregated list of all handins from the semester '''
-    if not semester in getSemesters():
-        return []
-    
-    HiList = []
-    for course in getCourses( semester ):
-        HiList.extend( getHandinList( semester, course, prefix="%s: "%course ) )
-    
-    return HiList
 
 def getScheduleList(filename):
     reader = csv.DictReader(open( filename, 'r'), delimiter='\t')
     schedule = [entry for entry in reader]
     return schedule
 
-
-# adding route for freezer base url to handle lnks in .md files properly
-@app.route(FREEZER_BASE_URL+'<path:path>/')
-def freeze_base_url(path):
-    return redirect( path, 301 )
-
 @app.route('/fagplan/')
 @app.route('/fagplan/<string:semester>/')
-@app.route('/fagplan/<string:semester>/<string:course>/')
-@app.route('/fagplan/<string:semester>/<string:course>.html')
-def fagplan(course = None, semester = None):
-    if not course or not semester:
-        return render_template('fagplanindex.html', 
-                        semesters=getSemesters(), semester=semester, 
-                        courses=getCourses( semester ), links=getLinks())
+def fagplanindex():
+    ''' catch-all "fagplan" URL '''
+    links = [pages.get(l) for l in data.getLinks()] 
+
+    return render_template('fagplanindex.html', 
+                        semesters=data.getClasses(),
+                        classes=data.getClasses(), links=links )
+   
+@app.route('/fagplan/<string:semester>/<string:classname>/')
+def fagplanlist( semester, classname):  
+    links = [pages.get(l) for l in data.getLinks()] 
+    courses = data.getCourses( semester, classname )[semester][classname]
+    title = "Course list - %s - %s"%(semester, classname)
     
-    dirname = u"%s/%s"%(semester,course) 
-    if not os.path.isdir("pages/"+dirname):
-        abort( 404 )
+    return render_template('fagplanindex.html', 
+                           courses=courses, semesters=data.getClasses(),
+                           semester=semester, classname = classname,
+                           links=links, title = title )
+ 
+@app.route('/fagplan/<string:semester>/<string:classname>/<string:course>/')
+def fagplan( semester, classname, course):
+    links = [pages.get(l) for l in data.getLinks()] 
+    
+    # check if course plan is local
+    allcoursesch = SemesterSchedule( data ).getList( semester, classname )
+    coursesch = [c for c in allcoursesch if c['Course'] == course]
+    
+    if len( coursesch ) > 0:
+        # just pick the first with the correct course name
+        if coursesch[0]['Link'] != '.':
+            return render_template( "302Redirect.html", URL=coursesch[0]['Link'])
+            #return redirect( coursesch[0]['Link'] )
+    # else just use the default build-in stuff
+    
+    dirname = u"%s/%s/%s"%(semester,classname, course) 
          
+    title = "Course plan - %s - %s"%(semester, classname)
+    
     # for the content text
     basepages = [p for p in pages if dirname == os.path.dirname(p.path)]
     sectionpages = {}
@@ -113,100 +98,125 @@ def fagplan(course = None, semester = None):
                 break
 
     # for the schedule
-    schedule = getScheduleList( "pages/" + dirname + "/schedule.csv" )
-    handins = getHandinList( semester,course )
+    try:    
+        schedule = getScheduleList( "%s/%s/%s"%(base_conf.FLATPAGES_ROOT, dirname, "schedule.csv") )
+        handins = hical.getHandinList( semester, classname, course )
+    except IOError:
+        return render_template( 'NotFound.html' )
+
+    ChangeString = subprocess.Popen(["git", "log", "-1", "--pretty=format:'%ci (%s)'", "--abbrev-commit", '%s/%s/%s'%(semester, classname, course)], 
+                            cwd=base_conf.FLATPAGES_ROOT, 
+                            stdout=subprocess.PIPE).stdout.read()
 
     return render_template('fagplan.html', schedule=schedule, handins=handins,
-                           course=course, semester=semester, 
+                           course=course, semester=semester, classname = classname,
                            pages=basepages, coursesections=coursesections, 
-                           links=getLinks(), sectionpages=sectionpages)
+                           links=links, sectionpages=sectionpages, title = title,
+                           changestring = ChangeString )
 
 @app.route('/overview/')
 @app.route('/overview/<string:semester>/')
-@app.route('/overview/<string:semester>/<string:overview>/')
-@app.route('/overview/<string:semester>/<string:overview>.html')
-def overview(overview = None, semester = None):
-    if semester:
-        if not semester in getSemesters():
-            semester = None
-    
-    if not overview or not semester:
-        return render_template('overviewindex.html', 
-                      semesters=getSemesters(), semester=semester, 
-                      coursesections=coursesections, links=getLinks())
+def overviewindex():
+    links = [pages.get(l) for l in data.getLinks()] 
 
-    basepages = [p for p in pages if overview in p.meta.get('sectionname', []) and semester in p.path ]
-    return render_template('overview.html', semester=semester, 
+    return render_template('overviewindex.html', 
+                  semesters=data.getClasses(), 
+                  coursesections=coursesections, links=links)
+
+
+@app.route('/overview/<string:semester>/<string:classname>/')
+def overviewlist(semester, classname):
+    links = [pages.get(l) for l in data.getLinks()] 
+    return render_template('overviewindex.html', 
+                    semesters=data.getClasses(), 
+                    semester=semester, classname=classname,
+                    coursesections=coursesections, links=links)
+
+
+
+@app.route('/overview/<string:semester>/<string:classname>/<string:overview>/')
+def overview(overview, semester, classname):
+    links = [pages.get(l) for l in data.getLinks()]
+    
+    dirname = u"%s/%s"%(semester,classname)
+    courses = data.getCourses( semester, classname )[semester][classname]
+    
+    for i,name in enumerate(coursesections):
+        if name == overview:
+            overviewname = "%02d_%s"%(i+1, name)
+            break
+        
+    ovpages =  ["%s/%s/%s"%(dirname, c, overviewname) for c in courses]
+    basepages = [pages.get( p ) for p in ovpages if pages.get(p) is not None]
+
+    return render_template('overview.html', semester=semester, classname=classname,
                            pages=basepages, overview=overview,
-                           links=getLinks())
-
-def GenerateIcs(handins):
-    # build ics
-    cal = Calendar()
-    cal.add('prodid', '-//My calendar product//mxm.dk//')
-    cal.add('version', '2.0')
-    for handin in handins:
-        event = Event()
-        event.add('summary', handin['Handin'])
-        event.add('dtstart', handin['Date'].date())
-        event.add('description', handin['Comment'])
-        cal.add_component(event)
-    
-    retval = cal.to_ical()
-    return retval
+                           links=links)
 
 @app.route('/ics/')
-@app.route('/ics/<string:filename>')
-@app.route('/ics/<string:filename>.ics')
 def calendar(filename = "nonexist"):
     # no cs requested
-    if filename == "nonexist":
-        return render_template('icsindex.html', 
-                      filename=filename, links=getLinks())
+    links = [pages.get(l) for l in data.getLinks()] 
+    return render_template('icsindex.html',
+                      filename=filename, links=links)
     
-    parts = filename.split(' ')
-
-    # part 1 is the semester
-    if not parts[0] in getSemesters():
-        abort( 404 )
-    semester = parts[0]
+@app.route('/ics/<string:semester>/<string:classname>/schedule.ics')
+def calendar_semester( semester, classname ):
+    return hical.getSemesterIcs(semester, classname)
     
-    # semester only?
-    if len(parts) == 1:
-        handins = getHandinsListSemester(semester)
-    else:    
-        semester = parts[0]
-        course = ' '.join( parts[1:] )
-        dirname = u"%s/%s"%(semester,course) 
+@app.route('/ics/<string:semester>/<string:classname>/<string:course>/schedule.ics')
+def calendar_course( semester, classname, course ):
+    return hical.getCourseIcs( semester, classname, course )
     
-        if not os.path.isdir("pages/"+dirname):
-            abort( 404 )
-    
-        handins = getHandinList( semester,course )
-
-    if len( handins ) == 0:
-        abort( 404 ) # no data
-    
-    return GenerateIcs(handins)
-
 @app.route('/')
 @app.route('/<path:path>/')
 def page(path = "index"):
     page = pages.get_or_404(path)
+    links = [pages.get(l) for l in data.getLinks()] 
     return render_template('page.html', page=page, 
-                           pages=pages, links=getLinks())
+                           pages=pages, links=links)
     
-if __name__ == '__main__':
-    if len(sys.argv) > 1 and sys.argv[1] == "build":
-        freezer.freeze()
 
-        Cmd = "ncftpput -f '../ittech.cfg' -R -m '/PlaskSrc' '.'"
-        os.system(Cmd)
-        Cmd = "ncftpput -f '../ittech.cfg' -R -m '.' '%s'"%(FREEZER_DESTINATION)
-        os.system(Cmd)
-        
-        print "Data is now available on http://ittech.eal.dk%s"%FREEZER_BASE_URL
-        
-    else:
-        app.run(port=8000)
-        
+@app.route('/semesterplan/')
+@app.route('/semesterplan/<string:semester>/')
+def semesterplanlist():
+    ''' semesterplan list if not supplied both class and semester '''
+    links = [pages.get(l) for l in data.getLinks()] 
+    semesters = data.getClasses()    
+    title = "Semester list"
+
+    return render_template('semesterplanlist.html', page=page, 
+                           pages=pages, links=links, title = title,
+                           semesters = semesters )
+    
+
+@app.route('/semesterplan/<string:semester>/<string:classname>/')
+def semesterplan( semester, classname ):
+    ''' semesterplan based on semester+class combo '''  
+    links = [pages.get(l) for l in data.getLinks()] 
+    s = SemesterSchedule( data ).getList( semester, classname )
+    
+    # @todo: this should be a list with all files in semester directory.
+    sem_intro = pages.get('%s/%s/Introduction'%(semester, classname) )
+    sem_eval = pages.get('%s/%s/Evaluation'%(semester, classname) )
+    sem_contacts = pages.get('%s/%s/Contacts'%(semester, classname) )
+    sem_literature = pages.get('%s/%s/Literature'%(semester, classname) )
+    
+    courselist = {c['Course']: c['Link']  for c in s}
+
+    title = "Semesterplan - %s - %s"%( classname, semester)
+    ChangeString = subprocess.Popen(["git", "log", "-1", "--pretty=format:'%ci (%s)'", "--abbrev-commit", '%s/%s'%(semester, classname)], 
+                            cwd=base_conf.FLATPAGES_ROOT, 
+                            stdout=subprocess.PIPE).stdout.read()
+    
+    return render_template('semesterplan.html', page=page, 
+                           pages=pages, schedule=s, links=links,
+                           sem_intro = sem_intro, sem_eval = sem_eval, sem_contacts = sem_contacts,
+                           sem_literature = sem_literature,
+                           courses = courselist, semester = semester, classname=classname, title = title,
+                           changestring = ChangeString)
+  
+# --------
+if __name__ == '__main__':   
+    app.run(host='0.0.0.0', port=8000)
+

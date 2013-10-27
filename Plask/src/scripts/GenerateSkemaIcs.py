@@ -28,9 +28,10 @@ Example from http://icalendar.readthedocs.org/en/latest/examples.html
 import csv
 import datetime
 from icalendar import Calendar, Event
+import sys
 
 # TODO: Make filename a command line parameter
-filename = "Skema2013S.csv"
+filename = "xxSkema2013A.csv"
 
 # 0 is all day
 LessonHours = (([0,0], [23,59]), 
@@ -56,15 +57,30 @@ def iso_to_gregorian(iso_year, iso_week, iso_day):
     year_start = iso_year_start(iso_year)
     return year_start + datetime.timedelta(days=iso_day-1, weeks=iso_week-1)
 
+def _rangeexpand(txt):
+    ''' txt contains numbers and ranges, e.g. 3-7,8,7
+        @return: the complete list of integers covered b txt
+    '''
+    lst = []
+    for r in txt.split(','):
+        if '-' in r[1:]:
+            r0, r1 = r[1:].split('-', 1)
+            lst += range(int(r[0] + r0), int(r1) + 1)
+        else:
+            lst.append(int(r))
+    return lst
 
 def ReadSchedule( filename = filename, year = 2013 ):
     reader = csv.DictReader(open(filename, 'r'), delimiter='\t')
 
     lessonslist =[]
     for entry in reader:
-        for week in entry['Weeks'].split(','):
-            for weekday in entry['Weekdays'].split(','):
-                for lesson in entry['Lessons'].split(','):
+        # skip ine starting with #
+        if entry['Weeks'][0] == '#':
+            continue
+        for week in _rangeexpand( entry['Weeks'] ):
+            for weekday in _rangeexpand(  entry['Weekdays'] ):
+                for lesson in _rangeexpand( entry['Lessons'] ):
                     for Teacher in entry['Teacher'].split(','):
                         date = iso_to_gregorian( year, int(week), int(weekday))
                         modlesson = { 'Week': int( week ), 'Weekday': int(weekday), 'Lesson': int(lesson),
@@ -112,9 +128,17 @@ def WriteIcs(Schedule, Outfile = filename+'.ics', Teacher = None):
 
 
 if __name__ == '__main__':
-    Schedule = ReadSchedule()
+    if len(sys.argv) > 1:
+        csvfile = sys.argv[1]
+    else:
+        csvfile = filename
+
+    # remove last part of filename (normally ".csv")
+    basename = csvfile[:-4]
+
+    Schedule = ReadSchedule( filename = csvfile)
     print "Number of lessons in Schedule: %d"%len(Schedule)
     for T in TeacherList:
-        WriteIcs( Schedule, 'icsout/%s_skema_2013S.ics'%T, T )
+        WriteIcs( Schedule, 'icsout/%s_%s.ics'%(T, basename), T )
     pass
 

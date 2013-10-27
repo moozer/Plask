@@ -1,22 +1,29 @@
 {% extends "base.html" %}
 
+{# 	show the aggregated content
+	param overview: the section to show
+	param semester: the semester
+	param classname: the classname
+	param pages: the pages containing the stuff to show
+	#}
+
 {% block content %}
 <h1>{{ overview }} </h1>
-Collected information across courses for semester {{ semester }} 
+Collected information across courses for semester {{ semester }} and class {{ classname }}
 
 {% for page in pages | sort( attribute = 'path') %}
-<h2>{{ page.path.split('/')[-2] }}</h2>
-{% if page.status %}
-<em>{{ page.status }} </em> <br/>
-{% endif %}
-
-Author: {{ page.author }} <br />
-Last revised: {{ page.date }} <br />
-
-{{ page.html|safe }}
+	<h2>{{ page.path.split('/')[-2] }}</h2>
+	{% if page.status %}
+	<em>{{ page.status }} </em> <br/>
+	{% endif %}
+	
+	Author: {{ page.author }} <br />
+	Last revised: {{ page.date }} <br />
+	
+	{{ page.html|safe }}
 
 {% else %}
-No data found
+	(No data found)
 {% endfor %}
 
 {% endblock content %}

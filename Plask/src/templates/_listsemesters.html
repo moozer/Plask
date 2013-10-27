@@ -1,10 +1,20 @@
+{# 	an unordered list of semester with appropriate links
+	param subsection = overview/semester/whatever used for the link
+	param semesters = the dict of semesters and classes (from data.getAllClasses())
+	#}
+
+{% for sem in semesters.keys() | sort %}
+<h3>{{ sem }} </h3>
 <ul>
-{% for semester in semesters | sort %}
+	{% for class in semesters[sem] %}
     <li>
-      <a href="{{ url_for( subsection, semester=semester) }}">{{ semester }}</a>
+      <a href="{{ url_for( subsection, semester=sem, classname=class) }}">{{ class }}</a>
     </li>
-{% else %}
-    <li>No semesters defined</li>
-{% endfor %}
+	{% else %}
+    	<li>No classes defined</li>
+	{% endfor %}
 </ul>
+{% else %}
+(no semesters defined)<br />
+{% endfor %}
 

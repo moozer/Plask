@@ -1,0 +1,24 @@
+{#  lists the courses in the "course" variable and adds links to the course plan
+	param course: course dictionary { coursenameA: linkA, coursenameB: LinkB, ...}
+	param classname: the class
+	param semester: the semester
+	#}
+
+<ul>
+{% for course in courses %}
+	{# exclude courses with "exclude" and don't add a plan link to those with "noplan" #}
+	{% if courses[course] == "exclude" %}
+		{# skip entry #}
+	{% elif courses[course] == "noplan" %}
+		<li>{{ course }}
+		</li>
+	{% else %}	
+		<li>{{ course }} (<a href={{ url_for('fagplan', course=course, semester=semester, classname=classname) }}>Plan</a>)
+		</li>
+	{% endif %}
+
+{% else %}
+	(No courses found)<br />
+{% endfor %}
+
+</ul>

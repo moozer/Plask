@@ -1,0 +1,26 @@
+{# 	This is a fake javascript based redirect. Flask-freeze does not support the http 302 directive
+	param URL: the url to redirect to #}
+
+{% set title = "Redirecting to somewhere else" %}
+{% set OnLoad = "setTimeout(\'Redirect()\', 2500)" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<script type="text/javascript">
+<!--
+function Redirect()
+{
+	window.open( "{{ URL }}" )
+}
+
+//-->
+</script>
+
+
+<h2>302 redirect</h2>
+The requested pages is on an external site. You will be redirected shortly<br><br>
+
+If not, you can go there by clicking this <a href="{{ URL }}">link</a>.
+
+{% endblock content %}

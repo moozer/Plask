@@ -1,17 +1,24 @@
 {% extends "base.html" %}
 
+{# 	overviewindex - show the list of possible cross course aggregations
+	param semesters: list of semester and classes 
+	param semester: semester to show 
+	param classname: classname to show 
+	param coursesections: the list of section to do aggregation for
+	#}
+	
 {% block content %}
 <h1>Overview</h1>
 
-	<h2>Available semesters</h2>
-    {% with semesters=semesters, subsection="overview"  %}
+	<h2>Available semesters and classes</h2>
+    {% with semesters=semesters, subsection="overviewlist"  %}
         {% include "_listsemesters.html" %}
     {% endwith %}
 	
 
-	{% if semester %}
-	<h2>Available course description for semester {{ semester }} </h2>
-    {% with semester=semester, overviewlist=coursesections  %}
+	{% if semester and classname %}
+	<h2>Available course description for semester {{ semester }} and class {{ classname }}</h2>
+    {% with semester=semester, classname=classname, overviewlist=coursesections  %}
         {% include "_listoverview.html" %}
     {% endwith %}
 	

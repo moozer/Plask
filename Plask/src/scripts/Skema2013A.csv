@@ -1,0 +1,111 @@
+Weeks	Weekdays	Lessons	Class	Course	Teacher	Comment
+# week 35 1b-class
+35	1	0	ITT1b	Introduction	.	Start at 9:00
+35	2,5	1,2	ITT1b	Project lego	MON	.
+35	2	3,4	ITT1b	Project lego	MON	.
+35	2	5,6	ITT1b	Project lego	.	.
+35	3	1,2,3,4	ITT1b	Project lego	PDA	.
+35	3	5,6,7	ITT1b	Study club	.	.
+35	4	1,2	ITT1b	Mathematics	HHAL	.
+35	4	3,4	ITT1b	Project lego	PDA	.
+35	4	5,6	ITT1b	Project lego	.	.
+35	5	3,4	ITT1b	Mathematics	HHAL	.
+35	5	5,6	ITT1b	Project lego	.	.
+# week 36 1b-class
+36	1	1,2	ITT1b	Communication	SUN	.
+36	1	3,4	ITT1b	Mathematics	HHAL	.
+36	1	5,6	ITT1b	Project lego	PDA	.
+36	2	1,2	ITT1b	Communication	PETH	.
+36	2	3,4	ITT1b	Project lego	MON	.
+36	2	5,6	ITT1b	Project lego	PDA	.
+36	3	1,2	ITT1b	Project lego	VL	.
+36	3	3,4	ITT1b	Project lego	PDA	.
+36	3	5,6,7	ITT1b	Study club	.	.
+36	4	1,2	ITT1b	Mathematics	HHAL	.
+36	4	3,4	ITT1b	Project lego	MON	.
+36	4	5,6	ITT1b	Project lego	MON	.
+36	5	1,2	ITT1b	Project lego	MON	.
+36	5	3,4	ITT1b	Mathematics	HHAL	.
+36	5	5,6	ITT1b	Project lego	MON	.
+# weeks 37-39 1b-class
+37,38,39	1	1,2	ITT1b	Communication	SUN	.
+37,38,39	1	3,4,5,6	ITT1b	Datacommunication	PDA	.
+37,38,39	2	1,2	ITT1b	Communication	PETH	.
+37,38,39	2	3,4,5,6	ITT1b	Datacommunication	PDA	.
+37,38,39	3	1,2,3,4	ITT1b	Mathematics	HHAL	.
+37,38,39	3	5,6,7	ITT1b	Study club	.	.
+37,38,39	4	1,2,3,4,5,6	ITT1b	Project network	MON	.
+37,38,39	5	1,2	ITT1b	Mathematics	HHAL	.
+37,38,39	5	3,4,5,6	ITT1b	Project network	MON	.
+# weeks 37-39 1a-class
+37,38,39	1	1,2	ITT1a	Communication	PETH	.
+37,38,39	1	3,4,5,6	ITT1a	Interface	VL	.
+37,38,39	2	1,2	ITT1a	Communication	SUN	.
+37,38,39	1	3,4,5,6	ITT1a	Interface	HHAL	.
+37,38,39	3	1,2,3,4	ITT1a	Mathematics	HHAL	.
+37,38,39	3	5,6,7	ITT1a	Study club	.	.
+37,38,39	4	1,2,3,4,5,6	ITT1a	Project interface	PSS	.
+37,38,39	5	1,2	ITT1a	Mathematics	HHAL	.
+37,38,39	5	3,4,5,6	ITT1a	Project interface	PSS	.
+# weeks 40-43 1b-class
+40,41,43	1	1,2	ITT1b	Communication	SUN	.
+40,41,43	1	3,4,5,6	ITT1b	Interface	VL	.
+40,41,43	2	1,2	ITT1b	Communication	PETH	.
+40,41,43	1	3,4,5,6	ITT1b	Interface	HHAL	.
+40,41,43	3	1,2,3,4	ITT1b	Mathematics	HHAL	.
+40,41,43	3	5,6,7	ITT1b	Study club	.	.
+40,41,43	4	1,2,3,4,5,6	ITT1b	Project interface	PSS	.
+40,41,43	5	1,2	ITT1b	Mathematics	HHAL	.
+40,41,43	5	3,4,5,6	ITT1b	Project interface	PSS	.
+# weeks 40-43 1a-class
+40,41,43	1	1,2	ITT1a	Communication	PETH	.
+40,41,43	1	3,4,5,6	ITT1a	Datacommunication	PDA	.
+40,41,43	2	1,2	ITT1a	Communication	SUN	.
+40,41,43	2	3,4,5,6	ITT1a	Datacommunication	PDA	.
+40,41,43	3	1,2,3,4	ITT1a	Mathematics	HHAL	.
+40,41,43	3	5,6,7	ITT1a	Study club	.	.
+40,41,43	4	1,2,3,4,5,6	ITT1a	Project network	MON	.
+40,41,43	5	1,2	ITT1a	Mathematics	HHAL	.
+40,41,43	5	3,4,5,6	ITT1a	Project network	MON	.
+#
+# ITT1 net
+#
+44-51,2-3	1,3	1-2	ITT1net	Networking	MON	.
+44-51,2-3	1,3	3-4	ITT1net	System development	MON	.
+44-51,2-3	1	5-6	ITT1net	Programming	PDA	.
+44-51,2-3	2	1-2	ITT1net	Mathematics	HHAL	.
+44-51,2-3	2	3-4	ITT1net	Communication	SUN	.
+44-51,2-3	2	5-6	ITT1net	Project network	PDA,PETH	.
+44-51,2-3	3	5-7	ITT1net	Study club	.	.
+44-51,2-3	4	1-2	ITT1net	Communication	PETH	.
+44-51,2-3	4	3-6 	ITT1net	Project network	PDA,PETH	.
+44-51,2-3	5	1-2	ITT1net	Programming	PDA	.
+44-51,2-3	5	3-4	ITT1net	Mathematics	HHAL	.
+44-51,2-3	5	5-6 	ITT1net	Project network	PDA,PETH	.
+#
+# ITT3 net
+#
+# weeks 34-41 3n
+34-41	1,3	1-2	ITT3net	Networking	MON	.
+34-41	1,3	3-4	ITT3net	IT security	MON	.
+34-41	1	5-6	ITT3net	IT security (exercises)	MON	.
+34-41	2	1-2	ITT3net	Business	LEAN	.
+34-41	2	3-4	ITT3net	Databases	PDA	.
+34-41	2	5-6	ITT3net	Project network	PDA,PETH	.
+34-41	3	5-7	ITT3net	Study club	.	.
+34-41	4	1-2	ITT3net	Business	PETH	.
+34-41	4	3-6	ITT3net	Project network	PDA,PETH	.
+34-41	5	1-2	ITT3net	Databases	PDA	.
+34-41	5	3-6	ITT3net	Project network	PDA,PETH	.
+# SS2 international module
+43-44	1-5	1-6	ITT3net	Special Subject 2	PDA	.
+# weeks 44-51 3n
+45-51	1	1-4	ITT3net	Special Subject 3	PDA	.
+45-51	1	5-6	ITT3net	Project ITS	MON	.
+45-51	2,5	1-2	ITT3net	Networking	MON	.
+45-51	2,5	3-6	ITT3net	Project ITS	MON	.
+45-51	3,4	1-2	ITT3net	Business	LEAN	.
+45-51	3,4	3-4	ITT3net	Databases	PDA	.
+45-51	3	5-7	ITT3net	Study club	.	.
+45-51	4	5-6	ITT3net	Special Subject 3	PDA	SS2 in weeks 45 and 46
+

@@ -1,13 +1,25 @@
+{#  base.html
+	base template for all html pages
+	
+	params: title - used as title for page and top of page
+	params:	Onload - if used, it is added to the Onload of the body part of the page
+#}
+
 <!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>MON's Course manager</title>
+    <title>{{ title }}</title>
 </head>
+
+{% if OnLoad %}
+<body OnLoad="{{ OnLoad }}">
+{% else %}
 <body>
+{% endif %}
     
 <div id="navigation">
-   	<h2><a href="{{ url_for("page") }}">MON's Course manager</a></h2>
+   	<h2><a href="{{ url_for("page") }}">{{ title }}</a></h2>
 	<a title="Make navigation links invisible" href="javascript:document.getElementById('navigation').style.display = 'none'">hide</a> 
 	{% block navigation %}
 		{% include "_listlinks.html" %}
@@ -24,8 +36,20 @@
 
 <div id="footer">
 {% block footer %}
-    <p>There is room for improvements in this footer...</p>
+{% if author %}
+	<p>Author: {{author}}</p>
+{% else %}
+	<!-- Not author information -->
+{% endif %}
+
+{% if changestring %}
+	<p>Last change: {{ changestring }}</p> 
+{% else %}
+	<p>No datestamp found</p>
+{% endif %}
+
 {% endblock footer %}
+
 </div>
 
 </body>

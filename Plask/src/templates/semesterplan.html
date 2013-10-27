@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{# 	Aggregator template for semester plan
+	param sem_intro: page with introduction text
+	param sem_eval: page with evaluation text
+	param sem_contacts: page with contacts text
+	param semester: the semester
+	param classname: the classname
+	param schedule: data form csv file
+	param course: course dictionary { coursenameA: linkA, coursenameB: LinkB, ...}
+	#}
+{% block content %}
+
+{# intro text #}
+	<h2 id="Introduction">Introduction</h2>
+		{% with page = sem_intro %} 
+			{% if page.status %}
+			<em>{{ page.status }} </em>
+			<br/>
+			{% endif %}
+			{{ page.html|safe }}
+		{% endwith %}
+
+{# List of courses #}
+<h2>Courses and projects</h2>
+The following courses and projects are part of the semester program.
+{% with courses = courses, classname = classname, semester = semester %} 
+    {% include "semester/_semestercourses.html" %}
+{% endwith %}
+
+{# evaluation criteria #}
+<h2>Evaluation of the semester</h2>
+{{ sem_eval.html|safe }}
+
+{# Contacts #}
+<h2>Contacts</h2>
+{{ sem_contacts.html|safe }}
+
+{# weekly table #}
+    <h2>Schedule</h2>
+    {# Graceful handling of missing tags #}
+    {% if sem_intro.startweek %}
+    	{% set startweek = sem_intro.startweek %}
+    {% else %}
+    	{% set startweek = 26 %}
+    {% endif %}
+    {% if sem_intro.endweek %}
+    	{% set endweek = sem_intro.endweek %}
+    {% else %}
+    	{% set endweek = 25 %}
+    {% endif %}    
+    
+    {# output the semester schedule table #}
+    {% with schedule=schedule, weeks=[startweek, endweek] %}
+        {% include "semester/_semesterschedule.html" %}
+    {% endwith %}
+    
+
+{# literature #}
+{% if sem_literature %}
+	{% with page = sem_literature %} 
+		<h2>Literature</h2>
+		{% if page.status %}
+			<em>{{ page.status }} </em>
+			<br/>
+		{% endif %}
+		{{ page.html|safe }}
+	{% endwith %}
+{% else %}
+	<h2>Literature</h2>
+	The aggregated list of of literature and other teaching aids is available online <a href={{ url_for('overview', overview='Literature', semester=semester, classname=classname) }}>here</a>.<br />
+	<br />
+	For questions related to to the list, please ask the class coordinator or the relevant teacher.
+{% endif %}	
+{% endblock content %}
+
+
+

@@ -1,2 +1,5 @@
 /ittech.txt
 /ittech.cfg
+*.pyc
+*.orage
+

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{# lists semesters and links to semesterplan #}
+
+{% block content %}
+ 	<h2>Available semesters</h2>
+    {% with semesters=semesters, subsection="semesterplan"  %}
+        {% include "_listsemesters.html" %}
+    {% endwith %}
+
+
+{% endblock content %}

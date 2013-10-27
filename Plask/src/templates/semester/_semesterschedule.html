@@ -1,0 +1,43 @@
+{# 	shows a table with the schedule information
+	param weeks: weeks[0] the start week, weeks[1] the end week (included)
+	param schedule: list of Dict{ Course, ECTS, Teacher, Lessons{ Weeknos } }
+	#}
+
+{# handlin fall semester #}
+{% if weeks[0] > weeks[1] %}
+{% set weeklist = range( weeks[0], 52+1)|list + range( 1, weeks[1]+1)|list %}
+{% else %}
+{% set weeklist = range( weeks[0], weeks[1]+1) %}
+{% endif %}
+
+
+<table>
+{#	loops over schedule entries.
+	- see: http://jinja.pocoo.org/docs/templates/#for
+#}
+
+<table>
+	<tr>
+		<td>Course</td>
+		<td>Teacher</td>
+		<td>ECTS</td>
+		{% for weekno in weeklist %}
+			<td>{{ weekno }}</td>
+		{% endfor %}
+	</tr>
+
+{% for entry in schedule %}
+	<tr>
+		<td>{{ entry.Course }}</td>
+		<td>{{ entry.Teacher }}</td>
+		<td>{{ entry.ECTS }}</td>
+		{% for weekno in weeklist %}
+			<td>{{ entry.Lessons[weekno] }}</td>
+		{% endfor %}
+		
+	</tr>
+
+
+{% endfor %}
+
+</table>	
