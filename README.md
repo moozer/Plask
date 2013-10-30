@@ -21,13 +21,15 @@ How to use
 
 5. You have two options for its use
 
-  a. *python sitebuilder.py*
+  a. *python sitebuilder.py ../../../PlaskData/pages*
   
     This will most likely complain about missing libraries. They must be installed for this to work.
+
+    Omitting the directory, will make sitebuilder load the testpages. It is useful for developpers, but not anyone else :-)
   
     When it work, it is accessible on http://localhost:8000
 
-  b. *python sitebuilder.py build*
+  b. *python sitebuilder.py build ../../../PlaskData/pages*
   
     This will create the static html pages and upload them to a server. the program ncftp must be installed.
   
